@@ -1,0 +1,22 @@
+/* CUSTOM PROPS */
+:root {
+  --purple-color: #635fc7;
+  --purple-hover-color: #a8a4ff;
+  --subtitle-color: #828FA3;
+  --red-color:#EA5555;
+  --red-hover-color:#FF9898;
+}
+
+:root[data-theme='light'] {
+  --bg-page-color: #f4f7fd;
+  --bg-content-color: #fff;
+  --text-color: #000112;
+  --lines-color: #E4EBFA;
+}
+
+:root[data-theme='dark'] {
+  --bg-page-color: #20212c;
+  --bg-content-color: #2b2c37;
+  --text-color: #fff;
+  --lines-color: #3E3F4E;
+}
