@@ -1,98 +1,27 @@
-/* CUSTOM PROPS */
-:root {
-  --purple-color: #635fc7;
-  --purple-hover-color: #a8a4ff;
-  --subtitle-color: #828FA3;
-  --red-color:#EA5555;
-  --red-hover-color:#FF9898;
+.task-management__container {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  height: 100vh;
 }
 
-:root[data-theme='light'] {
-  --bg-page-color: #f4f7fd;
-  --bg-content-color: #fff;
-  --text-color: #000112;
-  --lines-dark: #E4EBFA;
+.task-management__sidebar {
+  max-width: 300px;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-content-color);
+  border-right: 1px solid var(--lines-color);
 }
-
-:root[data-theme='dark'] {
-  --bg-page-color: #20212c;
-  --bg-content-color: #2b2c37;
-  --text-color: #fff;
-  --lines-dark: #3E3F4E;
-}
-
-/* GLOBAL */
-body {
+.task-management__main-content {
   display: flex;
   flex-direction: column;
-  padding: 0;
-  margin: 0;
-  font-size: 16px;
-  line-height: 1.5;
-  background-color: var(--bg-content-color);
-}
-button {
-  color: var(--text-color);
-}
-img {
-  height: auto;
-}
-
-/* AUTOFILL-STYLES */
-/*input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
-  border-color: transparent;
-  -webkit-text-fill-color: inherit;
-  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
-}*/
-
-/* PLACEHOLDER-STYLES */
-/*::-webkit-input-placeholder,
-::-moz-placeholder,
-:-ms-input-placeholder,
-:-moz-placeholder {
-  color: rgba(52, 49, 61, 0.5);
-  opacity: 1;
-}*/
-
-/* VISUALLY-HIDDEN */
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  border: 0;
-  padding: 0;
-  clip: rect(0 0 0 0);
-  overflow: hidden;
-}
-
-/* CONTAINER */
-.container {
   width: 100%;
-  max-width: 1200px;
-  padding-left: 50px;
-  padding-right: 50px;
-  margin-left: auto;
-  margin-right: auto;
+  height: 100%;
 }
-
-/* MAIN-CONTENT */
-.main-content {
-  flex-grow: 1;
-}
-
-@media only screen and (-webkit-min-device-pixel-ratio: 2),
-  only screen and (min--moz-device-pixel-ratio: 2),
-  only screen and (-o-min-device-pixel-ratio: 2/1),
-  only screen and (min-device-pixel-ratio: 2),
-  only screen and (min-resolution: 192dpi),
-  only screen and (min-resolution: 2dppx) {
+.task-management__header {
+  max-width: 100%;
+  width: 100%;
+  height: 96px;
+  background-color: var(--bg-content-color);
+  border-bottom: 1px solid var(--lines-color);
 }

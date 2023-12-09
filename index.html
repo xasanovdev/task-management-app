@@ -8,24 +8,33 @@
 
     <!-- Theme toggling adaptation to user settings -->
     <script>
-    let localSTheme = localStorage.getItem('theme');
-    let themeToSet = localSTheme;
+      let localSTheme = localStorage.getItem('theme');
+      let themeToSet = localSTheme;
 
-    if (!localSTheme) {
-      themeToSet = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
+      if (!localSTheme) {
+        themeToSet = window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light';
+      }
 
-    document.documentElement.setAttribute('data-theme', themeToSet);
-  </script>
+      document.documentElement.setAttribute('data-theme', themeToSet);
+    </script>
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="./assets/css/normalize.css" />
     <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="./assets/css/variables.css" />
   </head>
   <body>
+    <button class="theme-toggler">theme-toggler</button>
+    <div class="task-management__container">
+      <aside class="task-management__sidebar">asssf</aside>
+      <div class="task-management__main-content">
+        <header class="task-management__header">assf</header>
+        <main class="task-management__main">asfs</main>
+      </div>
+    </div>
 
-
-    
     <script src="js/main.js"></script>
   </body>
 </html>
