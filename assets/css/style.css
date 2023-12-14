@@ -1,27 +1,6 @@
-.task-management__container {
-  display: flex;
-  width: 100%;
-  max-width: 100%;
-  height: 100vh;
-}
-
-.task-management__sidebar {
-  max-width: 300px;
-  width: 100%;
-  height: 100%;
-  background-color: var(--bg-content-color);
-  border-right: 1px solid var(--lines-color);
-}
-.task-management__main-content {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-}
-.task-management__header {
-  max-width: 100%;
-  width: 100%;
-  height: 96px;
-  background-color: var(--bg-content-color);
-  border-bottom: 1px solid var(--lines-color);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
 }
