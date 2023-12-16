@@ -574,18 +574,45 @@ video {
   }
 }
 
-.text-xl {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
+.inline-block {
+  display: inline-block;
 }
 
-.font-semibold {
-  font-weight: 600;
+.flex {
+  display: flex;
 }
 
-.text-red-800 {
-  --tw-text-opacity: 1;
-  color: rgb(153 27 27 / var(--tw-text-opacity));
+.max-w-full {
+  max-width: 100%;
+}
+
+.max-w-xl {
+  max-width: 36rem;
+}
+
+.place-items-center {
+  place-items: center;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+.bg-purple-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(216 180 254 / var(--tw-bg-opacity));
+}
+
+.p-1 {
+  padding: 0.25rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.align-middle {
+  vertical-align: middle;
 }
 
 * {
