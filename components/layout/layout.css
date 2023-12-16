@@ -1,0 +1,7 @@
+.board.active{
+  background-color: #635FC7;
+  color: #fff;
+  margin-right: 24px;
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
+}
