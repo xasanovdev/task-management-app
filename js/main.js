@@ -1,7 +1,7 @@
 const THEME_TOGGLER_BUTTON = ".theme-toggler";
 
 const localSTheme = localStorage.getItem("theme");
-const themeToSet = localSTheme;
+let themeToSet = localSTheme;
 
 if (!localSTheme) {
   themeToSet = window.matchMedia("(prefers-color-scheme: dark)").matches
