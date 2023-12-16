@@ -619,6 +619,10 @@ video {
   vertical-align: middle;
 }
 
+.text-black-color {
+  color: var(--text-color);
+}
+
 * {
   margin: 0;
   padding: 0;
