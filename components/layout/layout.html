@@ -17,65 +17,68 @@
    </head>
    <body class="w-full h-full  ">
      <!-- HEADER -->
-    <header class=" container  flex justify-between items-center  w-full px-5 py-2 ">
-       <!-- HEADER LOGO -->
-      <a class="md:flex" href="#">
-        <svg
-           class="cursor-pointer ml-4"
-           width="24"
-           height="25"
-           viewBox="0 0 24 25"
-           fill="none"
-           xmlns="http://www.w3.org/2000/svg">
-           <rect width="6" height="25" rx="2" fill="#635FC7" />
-           <rect
-              opacity="0.75"
-              x="9"
-              width="6"
-              height="25"
-              rx="2"
-              fill="#635FC7" />
-           <rect
-              opacity="0.5"
-              x="18"
-              width="6"
-              height="25"
-              rx="2"
-              fill="#635FC7" />
-        </svg>
-        <span class="hidden  md:block">Kanban</span>
-      </a>
+     <header class=" container  flex  items-center w-full px-6">
+      <!-- HEADER LOGO -->
+     <div class=" flex text-black font-bold  md:border-r-2 border-gray-300 hover:opacity-80 ">
+       <a class="cursor-pointer md:flex md:mr-6 lg:mr-8" href="header.html">
+         <svg
+            class="my-5 ml-6 mr-4 md:my-7"
+            width="24"
+            height="25"
+            viewBox="0 0 24 25"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <rect width="6" height="25" rx="2" fill="#635FC7" />
+            <rect
+               opacity="0.75"
+               x="9"
+               width="6"
+               height="25"
+               rx="2"
+               fill="#635FC7" />
+            <rect
+               opacity="0.5"
+               x="18"
+               width="6"
+               height="25"
+               rx="2"
+               fill="#635FC7" />
+         </svg>
+         <span class="hidden text-2xl   md:block md:py-7">Kanban</span>
 
-      <!-- Name of current Board -->
-      <div class="flex place-items-center cursor-pointer ml-4 hover:opacity-80">
-          <span class="currentBoard text-black text-lg flex-shrink-0"></span>
-          <!--  -->
-          <svg class="ml-2 inline-block md:hidden"
-             width="9"
-             height="7"
-             viewBox="0 0 9 7"
-             fill="none"
-             xmlns="http://www.w3.org/2000/svg">
-             <path d="M1 1L5 5L9 1" stroke="#635FC7" stroke-width="2" />
-          </svg>
-       </div>
-
-       <div class="flex items-center">
-          <!-- ADD NEW TASK BUTTON -->
-          <button role="button"
-             class="px-3 py-1 mr-6  bg-purple-500 rounded-md flex flex-shrink-0 inline-block p-1 cursor-pointer text-white text-lg">
-            + <span class="hidden md:block">Add New Task</span>
-          </button>
-                <!-- TRIPLE DOTS -->
-          <span class="cursor-pointer">
-           <svg width="4" height="16" viewBox="0 0 4 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-             <circle cx="1.84615" cy="1.84615" r="1.84615" fill="#828FA3"/>
-             <circle cx="1.84615" cy="8.00045" r="1.84615" fill="#828FA3"/>
-             <circle cx="1.84615" cy="14.1538" r="1.84615" fill="#828FA3"/>
+       </a>
+     </div>
+       <!-- Name of current Board -->
+       <div class="flex w-full justify-between items-center">
+         <div class="flex place-items-center cursor-pointer hover:opacity-80">
+             <span class="currentBoard text-black text-2xl font-bold flex-shrink-0 md:ml-8">Platform Launch</span>
+             <svg class="ml-2 inline-block md:hidden"
+                width="9"
+                height="7"
+                viewBox="0 0 9 7"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L5 5L9 1" stroke="#635FC7" stroke-width="2" />
              </svg>
-          </span>
+          </div>
+
+          <div class="flex items-center ">
+                  <!-- ADD NEW TASK BUTTON -->
+           <button role="button"
+              class="px-3 py-1 mr-6   bg-purple-500 rounded-md flex flex-shrink-0 inline-block cursor-pointer text-white  font-bold ">
+             + <span class="hidden md:block">Add New Task</span>
+           </button>
+                 <!-- TRIPLE DOTS -->
+           <div class="cursor-pointer">
+            <svg width="4" height="16" viewBox="0 0 4 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="1.84615" cy="1.84615" r="1.84615" fill="#828FA3"/>
+              <circle cx="1.84615" cy="8.00045" r="1.84615" fill="#828FA3"/>
+              <circle cx="1.84615" cy="14.1538" r="1.84615" fill="#828FA3"/>
+              </svg>
+           </div>
+                </div>
        </div>
-    </header>
+   </header>
             <!-- MAIN -->
           <main class="  flex md:min-w-3xl w-full h-full ">
              <!-- SIDEBAR -->
@@ -115,18 +118,18 @@
                               </svg>
                   </div>
                   <!-- SIDEBAR HIDER -->
-                  <div class="hideSidebar flex items-center pl-6 pointer-events-auto cursor-pointer ">
+                  <button type="button" class="hideSidebar bg-gray-400 flex items-center pl-6 pointer-events-auto cursor-pointer ">
                      <svg class="block mr-4" width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M17.7923 8.76153C16.7538 10.5238 15.1854 11.941 13.3062 12.8081L14.8099 14.9563C14.9286 15.1259 14.8874 15.3598 14.7177 15.4785L14.0697 15.9322C13.9 16.051 13.6662 16.0097 13.5474 15.84L3.19013 1.04373C3.07135 0.874074 3.11263 0.64023 3.28229 0.521481L3.93032 0.067825C4.09998 -0.050956 4.33382 -0.00967486 4.45257 0.159981L6.18775 2.63888C7.08163 2.38573 8.02525 2.25001 9 2.25001C12.7456 2.25001 16.0311 4.24982 17.7923 7.23847C18.0692 7.7084 18.0692 8.2916 17.7923 8.76153ZM1.50001 8C2.99714 10.5406 5.79513 12.25 9 12.25C9.07946 12.2499 9.15892 12.2487 9.23834 12.2465L10.239 13.676C9.82784 13.7253 9.4141 13.75 9 13.75C5.25438 13.75 1.96889 11.7502 0.207702 8.76156C-0.069234 8.29163 -0.069234 7.7084 0.207702 7.23847C0.997544 5.89816 2.09379 4.75732 3.4001 3.90623L4.26076 5.13569C3.12813 5.86432 2.17986 6.84635 1.50001 8ZM8.52194 11.2231C6.00685 10.9415 4.26532 8.50791 4.86788 6.00303L8.52194 11.2231ZM9.74494 3.78104C12.6351 4.02282 15.1201 5.65835 16.5 8C15.5721 9.57456 14.1446 10.8297 12.4302 11.5566L11.596 10.3649C13.2731 9.06931 13.7072 6.7886 12.75 4.99869L12.75 5C12.75 5.9665 11.9665 6.75 11 6.75C10.0335 6.75 9.25 5.9665 9.25 5C9.25 4.52594 9.43881 4.09619 9.74494 3.78104Z" fill="#828FA3"/>
                         </svg>
                         Hide Sidebar
-                  </div>
+                  </button>
                </div>
               </section>
 
 
               <!-- LAYOUT -->
-              <section class=" bg-gray-200 relative w-full h-full flex flex-col justify-center md:border-t-2 md:border-l-2 md:border-gray-300   ">
+              <section class="bg-gray-200 relative w-full h-full flex flex-col justify-center md:border-t-2 md:border-l-2 md:border-gray-300   ">
                <ul role="list" class=" flex gap-6">
                   <li class="list-none">Column1</li>
                   <li class="list-none">Column2</li>
@@ -137,8 +140,9 @@
                    <span class="pb-6 text-center text-2xl text-gray-500 mx-2 md:px-5">This board is empty. Create a new column to get started.</span>
                    <button class=" bg-purple-500 text-white p-5   mx-auto ">+ Add New Column</button>
                 </div>
+                <!-- SIDEBAR REVEALER -->
                 <div class="sidebar-revealer hidden md:block absolute left-0 bottom-10 ">
-                  <svg class="text-purple-500 hover:opacity-80 cursor-pointer" width="56" height="48" viewBox="0 0 56 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg class=" text-purple-500 hover:opacity-80 cursor-pointer" width="56" height="48" viewBox="0 0 56 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                      <path d="M0 0H32C45.2548 0 56 10.7452 56 24C56 37.2548 45.2548 48 32 48H0V0Z" fill="CurrentColor"/>
                      <path fill-rule="evenodd" clip-rule="evenodd" d="M33.8154 23.4342C32.2491 20.7764 29.328 19 26 19C22.6706 19 19.7501 20.7776 18.1846 23.4342C17.9385 23.8519 17.9385 24.3703 18.1846 24.788C19.7509 27.4458 22.6719 29.2222 26 29.2222C29.3294 29.2222 32.2499 27.4446 33.8154 24.788C34.0615 24.3703 34.0615 23.8519 33.8154 23.4342ZM26 27.8889C23.9122 27.8889 22.2222 26.1992 22.2222 24.1111C22.2222 22.0233 23.9118 20.3333 26 20.3333C28.0878 20.3333 29.7778 22.0229 29.7778 24.1111C29.7778 26.1989 28.0882 27.8889 26 27.8889ZM26 27C27.5955 27 28.8889 25.7066 28.8889 24.1111C28.8889 22.5156 27.5955 21.2222 26 21.2222C25.5081 21.2222 25.045 21.3453 24.6396 21.5621L24.6405 21.5621C25.2975 21.5621 25.8301 22.0947 25.8301 22.7516C25.8301 23.4086 25.2975 23.9412 24.6405 23.9412C23.9836 23.9412 23.451 23.4086 23.451 22.7516L23.451 22.7507C23.2342 23.1561 23.1111 23.6192 23.1111 24.1111C23.1111 25.7066 24.4045 27 26 27Z" fill="white"/>
                      </svg>

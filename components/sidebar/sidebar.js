@@ -5,16 +5,17 @@ const hideSidebar=document.querySelector('.hideSidebar')
 
 sidebarRevealer.addEventListener('click', toggleSidebar())
 function toggleSidebar(){
-  sidebarRevealer.classList.add('-translate-x-full')
-  sidebar.classList.add('translate-x-full')
-  sidebarRevealer.classList.add('hidden')
+  sidebarRevealer.classList.add('md:-translate-x-full')
+  sidebar.classList.add('md:translate-x-full')
+  // sidebarRevealer.classList.add('md:hidden')
 }
 toggleSidebar()
 hideSidebar.addEventListener('click' ,()=>{
-sidebar.classList.add('-translate-x-full');
-sidebarRevealer.classList.add('translate-x-full')
+sidebar.classList.add('md:-translate-x-full');
+sidebarRevealer.classList.add('md:translate-x-full')
 
 })
+
 
 const createdBoards=['platform',]
 
