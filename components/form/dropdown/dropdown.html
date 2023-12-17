@@ -1,10 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Dropdown</title>
+    <link rel="stylesheet" href="./dropdown.css" />
+    <link rel="stylesheet" href="../../assets/css/normalize.css" />
+    <link rel="stylesheet" href="../../assets/css/variables.css" />
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../../assets/css/output.css">
   </head>
-  <body></body>
+  <body>
+    <!-- Light mode -->
+    <div class="mt-24 ml-20">
+      <button class="relative flex items-center px-4 py-2 gap-48 rounded border focus:outline-none shadow active:border-[#635FC7] group">
+        <p class="m-0 text-[#000112] font-plus-jakarta-sans font-bold cursor-pointer transition duration-400 ease-in-out text-[13px] leading-6">Doing</p>
+        <span>
+          <svg class="ml-10"  xmlns="http://www.w3.org/2000/svg" width="11" height="8" viewBox="0 0 11 8" fill="none">
+            <path d="M0.79834 1.54858L5.49682 6.24707L10.1953 1.54858" stroke="#635FC7" stroke-width="2"/>
+          </svg>
+        </span>
+
+        <div class="absolute hidden mt-2 top-full min-w-full w-max bg-white group-focus:block">
+          <ul class="text-left border rounded pt-2 -ml-4 mr-4 border-none">
+            <li class="px-4 pt-2 pb-2  font-plus-jakarta-sans font-medium cursor-pointer text-[13px] leading-6 text-[#828FA3] hover:bg-slate-50">Todo</li>
+            <li class="px-4 pb-2 font-plus-jakarta-sans font-medium cursor-pointer text-[13px] leading-6 text-[#828FA3] hover:bg-slate-50">Doing</li>
+            <li class="px-4 pb-4 font-plus-jakarta-sans font-medium cursor-pointer text-[13px] leading-6 text-[#828FA3] hover:bg-slate-50">Done</li>
+          </ul>
+        </div>
+      </button>
+    </div>
+
+    <!-- Dark  mode -->
+    <div class="mt-36 ml-20">
+      <button class="relative flex items-center px-4 py-2 gap-48 rounded border focus:outline-none shadow bg-[#2B2C37]  active:border-[#635FC7] group">
+        <p class="m-0 font-plus-jakarta-sans font-bold cursor-pointer transition duration-400 ease-in-out text-[13px] leading-6 text-[#fff]">Doing</p>
+        <span>
+          <svg class="ml-10"  xmlns="http://www.w3.org/2000/svg" width="11" height="8" viewBox="0 0 11 8" fill="none">
+            <path d="M0.79834 1.54858L5.49682 6.24707L10.1953 1.54858" stroke="#635FC7" stroke-width="2"/>
+          </svg>
+        </span>
+
+        <div class="absolute hidden mt-2 top-full min-w-full w-max bg-white group-focus:block">
+          <ul class="text-left border rounded pt-2 -ml-4 mr-4 border-none bg-[#20212C]" style="box-shadow:  0px 10px 20px 0px rgba(54, 78, 126, 0.25);">
+            <li class="px-4 pt-2 pb-2  font-plus-jakarta-sans font-medium cursor-pointer text-[13px] leading-6 text-[#828FA3] hover:bg-black-10">Todo</li>
+            <li class="px-4 pb-2 font-plus-jakarta-sans font-medium cursor-pointer text-[13px] leading-6 text-[#828FA3]">Doing</li>
+            <li class="px-4 pb-4 font-plus-jakarta-sans font-medium cursor-pointer text-[13px] leading-6 text-[#828FA3]">Done</li>
+          </ul>
+        </div>
+      </button>
+    </div>
+  </body>
 </html>
