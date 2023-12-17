@@ -38,6 +38,9 @@ module.exports = {
       textColor: {
         "color": "var(--text-color)",
       },
+      width: {
+        "280": "280px",
+      },
     },
   },
   plugins: [],
