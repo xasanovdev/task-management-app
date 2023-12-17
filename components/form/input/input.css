@@ -1,0 +1,6 @@
+.form-wrapper {
+    margin: 100px 130px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
