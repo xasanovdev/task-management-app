@@ -36,7 +36,7 @@ module.exports = {
         "lines-color": "var(--lines-color)",
       },
       textColor: {
-        "black-color": "var(--text-color)",
+        "color": "var(--text-color)",
       },
     },
   },
