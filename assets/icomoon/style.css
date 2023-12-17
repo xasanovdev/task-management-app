@@ -25,6 +25,25 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-kanban-logo .path1:before {
+  content: "\e900";
+  color: #635fc7;
+}
+.icon-kanban-logo .path2:before {
+  content: "\e901";
+  color: #635fc7;
+  opacity: 0.75;
+  margin-left: -0.9599609375em;
+}
+.icon-kanban-logo .path3:before {
+  content: "\e902";
+  color: #635fc7;
+  opacity: 0.5;
+  margin-left: -0.9599609375em;
+}
+.icon-icon-down:before {
+  content: "\e900";
+}
 .icon-close:before {
   content: "\e900";
 }
@@ -45,4 +64,21 @@
 }
 .icon-layout:before {
   content: "\e907";
+}
+
+.icon-kanban-logo .path1:before {
+  content: "\1f31d";
+  color: #635fc7;
+}
+.icon-kanban-logo .path2:before {
+  content: "\1f31e";
+  color: #635fc7;
+  opacity: 0.75;
+  margin-left: -0.9599609375em;
+}
+.icon-kanban-logo .path3:before {
+  content: "\1f31f";
+  color: #635fc7;
+  opacity: 0.5;
+  margin-left: -0.9599609375em;
 }

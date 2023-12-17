@@ -233,7 +233,7 @@ button,
 [type='button'],
 [type='reset'],
 [type='submit'] {
-  -webkit-appearance: button;
+  /* -webkit-appearance: button; */
   /* 1 */
   background-color: transparent;
   /* 2 */
@@ -280,7 +280,7 @@ Correct the cursor style of increment and decrement buttons in Safari.
 */
 
 [type='search'] {
-  -webkit-appearance: textfield;
+  /* -webkit-appearance: textfield; */
   /* 1 */
   outline-offset: -2px;
   /* 2 */
@@ -1016,6 +1016,7 @@ video {
   background-color: rgb(244 247 253 / var(--tw-bg-opacity));
 }
 
+
 .fill-purple-500 {
   fill: #a855f7;
 }
@@ -1210,6 +1211,10 @@ video {
   font-size: 16px;
 }
 
+.text-\[14px\] {
+  font-size: 14px;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -1289,7 +1294,9 @@ video {
 }
 
 
-
+.text-\[\#828FA3\] {
+  color: #828FA3;
+}
 
 .text-\[\#635FC7\] {
   --tw-text-opacity: 1;
@@ -1344,6 +1351,14 @@ video {
   transition-duration: 200ms;
 }
 
+.duration-1000 {
+  transition-duration: 1000ms;
+}
+
+.duration-300 {
+  transition-duration: 300ms;
+}
+
 .ease-in-out {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -1386,6 +1401,7 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(248 250 252 / var(--tw-bg-opacity));
 }
+
 
 .hover\:opacity-80:hover {
   opacity: 0.8;
