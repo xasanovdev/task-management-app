@@ -4,7 +4,44 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Input</title>
+    <link rel="stylesheet" href="./input.css" />
+    <link rel="stylesheet" href="../../assets/css/normalize.css" />
+    <link rel="stylesheet" href="../../assets/css/variables.css" />
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../../assets/css/output.css">
   </head>
-  <body></body>
+  <body>
+    <div class="form-wrapper">
+      <form  class="flex gap-3 flex-col">
+
+        <!-- Title -->
+        <div class="flex flex-col">
+          <label class="flex flex-col text-[#828FA3] font-plus-jakarta-sans font-bold text-[12px] leading-5"> 
+            Title
+            <input class="block w-full py-2 px-4 mt-2 rounded text-[#00011240] font-plus-jakarta-sans cursor-pointer border-0 ring-1 ring-inset focus:ring-1 focus:ring-inset focus:outline-none placeholder:text-[#00011240] ring-[#828fa340] focus:ring-[#635FC7] focus:text-[#000112] focus:font-plus-jakarta-sans font-medium text-[13px] leading-6 "type="text" placeholder="e.g. Take coffee break">
+            <span></span>
+          </label>
+        </div>
+
+        <!-- Subtasks -->
+        <div class="flex flex-col">
+          <label class="flex flex-col text-[#828FA3] font-plus-jakarta-sans font-bold text-[12px] leading-5"> 
+            Subtasks
+           <div class="flex gap-4">
+            <input class="block w-full py-2 px-4 mt-2 rounded text-[#000112] font-plus-jakarta-sans cursor-pointer border-0 ring-1 ring-inset focus:ring-1 focus:ring-inset focus:outline-none placeholder:text-[#00011240] ring-[#828fa340] focus:ring-[#635FC7] focus:text-[#000112] focus:font-plus-jakarta-sans font-medium text-[13px] leading-6"type="text" placeholder="e.g. Take coffee break">
+            <button type="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                <rect x="12.7275" width="3" height="18" transform="rotate(45 12.7275 0)" fill="#828FA3"/>
+                <rect y="2.12132" width="3" height="18" transform="rotate(-45 0 2.12132)" fill="#828FA3"/>
+              </svg>
+            </button>
+           </div>
+          </label>
+          <span></span>
+        </div>
+
+      </form>
+    </div>
+  </body>
 </html>
