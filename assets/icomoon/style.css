@@ -24,18 +24,17 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-.icon-kanban-logo .path1:before {
+.icon-icon-down .path1:before {
   content: "\e900";
   color: #635fc7;
 }
-.icon-kanban-logo .path2:before {
+.icon-icon-down .path2:before {
   content: "\e901";
   color: #635fc7;
   opacity: 0.75;
   margin-left: -0.9599609375em;
 }
-.icon-kanban-logo .path3:before {
+.icon-icon-down .path3:before {
   content: "\e902";
   color: #635fc7;
   opacity: 0.5;

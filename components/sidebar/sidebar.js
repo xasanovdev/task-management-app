@@ -130,7 +130,12 @@ document.addEventListener("DOMContentLoaded", function () {
       sidebarOpenerIcon.classList.remove("rotate-0");
       blocker.classList.remove("active");
       sidebar.classList.toggle("hidden");
-      sidebar.classList.toggle("rounded");
+
+      sidebar.classList.remove("absolute");
+      sidebar.classList.remove("top-4");
+      sidebar.classList.remove("left-14");
+      sidebar.classList.remove("rounded");
+      // sidebar.classList.remove("rounded");
    });
 
    const createdBoards = ["platform"];
