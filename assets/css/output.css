@@ -861,6 +861,10 @@ video {
   gap: 2rem;
 }
 
+.gap-48 {
+  gap: 12rem;
+}
+
 .self-start {
   align-self: flex-start;
 }
@@ -1487,6 +1491,11 @@ body.active {
 .active\:border-\[\#635FC7\]:active {
   --tw-border-opacity: 1;
   border-color: rgb(99 95 199 / var(--tw-border-opacity));
+}
+
+.active\:border-\[\#3c397e\]:active {
+  --tw-border-opacity: 1;
+  border-color: rgb(60 57 126 / var(--tw-border-opacity));
 }
 
 .active\:text-\[\#000112\]:active {
