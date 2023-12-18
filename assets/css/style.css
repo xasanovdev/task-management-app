@@ -9,3 +9,37 @@
   box-sizing: border-box;
   font-family: sans-serif;
 }
+body.active {
+  overflow-y: hidden;
+}
+.theme-light {
+  --bg-page-color: #f4f7fd;
+  --bg-content-color: #fff;
+  --text-color: #000112;
+  --lines-color: #e4ebfa;
+}
+
+.theme-dark {
+  --bg-page-color: #20212c;
+  --bg-content-color: #2b2c37;
+  --text-color: #fff;
+  --lines-color: #3e3f4e;
+}
+
+:root {
+  --primary-color: #635fc7;
+  --primary-light-color: #a7a4ff;
+  --primary-disabled-color: #39395b;
+  --gray-color: #828fa3;
+  --danger-color: #ea5555;
+  --danger-light-color: #ff9898;
+}
+
+/* Apply Tailwind styles based on the theme class */
+[data-theme="light"] {
+  @apply theme-light;
+}
+
+[data-theme="dark"] {
+  @apply theme-dark;
+}

@@ -1,20 +1,31 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<!doctype html>
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/assets/css/output.css">
-    <link rel="stylesheet" href="/assets/css/variables.css">
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/output.css" />
+    <link rel="stylesheet" href="/assets/css/variables.css" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
     <title>Modal | Component</title>
   </head>
   <body class="">
-
-    <div class="container mx-auto px-4">
-
+    <div class="blocker hidden w-full h-full absolute z-10 bg-black opacity-40"></div>
+    <button class="toggle-modal-button" modal-id="change-card">change card</button>
+    <div  class="w-full h-full absolute flex items-center justify-center left-0 px-4">
+      <!-- Change modal Cards -->
+      <div class="relative modal hidden max-w-[480px] w-full mx-auto z-20 bg-content-color p-8" id="change-card">
+        <div class="close-modal absolute top-4 right-4 cursor-pointer"><i class="icon-close text-color"></i></div>
+      </div>
+      <!-- Add new task modal -->
+      <!-- Edit task modal -->
+      <!-- Add new Board modal -->
+      <!-- Delete Board modal -->
     </div>
 
+    <button class="theme-toggler">theme</button>
+
+    <script src="../../js/main.js"></script>
+    <script src="./modal.js"></script>
   </body>
 </html>
-
