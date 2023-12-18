@@ -17,6 +17,7 @@ body.active {
   --bg-content-color: #fff;
   --text-color: #000112;
   --lines-color: #e4ebfa;
+  --gray-color: #828fa3;
 }
 
 .theme-dark {
@@ -24,14 +25,15 @@ body.active {
   --bg-content-color: #2b2c37;
   --text-color: #fff;
   --lines-color: #3e3f4e;
+  --gray-color: #fff;
 }
 
 :root {
   --primary-color: #635fc7;
   --primary-light-color: #a7a4ff;
   --primary-disabled-color: #39395b;
-  --gray-color: #828fa3;
   --danger-color: #ea5555;
+  --input-border:rgba(130, 143, 163, 0.25);
   --danger-light-color: #ff9898;
 }
 
