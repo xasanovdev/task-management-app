@@ -12,3 +12,8 @@
   filter: brightness(100%);
   transform: scale(0.9);
 }
+
+.active {
+  background-color:  #635fc7;
+  color: #fff;
+}
