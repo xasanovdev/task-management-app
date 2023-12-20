@@ -1,14 +1,46 @@
 const blocker = document.querySelector('.blocker')
 const closeModalButtons = document.querySelectorAll('.close-modal')
-const toggleModalButtons = document.querySelectorAll(".toggle-modal-button")
-const modals = document.querySelectorAll(".modal")
+const toggleModalButtons = document.querySelectorAll('.toggle-modal-button')
+const modals = document.querySelectorAll('.modal')
+const modalInputs = document.querySelectorAll('.modal-input')
+const buttons = document.querySelectorAll('.btn')
 
+buttons.forEach((button) => {
+  button.addEventListener('click', (e) => {
+    e.preventDefault()
+  })
+  modalInputs.forEach((modalInput) => {
+    if (modalInput.value.trim() === '') {
+      console.log('asf')
+      modalInput.classList.add('focus:border-danger-color')
+    } else {
+      console.log('asf')
+      modalInput.classList.remove('focus:border-danger-color')
+    }
+  })
+})
+
+console.log(modalInputs)
 const openModal = (modalId) => {
   const modal = document.getElementById(modalId)
   document.body.classList.add('active')
   modal.classList.remove('hidden')
   blocker.classList.remove('hidden')
 }
+const removeActiveModals = (modalInput) => {
+  if (modalInput.value.trim() === '') {
+    modalInput.classList.add('focus:border-danger-color')
+  } else {
+    modalInput.classList.remove('focus:border-danger-color')
+  }
+}
+
+modalInputs.forEach((modalInput) => {
+  modalInput.addEventListener('input', () => {
+    removeActiveModals(modalInput)
+    console.log(modalInput)
+  })
+})
 
 // closeModal function to close modals
 const closeModal = (modalId) => {
