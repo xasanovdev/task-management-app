@@ -7,4 +7,5 @@ let errorText = document.querySelector('.input-span')
 
 closeBtn.onclick = () => {
     label.style.display = 'none';
+    input.style.display = 'block';
 }

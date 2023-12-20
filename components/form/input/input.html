@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../assets/css/normalize.css" />
     <link rel="stylesheet" href="../../assets/css/variables.css" />
     <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../../assets/icomoon/style.css">
     <link rel="stylesheet" href="../../../assets/css/output.css">
   </head>
   <body>
@@ -17,33 +18,54 @@
 
         <!-- Title -->
         <div class="flex flex-col mb-6">
-          <label class="relative flex flex-col gap-2  text-[#828FA3] font-plus-jakarta-sans font-bold text-[12px] leading-5"> 
+          <label
+            class="label-input relative m-0 flex flex-col gap-2 text-[#828FA3]  font-bold text-[12px] leading-normal"
+          >
             Title
-            <input class=" block w-full px-4 py-2 rounded text-[#000112] outline-none font-plus-jakarta-sans cursor-pointer border-0  ring-1 ring-[#828fa340] ring-inset placeholder:text-[#00011240]  focus:ring-[#828fa340]  focus:text-[#000112] focus:font-plus-jakarta-sans font-medium text-[13px] leading-[23px]  focus:ring-[#635FC7] active:text-[#000112] active:transition duration-200 active:ease-in" type="text" placeholder="e.g. Take coffee break" required>
-            <span class="input-span absolute top-8 right-4 text-[#ea5555] font-medium leading-[23px] not-italic font-plus-jakarta-sans text-[13px]">Can’t be empty</span>
+            <input
+              class="block bg-transparent w-full px-4 py-2 rounded text-color outline-none cursor-pointer font-medium text-[13px] leading-[23px] border border-input-color focus:border-primary-color active:transition duration-200 active:ease-in"
+              type="text"
+              placeholder="e.g. Take coffee break"
+              required
+            />
+            <span
+              class="input-span hidden  absolute top-[50%] right-4 text-danger-color font-medium leading-[23px] not-italic text-[13px]"
+              >Can’t be empty</span
+            >
           </label>
         </div>
 
         <!-- Subtasks -->
-        <div class="flex flex-col">
-          <label class="form-label flex flex-col gap-2 text-[#828FA3] font-plus-jakarta-sans font-bold text-[12px] leading-5"> 
+        <div class="flex flex-col 
+        ">
+          <label
+            class="form-label flex flex-col gap-2 text-[#828FA3]  font-bold text-[12px] leading-normal"
+          >
             Subtasks
-           <div class="flex gap-4">
-            <input class="form-input block w-full py-2 px-4  rounded text-[#000112] outline-none font-plus-jakarta-sans cursor-pointer border-0  ring-1 ring-[#828fa340] ring-inset placeholder:text-[#00011240]  focus:ring-[#828fa340]  focus:text-[#000112] focus:font-plus-jakarta-sans font-medium text-[13px] leading-[23px]  focus:ring-[#635FC7] active:text-[#000112] active:transition duration-200 active:ease-in"type="text" placeholder="e.g. Take coffee break">
-            <button type="button" class="border-transparent bg-transparent close-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
-                <rect x="12.7275" width="3" height="18" transform="rotate(45 12.7275 0)" fill="#828FA3"/>
-                <rect y="2.12132" width="3" height="18" transform="rotate(-45 0 2.12132)" fill="#828FA3"/>
-              </svg>
-            </button>
-           </div>
-           <span class="input-span absolute top-8 right-4 text-[#ea5555] font-medium leading-[23px] not-italic font-plus-jakarta-sans text-[13px]">Can’t be empty</span>
+            <div class="flex gap-4 relative">
+              <input
+                class="block bg-transparent w-full px-4 py-2 rounded text-color outline-none cursor-pointer font-medium text-[13px] leading-[23px] border border-input-color focus:border-primary-color active:transition duration-200 active:ease-in"
+                type="text"
+                placeholder="e.g. Take coffee break"
+              />
+              <button
+                type="button"
+                class=" close-btn"
+              >
+              <i
+          class="icon-close top-4 right-4 cursor-pointer text-color hover:text-danger-color duration-150 active:text-danger-light-color"
+        ></i>
+              </button>
+            </div>
+            <span
+              class="hidden input-span absolute top-8 right-4 text-danger-color font-medium leading-[23px] not-italic text-[13px]"
+              >Can’t be empty</span
+            >
           </label>
         </div>
 
       </form>
     </div>
-
     <script src="./input.js"></script>
   </body>
 </html>
