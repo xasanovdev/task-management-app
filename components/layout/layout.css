@@ -27,8 +27,7 @@ left: 20px;
 border-radius: 10px;
 }
 .sidebar.disAppearNow{
-  transform: translateX(-100%);
-  width: 0;
+  display: none;
 }
 
 /*  */
@@ -53,7 +52,7 @@ border-radius: 10px;
 .board__link.active{
   background-color: #635FC7;
   color: #fff;
-  margin-right: 24px;
+  width: 100%;
   border-top-right-radius: 100px;
   border-bottom-right-radius: 100px;
 }
