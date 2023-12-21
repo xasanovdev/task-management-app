@@ -14,7 +14,8 @@ module.exports = {
         'danger-color': 'var(--danger-color)',
         'danger-light-color': 'var(--danger-light-color)',
         'input-color': 'var(--input-border)',
-        'btn-light-color':'var(--btn-light-color)',
+        'btn-light-color': 'var(--btn-light-color)',
+        'btn-hover-color': 'var(--btn-hover-color)',
         color: 'var(--text-color)', // assuming 'color' is meant to be a generic text color
       },
       width: {
