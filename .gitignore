@@ -27,4 +27,4 @@ yarn-debug.log*
 yarn-error.log*
 yarn.lock
 
-assets/css/output.css
+./assets/css/output.css
