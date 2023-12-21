@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?osnkfn');
-  src:  url('fonts/icomoon.eot?osnkfn#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?osnkfn') format('truetype'),
-    url('fonts/icomoon.woff?osnkfn') format('woff'),
-    url('fonts/icomoon.svg?osnkfn#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?qzxrwr');
+  src:  url('fonts/icomoon.eot?qzxrwr#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?qzxrwr') format('truetype'),
+    url('fonts/icomoon.woff?qzxrwr') format('woff'),
+    url('fonts/icomoon.svg?qzxrwr#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -24,60 +24,50 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.icon-icon-down .path1:before {
-  content: "\e900";
-  color: #635fc7;
-}
-.icon-icon-down .path2:before {
-  content: "\e901";
-  color: #635fc7;
-  opacity: 0.75;
-  margin-left: -0.9599609375em;
-}
-.icon-icon-down .path3:before {
-  content: "\e902";
-  color: #635fc7;
-  opacity: 0.5;
-  margin-left: -0.9599609375em;
-}
-.icon-icon-down:before {
-  content: "\e900";
-}
-.icon-close:before {
-  content: "\e900";
-}
-.icon-eye:before {
-  content: "\e902";
-}
-.icon-eye-close:before {
-  content: "\e903";
-}
+
 .icon-moon:before {
-  content: "\e904";
+  content: "\e900";
 }
 .icon-sun:before {
-  content: "\e905";
+  content: "\e901";
 }
-.icon-menu:before {
-  content: "\e906";
+.icon-eye-close:before {
+  content: "\e902";
+}
+.icon-eye:before {
+  content: "\e903";
 }
 .icon-layout:before {
+  content: "\e904";
+}
+.icon-menu:before {
+  content: "\e905";
+}
+.icon-logo .path1:before {
+  content: "\e906";
+  color: rgb(99, 95, 199);
+}
+.icon-logo .path2:before {
   content: "\e907";
-}
-
-.icon-kanban-logo .path1:before {
-  content: "\1f31d";
-  color: #635fc7;
-}
-.icon-kanban-logo .path2:before {
-  content: "\1f31e";
-  color: #635fc7;
+  margin-left: -0.9599609375em;
+  color: rgb(99, 95, 199);
   opacity: 0.75;
-  margin-left: -0.9599609375em;
 }
-.icon-kanban-logo .path3:before {
-  content: "\1f31f";
-  color: #635fc7;
-  opacity: 0.5;
+.icon-logo .path3:before {
+  content: "\e908";
   margin-left: -0.9599609375em;
+  color: rgb(99, 95, 199);
+  opacity: 0.5;
+}
+.icon-close:before {
+  content: "\e909";
+}
+.icon-plus:before {
+  content: "\ea0a";
+}
+.icon-tick:before {
+  content: "\ea10";
+}
+.icon-arrow:before {
+  content: "\ea50";
 }
