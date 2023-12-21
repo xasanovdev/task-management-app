@@ -21,7 +21,7 @@
           <!-- HEADER -->
          <header class="flex items-center w-full px-6 z-0 bg-content-color">
             <!-- HEADER LOGO -->
-           <div class="h-full flex text-black font-bold md:border-r-2 border-[#E4EBFA] transition duration-200 ease-in-out focus:outline-none hover:opacity-80 ">
+           <div class="h-full flex text-black font-bold md:border-r-2 border-lines-color transition duration-200 ease-in-out focus:outline-none hover:opacity-80 ">
              <a class="header-logo md:min-w-[274px] cursor-pointer md:flex flex items-center justify-center gap-4" href="layout.html">
                <svg
                   class=""
@@ -66,13 +66,13 @@
                 <div class="flex items-center gap-4 md:gap-6">
                         <!-- ADD NEW TASK BUTTON -->
                  <button role="button"
-                    class="btn w-full rounded-full text-center font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[15px]  focus:outline-none  bg-[#635fc7]  text-white hover:bg-[#A8A4FF] md:mr-6 p-[10px] md:py-4 px-6">
+                    class="btn w-full rounded-full text-center font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[15px]  focus:outline-none hover:bg-primary-light-color bg-primary-color text-white md:mr-6 p-[10px] md:py-4 px-6">
                     +
                     <span class="hidden md:inline-block">Add New Task</span>
                  </button>
                        <!-- TRIPLE DOTS -->
 
-                  <i class="icon-menu cursor-pointer"></i>
+                  <i class="icon-menu cursor-pointer text-color"></i>
 
                 </div>
              </div>
@@ -82,7 +82,7 @@
           <main class="relative flex w-full h-full">
              <div class="blocker"></div>
              <!-- SIDEBAR -->
-             <aside class="sidebar pr-6 min-w-[300px] hidden md:border-r-2 shadow-md shadow-indigo-500 border-gray-300
+             <aside class="sidebar pr-6 min-w-[300px] hidden md:border-r-2 shadow-md shadow-indigo-500 border-lines-color
              z-50 md:h-full md:flex md:flex-col justify-between md:items-center transition duration-200 ease-in-out bg-content-color">
              <!-- LOGO -->
              <!-- class=" ml-8 mr-4 " -->
@@ -130,14 +130,14 @@
                    <i class="icon-moon text-[#828FA3]"></i>
                </div>
                <!-- SIDEBAR HIDER -->
-               <button class="btn sidebar-hider rounded-full w-full mt-2 mb-8 text-center py-2 font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 focus:outline-none  bg-[#635fc71a] text-primary-color hover:bg-[#635fc740] dark:hover-bg-white">
+               <button class="btn sidebar-hider rounded-full w-full mt-2 mb-8 text-center py-2 font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 focus:outline-none hover:bg-btn-light-color text-primary-color">
                   <i class="icon-eye-close text-primary-color font-bold"></i>
                   Hide Sidebar
                </button>
             </div>
            </aside>
               <!-- LAYOUT -->
-              <section class="bg-page-color w-full h-full flex flex-col flex-1 justify-center border-t-2 border-gray-300 ">
+              <section class="bg-page-color w-full h-full flex flex-col flex-1 justify-center border-t-2 border-lines-color ">
                <!-- <ul role="list" class=" flex gap-6">
                   <li class="list-none">Column1</li>
                   <li class="list-none">Column2</li>
@@ -146,11 +146,11 @@
                <!-- WHEN NO COLUMN IS AVAILABLE, show this page -->
                 <div class="flex flex-col gap-8">
                    <span class=" text-center text-4.5 text-[#828FA3] mx-2 md:px-5">This board is empty. Create a new column to get started.</span>
-                   <button class="btn rounded-full    text-center py-3.5 mx-auto px-4 font-plus-jakarta-sans font-bold text-[15px] leading-5 cursor-pointer transition duration-200 ease-in-out focus:outline-none bg-[#635fc7]  text-white hover:bg-[#A8A4FF]">+ Add New Column</button>
+                   <button class="btn rounded-full text-center py-3.5 mx-auto px-4 font-plus-jakarta-sans font-bold text-[15px] leading-5 cursor-pointer transition duration-200 ease-in-out focus:outline-none bg-primary-color  text-white hover:bg-primary-light-color">+ Add New Column</button>
                 </div>
                 <!-- SIDEBAR REVEALER -->
                 <div class="sidebar-revealer hidden md:block absolute left-0 bottom-10  py-5 ">
-                  <i class="icon-eye btn rounded-r-full text-[16px] text-[#fff] hover:bg-[#A8A4FF] cursor-pointer px-6 py-5  bg-[#635FC7] transition duration-200 ease-in-out focus:outline-none"></i>
+                  <i class="icon-eye btn rounded-r-full text-[16px] text-[#fff] hover:bg-primary-light-color cursor-pointer px-6 py-5  bg-[#635FC7] transition duration-200 ease-in-out focus:outline-none"></i>
                </div>
               </section>
             </main>

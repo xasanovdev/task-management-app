@@ -18,6 +18,7 @@ body.active {
   --text-color: #000112;
   --lines-color: #e4ebfa;
   --gray-color: #828fa3;
+  --btn-light-color:rgba(99, 95, 199, 0.1);
 }
 
 .theme-dark {
@@ -26,6 +27,7 @@ body.active {
   --text-color: #fff;
   --lines-color: #3e3f4e;
   --gray-color: #fff;
+  --btn-light-color:rgba(255, 255, 255, 1);
 }
 
 :root {
