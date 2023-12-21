@@ -1,3 +1,5 @@
+import { createItem, readItems, updateItem, deleteItem } from "./crud.js";
+
 const THEME_TOGGLER_BUTTON = ".theme-toggler";
 
 const localSTheme = localStorage.getItem("theme");
@@ -31,3 +33,8 @@ function init() {
 }
 
 document.addEventListener("DOMContentLoaded", init);
+
+
+console.log(createItem({ id: 3, name: "Item 3" }), 'create');
+console.log(readItems(), 'read');
+
