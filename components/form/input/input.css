@@ -8,13 +8,13 @@
     display: none;
 }
 
-.error {
-    border: 1px solid #ea5555 !important;
+input.error {
+    border: 1px solid #ea5555 ;
     background-color: #fff;
     border-radius: 4px;
 }
 
-.error {
-    display: block;
-}
 
+.label-input{
+    margin: 0;
+}

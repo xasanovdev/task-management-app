@@ -13,7 +13,7 @@
   transform: scale(0.9);
 }
 
-.active {
+.btn .active {
   background-color:  #635fc7;
   color: #fff;
 }
