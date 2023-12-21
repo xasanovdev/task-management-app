@@ -13,7 +13,7 @@ module.exports = {
         'gray-color': 'var(--gray-color)',
         'danger-color': 'var(--danger-color)',
         'danger-light-color': 'var(--danger-light-color)',
-        'input-color':'var(--input-border)',
+        'input-color': 'var(--input-border)',
         color: 'var(--text-color)', // assuming 'color' is meant to be a generic text color
       },
       width: {

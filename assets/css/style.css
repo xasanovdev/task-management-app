@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("../icomoon/style.css");
+@import url('../icomoon/style.css');
 
 * {
   margin: 0;
@@ -33,15 +33,15 @@ body.active {
   --primary-light-color: #a7a4ff;
   --primary-disabled-color: #39395b;
   --danger-color: #ea5555;
-  --input-border:rgba(130, 143, 163, 0.25);
+  --input-border: rgba(130, 143, 163, 0.25);
   --danger-light-color: #ff9898;
 }
 
 /* Apply Tailwind styles based on the theme class */
-[data-theme="light"] {
+[data-theme='light'] {
   @apply theme-light;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   @apply theme-dark;
 }

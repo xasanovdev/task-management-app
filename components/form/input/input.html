@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -8,18 +8,17 @@
     <link rel="stylesheet" href="./input.css" />
     <link rel="stylesheet" href="../../assets/css/normalize.css" />
     <link rel="stylesheet" href="../../assets/css/variables.css" />
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="../../../assets/icomoon/style.css">
-    <link rel="stylesheet" href="../../../assets/css/output.css">
+    <link rel="stylesheet" href="../../assets/css/style.css" />
+    <link rel="stylesheet" href="../../../assets/icomoon/style.css" />
+    <link rel="stylesheet" href="../../../assets/css/output.css" />
   </head>
   <body>
     <div class="form-wrapper">
-      <form  class="flex  flex-col">
-
+      <form class="flex flex-col">
         <!-- Title -->
         <div class="flex flex-col mb-6">
           <label
-            class="label-input relative m-0 flex flex-col gap-2 text-[#828FA3]  font-bold text-[12px] leading-normal"
+            class="label-input relative m-0 flex flex-col gap-2 text-[#828FA3] font-bold text-[12px] leading-normal"
           >
             Title
             <input
@@ -29,17 +28,16 @@
               required
             />
             <span
-              class="input-span hidden  absolute top-[50%] right-4 text-danger-color font-medium leading-[23px] not-italic text-[13px]"
+              class="input-span hidden absolute top-[50%] right-4 text-danger-color font-medium leading-[23px] not-italic text-[13px]"
               >Can’t be empty</span
             >
           </label>
         </div>
 
         <!-- Subtasks -->
-        <div class="flex flex-col 
-        ">
+        <div class="flex flex-col">
           <label
-            class="form-label flex flex-col gap-2 text-[#828FA3]  font-bold text-[12px] leading-normal"
+            class="form-label flex flex-col gap-2 text-[#828FA3] font-bold text-[12px] leading-normal"
           >
             Subtasks
             <div class="flex gap-4 relative">
@@ -48,13 +46,10 @@
                 type="text"
                 placeholder="e.g. Take coffee break"
               />
-              <button
-                type="button"
-                class=" close-btn"
-              >
-              <i
-          class="icon-close top-4 right-4 cursor-pointer text-color hover:text-danger-color duration-150 active:text-danger-light-color"
-        ></i>
+              <button type="button" class="close-btn">
+                <i
+                  class="icon-close top-4 right-4 cursor-pointer text-color hover:text-danger-color duration-150 active:text-danger-light-color"
+                ></i>
               </button>
             </div>
             <span
@@ -63,7 +58,6 @@
             >
           </label>
         </div>
-
       </form>
     </div>
     <script src="./input.js"></script>
