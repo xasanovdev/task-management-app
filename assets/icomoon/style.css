@@ -28,7 +28,7 @@
 }
 
 .icon-moon:before {
-  content: '\e900';
+  content: "\e900";
 }
 .icon-sun:before {
   content: '\e901';
@@ -72,21 +72,4 @@
 }
 .icon-arrow:before {
   content: '\ea50';
-}
-
-.icon-kanban-logo .path1:before {
-  content: '\1f31d';
-  color: #635fc7;
-}
-.icon-kanban-logo .path2:before {
-  content: '\1f31e';
-  color: #635fc7;
-  opacity: 0.75;
-  margin-left: -0.9599609375em;
-}
-.icon-kanban-logo .path3:before {
-  content: '\1f31f';
-  color: #635fc7;
-  opacity: 0.5;
-  margin-left: -0.9599609375em;
 }

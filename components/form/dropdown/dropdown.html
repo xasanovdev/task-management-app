@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="en" data-theme="dark">
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,17 +8,20 @@
     <link rel="stylesheet" href="./dropdown.css" />
     <link rel="stylesheet" href="../../assets/css/normalize.css" />
     <link rel="stylesheet" href="../../assets/css/variables.css" />
-    <link rel="stylesheet" href="../../assets/css/style.css" />
-    <link rel="stylesheet" href="../../../assets/css/output.css" />
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../../assets/css/output.css">
+    <link rel="stylesheet" href="../../../assets/icomoon/style.css">
   </head>
   <body>
-    <div class="dropdown">
-      <div class="dropdown-menu w-full">
+
+
+    <div class="dropdown mt-9">
+      <div class="dropdown-menu relative w-full">
         <div
           class="dropdown-btn status min-w-full w-full justify-between flex items-center px-4 py-2 rounded border focus:outline-none active:border-[#635FC7] group"
         >
           <span
-            class="dBtn-text m-0 text-[#000112] font-bold cursor-pointer transition duration-400 ease-in-out text-[13px] leading-6"
+            class="dBtn-text m-0 text-gray-color cursor-pointer transition duration-400 ease-in-out text-[13px] leading-6"
             >Doing</span
           >
           <span class="dropdown-sign">
@@ -39,20 +42,28 @@
           </span>
         </div>
 
-        <ul class="dropdown-options relative hidden mt-2 rounded">
-          <li class="dropdown-option cursor-pointer px-4 hover:bg-slate-50">
+        <ul
+          class="dropdown-options w-full hidden mt-2 rounded bg-page-color"
+        >
+          <li
+            class="dropdown-option cursor-pointer p-3 hover:bg-content-color duration-200"
+          >
             <span
               class="option-text font-medium text-[13px] leading-[23px] text-[#828FA3]"
               >Todo</span
             >
           </li>
-          <li class="dropdown-option cursor-pointer px-4 hover:bg-slate-50">
+          <li
+            class="dropdown-option cursor-pointer p-3 hover:bg-content-color duration-200"
+          >
             <span
               class="option-text font-medium text-[13px] leading-[23px] text-[#828FA3]"
               >Doing</span
             >
           </li>
-          <li class="dropdown-option cursor-pointer px-4 hover:bg-slate-50">
+          <li
+            class="dropdown-option cursor-pointer p-3 hover:bg-content-color duration-200"
+          >
             <span
               class="option-text font-medium text-[13px] leading-[23px] text-[#828FA3]"
               >Done</span
@@ -61,6 +72,7 @@
         </ul>
       </div>
     </div>
+  
 
     <script src="./dropdown.js"></script>
   </body>
