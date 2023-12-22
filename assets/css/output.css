@@ -794,6 +794,10 @@ video {
   width: 100%;
 }
 
+.w-\[280px\] {
+  width: 280px;
+}
+
 .min-w-\[300px\] {
   min-width: 300px;
 }
@@ -1102,10 +1106,6 @@ video {
 
 .pt-2 {
   padding-top: 0.5rem;
-}
-
-.text-left {
-  text-align: left;
 }
 
 .text-center {
@@ -1430,10 +1430,6 @@ body.active {
 
 .hover\:text-danger-color:hover {
   color: var(--danger-color);
-}
-
-.hover\:text-primary-color:hover {
-  color: var(--primary-color);
 }
 
 .hover\:opacity-80:hover {

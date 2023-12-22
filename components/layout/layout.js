@@ -346,7 +346,7 @@ function generateUniqueId() {
 // Function to generate HTML for a task card
 function generateTaskCard(task) {
   return `
-    <div class="card duration-200 bg-content-color w-280 py-6 px-4 rounded-lg font-bold shadow-lg hover:shadow-md hover:cursor-pointer subpixel-antialiased">
+    <div class="card duration-200 shadow-sm shadow-indigo-500 bg-content-color w-280 py-6 px-4 rounded-lg font-bold hover:shadow-md hover:cursor-pointer subpixel-antialiased">
       <p class="card__title text-color capitalize">${task.title}</p>
       <p class="card__status text-slate-500">${
         task.subtasks.filter((subtask) => !subtask.isCompleted).length
@@ -371,6 +371,9 @@ function generateColumn(column) {
   `
 }
 const boardList = document.getElementById('boardList')
+const playGround = document.getElementById('playGround')
+
+// Function to generate HTML for a single board link
 function generateKanbanBoardName(board) {
   return `
     <li>
@@ -385,45 +388,49 @@ function generateKanbanBoardName(board) {
     </li>
   `
 }
-function generateKanbanBoardNames(board) {
-  const boardNamesHtml = board.boards
+
+// Function to generate HTML for all board links
+function generateKanbanBoardNames(boardData) {
+  const boardNamesHtml = boardData.boards
     .map((board) => generateKanbanBoardName(board))
     .join('')
   return boardNamesHtml
 }
-
-// Function to generate HTML for the entire Kanban board
+// Function to generate HTML for a single board
 function generateKanbanBoard(board) {
-  // Assuming you want to work with the first board in the array
-  const columnsHtml = board.boards[0].columns
+  const columnsHtml = board.columns
     .map((column) => generateColumn(column))
     .join('')
-
   return `
-    <ul role="list" class="flex gap-6 w-full h-full p-6">
+    <ul id="${board.id}" class="kanban-board flex items-center overflow-y-auto p-6 gap-6 h-full w-full" role="list">
       ${columnsHtml}
     </ul>
   `
 }
 
-if (boardData) {
-  // Render the Kanban board
-  playGround.innerHTML = generateKanbanBoard(boardData)
-  boardList.innerHTML = generateKanbanBoardNames(boardData)
-}
-
-// Render the Kanban board
-playGround.innerHTML = generateKanbanBoard(boardData)
-
-// Assuming you have a function to render a specific board based on its ID
+// Function to render the Kanban board
 function renderBoard(boardId) {
-  // Logic to fetch data for the selected board and render it
-  // For now, let's assume you have a function generateKanbanBoardById(boardId)
-  const boardData = fetchDataForBoard(boardId)
-  playGround.innerHTML = generateKanbanBoardById(boardData)
+  const board = boardData.boards.find((board) => board.id === boardId)
+
+  // Check if the board is already rendered
+  const isBoardRendered = document.getElementById(boardId) !== null
+
+  if (board && !isBoardRendered) {
+    // Render the Kanban board
+    playGround.innerHTML = generateKanbanBoard(board)
+
+    // Ensure board links are properly highlighted
+    const boardLinks = document.querySelectorAll('.board__link')
+    boardLinks.forEach((link) => {
+      link.classList.remove('active')
+      if (link.getAttribute('data-board-id') === boardId) {
+        link.classList.add('active')
+      }
+    })
+  }
 }
 
-// Add event listeners to board links
+// Add event listener to board links
 boardList.addEventListener('click', (event) => {
   event.preventDefault()
   const targetLink = event.target.closest('.board__link')
@@ -432,6 +439,15 @@ boardList.addEventListener('click', (event) => {
     renderBoard(boardId)
   }
 })
+boardList.innerHTML = generateKanbanBoardNames(boardData)
+const numberOfCreatedBoards = document.querySelector('.numberOfCreatedBoards')
+numberOfCreatedBoards.textContent = `All boards (${boardData.boards.length})`
+
+// Initial rendering of the first board
+if (boardData && boardData.boards.length > 0) {
+  const initialBoardId = boardData.boards[0].id
+  renderBoard(initialBoardId)
+}
 
 // Rest of your code...
 const addColumnBtn = document.querySelector('#addColumn')
