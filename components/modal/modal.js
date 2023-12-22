@@ -4,6 +4,7 @@ const toggleModalButtons = document.querySelectorAll('.toggle-modal-button')
 const modals = document.querySelectorAll('.modal')
 const modalInputs = document.querySelectorAll('.modal-input')
 const buttons = document.querySelectorAll('.btn')
+const overlay = document.querySelector(".overlay")
 
 buttons.forEach((button) => {
   button.addEventListener('click', (e) => {
@@ -11,7 +12,6 @@ buttons.forEach((button) => {
   })
   modalInputs.forEach((modalInput) => {
     if (modalInput.value.trim() === '') {
-      console.log('asf')
       modalInput.classList.add('focus:border-danger-color')
     } else {
       console.log('asf')
@@ -25,7 +25,10 @@ const openModal = (modalId) => {
   const modal = document.getElementById(modalId)
   document.body.classList.add('active')
   modal.classList.remove('hidden')
-  blocker.classList.remove('hidden')
+  blocker.classList.add('active')
+  overlay.classList.remove('hidden')
+  overlay.classList.add('flex')
+  modal.style.zIndex = "100"
 }
 const removeActiveModals = (modalInput) => {
   if (modalInput.value.trim() === '') {
@@ -47,7 +50,10 @@ const closeModal = (modalId) => {
   const modal = document.getElementById(modalId)
   document.body.classList.remove('active')
   modal.classList.add('hidden')
-  blocker.classList.add('hidden')
+  blocker.classList.remove('active')
+  overlay.classList.add('hidden')
+  modal.style.zIndex = '0'
+  overlay.classList.remove('flex')
 }
 
 toggleModalButtons.forEach((button) => {

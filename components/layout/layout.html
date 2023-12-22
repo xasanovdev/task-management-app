@@ -10,6 +10,7 @@
     <link href="../../assets/css/style.css" rel="stylesheet" />
     <link href="../../assets/css/output.css" rel="stylesheet" />
     <link href="layout.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
   <body class="w-full h-full font-plus-jakarta-sans">
@@ -97,10 +98,9 @@
 
       <!-- MAIN -->
       <main class="relative flex w-full h-full">
-        <div class="blocker"></div>
         <!-- SIDEBAR -->
         <aside
-          class="sidebar pr-6 min-w-[300px] hidden md:border-r-2 md:shadow-none shadow-md shadow-indigo-500 border-lines-color z-50 md:h-full md:flex md:flex-col justify-between md:items-center transition duration-200 ease-in-out bg-content-color"
+          class="sidebar pr-6 min-w-[300px] hidden md:border-r-2 md:shadow-none shadow-md shadow-indigo-500 border-lines-color md:h-full md:flex md:flex-col justify-between md:items-center transition duration-200 ease-in-out bg-content-color"
         >
           <!-- LOGO -->
           <div class="flex flex-col w-full">
@@ -115,12 +115,13 @@
             ></ul>
 
             <!-- ADD NEW BOARD -->
-            <div
-              class="addNewBoard text-[#635FC7] text-[15px] cursor-pointer font-bold pr-6 py-4 transition duration-200 ease-in-out focus:outline-none hover:opacity-80"
+            <button
+              modal-id="add-board-modal"
+              class="addNewBoard toggle-modal-button text-[#635FC7] text-[15px] flex items-center gap-4 cursor-pointer font-bold px-6 py-4 transition duration-200 ease-in-out focus:outline-none hover:opacity-80"
             >
-              <i class="icon-layout inline pl-8 fill-purple-500"></i>
-              + Create New Board
-            </div>
+              <i class="icon-layout inline fill-purple-500"></i>
+              <span> + Create New Board </span>
+            </button>
           </div>
 
           <div class="flex flex-col w-full">
@@ -166,11 +167,106 @@
       </main>
     </div>
 
+    <!-- Add new Board modal -->
+    <div class="w-full h-full absolute overlay hidden top-0 left-0 items-center justify-center">
+      <div
+        class="relative modal hidden max-w-[480px] overflow-y-auto w-full mx-auto z-20 bg-content-color p-6 sm:p-8"
+        id="add-board-modal"
+      >
+        <div class="h-full">
+          <i
+            class="icon-close close-modal absolute top-6 right-6 sm:top-8 sm:right-8 cursor-pointer text-color hover:text-danger-color duration-150 active:text-danger-light-color"
+          ></i>
+          <div class="">
+            <h3 class="text-color text-[18px] font-bold">Add New Board</h3>
+          </div>
+          <div class="mt-6">
+            <label
+              class="relative flex flex-col gap-2 text-gray-color font-plus-jakarta-sans font-bold text-[12px] leading-5"
+            >
+              Namr
+              <input
+                class="requiredput block bg-transparent w-full px-4 py-2 rounded text-color outline-none cursor-pointer font-medium text-[13px] leading-[23px] border border-input-color focus:border-primary-color active:transition duration-200 active:ease-in"
+                type="text"
+                placeholder="e.g. Web Design"
+              />
+              <span
+                class="input-span hidden absolute top-[55%] right-4 text-[#ea5555] font-medium leading-[23px] not-italic text-[13px]"
+                >Can’t be empty</span
+              >
+            </label>
+            <div class="flex flex-col mt-6">
+              <label
+                class="relative form-label flex flex-col gap-2 text-gray-color font-plus-jakarta-sans font-bold text-[12px] leading-5"
+              >
+                Columns
+                <div class="flex gap-4">
+                  <input
+                    class="modal-input block bg-transparent w-full px-4 py-2 rounded text-color outline-none cursor-pointer font-medium text-[13px] leading-[23px] border border-input-color focus:border-primary-color active:transition duration-200 active:ease-in"
+                    type="text"
+                    placeholder="e.g. Take coffee break"
+                  />
+                  <button
+                    type="button"
+                    class="button border-transparent bg-transparent close-btn"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="15"
+                      height="15"
+                      viewBox="0 0 15 15"
+                      fill="none"
+                    >
+                      <rect
+                        x="12.7275"
+                        width="3"
+                        height="18"
+                        transform="rotate(45 12.7275 0)"
+                        fill="#828FA3"
+                      />
+                      <rect
+                        y="2.12132"
+                        width="3"
+                        height="18"
+                        transform="rotate(-45 0 2.12132)"
+                        fill="#828FA3"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <span
+                  class="input-span hidden absolute top-[55%] right-12 text-[#ea5555] font-medium leading-[23px] not-italic font-plus-jakarta-sans text-[13px]"
+                  >Can’t be empty</span
+                >
+              </label>
+            </div>
+
+            <button
+              class="btn mt-6 rounded-full w-full text-center py-2 font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 outline-none text-primary-color dark:bg-white bg-[#635fc71a] hover:bg-[#635FC740]"
+            >
+              + Add New Column
+            </button>
+            <button
+              type="submit"
+              class="btn mt-6 rounded-full w-full text-center py-2 font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 focus:outline-none bg-primary-color text-white hover:bg-primary-light-color"
+            >
+              Create New Board
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="blocker hidden w-full h-full absolute z-100 bg-black opacity-40"
+    ></div>
+
     <!-- JAVASCRIPT LINKS -->
 
     <script src="../../js/main.js"></script>
     <script src="../../components/header/header.js"></script>
+    <script src="../../components/modal/modal.js"></script>
     <script src="../../components/sidebar/sidebar.js"></script>
-    <script type="module" src="layout.js"></script>
+    <script src="layout.js"></script>
   </body>
 </html>
