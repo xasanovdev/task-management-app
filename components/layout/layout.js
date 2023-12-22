@@ -346,7 +346,7 @@ function generateUniqueId() {
 // Function to generate HTML for a task card
 function generateTaskCard(task) {
   return `
-    <div class="card duration-200 shadow-sm shadow-indigo-500 bg-content-color w-280 py-6 px-4 rounded-lg font-bold hover:shadow-md hover:cursor-pointer subpixel-antialiased">
+    <div class="card duration-200 shadow-lg bg-content-color w-[280px] py-6 px-4 rounded-lg font-bold hover:shadow-md hover:cursor-pointer subpixel-antialiased">
       <p class="card__title text-color capitalize">${task.title}</p>
       <p class="card__status text-slate-500">${
         task.subtasks.filter((subtask) => !subtask.isCompleted).length
@@ -362,7 +362,7 @@ function generateColumn(column) {
     <ul class="column w-[280px] h-full">
       <h3 class="column__header mb-6 text-[#828fa3] flex items-center gap-3">
         <span class="w-4 h-4 bg-primary-color rounded-full"></span>
-        <span class="tracking-widest text-sm font-bold">${column.name}(${column.tasks.length})</span>
+        <span class="tracking-widest text-sm font-bold">${column.name} (${column.tasks.length})</span>
       </h3>
       <div class="flex items-center flex-col gap-5">
         ${tasksHtml}
@@ -402,7 +402,7 @@ function generateKanbanBoard(board) {
     .map((column) => generateColumn(column))
     .join('')
   return `
-    <ul id="${board.id}" class="kanban-board flex items-center overflow-y-auto p-6 gap-6 h-full w-full" role="list">
+    <ul id="${board.id}" class="kanban-board flex items-center overflow-y-auto p-6 gap-6 h-full" role="list">
       ${columnsHtml}
     </ul>
   `
