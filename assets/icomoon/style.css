@@ -28,7 +28,7 @@
 }
 
 .icon-moon:before {
-  content: "\e900";
+  content: '\e900';
 }
 .icon-sun:before {
   content: '\e901';

@@ -18,7 +18,7 @@ body.active {
   --text-color: #000112;
   --lines-color: #e4ebfa;
   --gray-color: #828fa3;
-  --btn-light-color:rgba(99, 95, 199, 0.1);
+  --btn-light-color: rgba(99, 95, 199, 0.1);
 }
 
 .theme-dark {
@@ -27,7 +27,7 @@ body.active {
   --text-color: #fff;
   --lines-color: #3e3f4e;
   --gray-color: #fff;
-  --btn-light-color:rgba(255, 255, 255, 1);
+  --btn-light-color: rgba(255, 255, 255, 1);
 }
 
 :root {
@@ -37,9 +37,8 @@ body.active {
   --danger-color: #ea5555;
   --input-border: rgba(130, 143, 163, 0.25);
   --danger-light-color: #ff9898;
-  --btn-hover-color:rgba(99, 95, 199, 0.25);
+  --btn-hover-color: rgba(99, 95, 199, 0.25);
 }
-
 
 /* Apply Tailwind styles based on the theme class */
 [data-theme='light'] {

@@ -11,8 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const createdBoards = ['platform']
 
   // Show number of created boards
-  const numberOfCreatedBoards = document.querySelector('.numberOfCreatedBoards')
-  numberOfCreatedBoards.textContent = `All boards (${createdBoards.length})`
 
   // =============//
 
