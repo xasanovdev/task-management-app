@@ -10,16 +10,72 @@ const inputsWrapper = document.querySelector('.inputs-wrapper')
 
 let modalInputs = null
 let errorMessage = null
-let removeColumn = null
 
 addNewColumnButton.addEventListener('click', (e) => {
   e.preventDefault()
+  addNewColumnToInputs() // Add an initial empty column input
 })
-const openModal = (modalId) => {
+
+// Event delegation to handle close-btn clicks
+inputsWrapper.addEventListener('click', (e) => {
+  if (e.target.classList.contains('close-btn')) {
+    e.preventDefault()
+    const columnWrapper = e.target.closest('.relative')
+
+    // Ensure there is at least one column remaining
+    if (inputsWrapper.childElementCount > 3) {
+      columnWrapper.remove()
+    }
+  }
+})
+
+function addNewColumnToInputs() {
+  const columnInputHtml = generateColumnInput('')
+  inputsWrapper.insertAdjacentHTML('beforeend', columnInputHtml)
+
+  // Clear modalInputs array
+  modalInputs = []
+  errorMessage = []
+
+  errorMessage = inputsWrapper.querySelector('.input-span')
+
+  // Collect values from all input elements
+  const inputElements = inputsWrapper.querySelectorAll('.modal-input')
+  inputElements.forEach((input) => {
+    modalInputs.push(input.value)
+  })
+
+  renderBoard()
+  console.log(modalInputs)
+}
+
+function generateColumnInput(columnInput) {
+  return `
+    <div class="relative flex gap-4 w-full">
+      <input
+        class="modal-input block bg-transparent w-full px-4 py-2 rounded text-color outline-none cursor-pointer font-medium text-[13px] leading-[23px] border border-input-color focus:border-primary-color active:transition duration-200 active:ease-in"
+        type="text"
+        placeholder="e.g. Take coffee break"
+        value="${columnInput}"
+      />
+      <button
+        type="button"
+        class="button icon-close border-transparent bg-transparent duration-200 hover:text-danger-color close-btn"
+      >
+      </button>
+      <span
+        class="input-span hidden absolute top-2 right-12 text-[#ea5555] font-medium leading-[23px] not-italic font-plus-jakarta-sans text-[13px]"
+        >Can’t be empty</span
+      >
+    </div>
+  `
+}
+
+function openModal(modalId) {
   const modal = document.getElementById(modalId)
-  errorMessage = modal.querySelectorAll('.input-span')
   modalInputs = Array.from(modal.querySelectorAll('.modal-input'))
-  removeColumn = modal.querySelector('close-btn')
+  errorMessage = Array.from(modal.querySelectorAll('.input-span'))
+  removeColumn = modal.querySelector('.close-btn') // Add the dot here
 
   modal.classList.remove('hidden')
   blocker.classList.add('active')
@@ -51,35 +107,59 @@ function addNewBoard(boardName, boardColumns) {
 createNewBoard.addEventListener('click', (e) => {
   e.preventDefault()
 
-  if (!modalInputs.every((modalInput) => modalInput.value !== '')) {
-    modalInputs.forEach((modalInput, index) => {
-      if (modalInput.value === '') {
-        modalInput.classList.add('error')
-        errorMessage[index].classList.remove('hidden')
-      } else {
-        modalInput.classList.remove('error')
-        errorMessage[index].classList.add('hidden')
-      }
-    })
+  // Update modalInputs with the latest values
+  modalInputs = Array.from(inputsWrapper.querySelectorAll('.modal-input'))
+  errorMessage = Array.from(inputsWrapper.querySelectorAll('.input-span'))
+  let hasError = false // Flag to track if there is any error
+
+  // Validate boardName (assuming it is the first input element)
+  const boardNameInput = modalInputs[0]
+  const boardNameErrorMessage = errorMessage[0]
+
+  if (boardNameInput.value === '') {
+    boardNameInput.classList.add('error')
+    boardNameErrorMessage.classList.remove('hidden')
+    hasError = true // Set the flag to true if there is an error
   } else {
-    const modalValues = modalInputs.map((modalInput) => modalInput.value)
+    boardNameInput.classList.remove('error')
+    boardNameErrorMessage.classList.add('hidden')
+  }
 
-    // Assuming modalValues[0] is the board name and the rest are column names
-    const boardName = modalValues[0]
-    const columnNames = modalValues.slice(1)
+  // Validate column names
+  for (let index = 1; index < modalInputs.length; index++) {
+    const modalInput = modalInputs[index]
+    const currentErrorMessage = errorMessage[index]
 
+    if (modalInput.value === '') {
+      modalInput.classList.add('error')
+      currentErrorMessage.classList.remove('hidden')
+      hasError = true // Set the flag to true if there is an error
+    } else {
+      modalInput.classList.remove('error')
+      currentErrorMessage.classList.add('hidden')
+    }
+  }
+
+  if (!hasError) {
     // Call the addNewBoard function with the board name and column names
-    addNewBoard(boardName, columnNames)
+    addNewBoard(
+      boardNameInput.value,
+      modalInputs.slice(1).map((input) => input.value),
+    )
 
-    // Reset modalInputs and errorMessage if needed
-    modalInputs = null
-    errorMessage = null
+    // Reset modalInputs and errorMessage
+    modalInputs = errorMessage = null
 
+    renderBoard()
     // Close the modal
     closeModal('add-board-modal')
   }
 })
 
+
+
+
+// closeModal function to close modals
 // closeModal function to close modals
 const closeModal = (modalId) => {
   const modal = document.getElementById(modalId)
@@ -88,6 +168,10 @@ const closeModal = (modalId) => {
   overlay.classList.add('hidden')
   modal.style.zIndex = '0'
   overlay.classList.remove('flex')
+
+  // Reset modalInputs and errorMessage
+  modalInputs = null
+  errorMessage = null
 }
 
 toggleModalButtons.forEach((button) => {
