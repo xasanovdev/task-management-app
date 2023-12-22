@@ -21,7 +21,7 @@
           class="h-full flex text-black font-bold md:border-r-2 border-lines-color transition duration-200 ease-in-out focus:outline-none hover:opacity-80"
         >
           <a
-            class="header-logo md:min-w-[274px] cursor-pointer md:flex flex items-center justify-center gap-4"
+            class="header-logo md:min-w-[274px] cursor-pointer md:flex flex items-center gap-4"
             href="layout.html"
           >
             <svg
@@ -110,30 +110,11 @@
               class="numberOfCreatedBoards uppercase py-4 pl-8 text-[#828FA3] font-bold tracking-wide text-[12px]"
             ></div>
             <!-- BOARDS CREATED -->
-            <ul class="board-list w-full mr-6 md:flex md:flex-col">
-              <li
-                class="board__item min-w-[240px] rounded-full hover:bg-btn-hover-color flex items-start cursor-pointer transition duration-200 ease-in-out focus:outline-none text-[#828FA3] text-[15px]"
-              >
-                <a
-                  class="board__link active flex items-center font-bold py-4 px-8"
-                  href="#"
-                >
-                  <i class="icon-layout block mr-4"></i>
-                  <span class="block pr-15">Platform Launch</span>
-                </a>
-              </li>
-              <li
-                class="board__item min-w-[240px] rounded-full hover:bg-btn-hover-color flex items-start cursor-pointer transition duration-200 ease-in-out focus:outline-none text-[#828FA3] text-[15px]"
-              >
-                <a
-                  class="board__link flex items-center font-bold py-4 px-8"
-                  href="#"
-                >
-                  <i class="icon-layout block pr-4"></i>
-                  <span class="block">Marketing Plan</span>
-                </a>
-              </li>
-            </ul>
+            <ul
+              class="board-list w-full mr-6 md:flex md:flex-col"
+              id="boardList"
+            ></ul>
+
             <!-- ADD NEW BOARD -->
             <div
               class="addNewBoard text-[#635FC7] text-[15px] cursor-pointer font-bold pr-6 py-4 transition duration-200 ease-in-out focus:outline-none hover:opacity-80"
@@ -160,6 +141,7 @@
               <i class="icon-moon text-[#828FA3]"></i>
             </div>
             <!-- SIDEBAR HIDER -->
+
             <button
               class="btn sidebar-hider rounded-full w-full mt-2 mb-8 text-center py-2 font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 focus:outline-none hover:bg-btn-light-color text-primary-color"
             >
@@ -168,40 +150,20 @@
             </button>
           </div>
         </aside>
+        <!-- SIDEBAR REVEALER -->
+        <div
+          class="sidebar-revealer hidden md:block absolute left-0 bottom-10 py-5"
+        >
+          <i
+            class="icon-eye btn rounded-r-full text-[16px] text-[#fff] hover:bg-primary-light-color cursor-pointer px-6 py-5 bg-primary-color transition duration-200 ease-in-out focus:outline-none"
+          ></i>
+        </div>
+
         <!-- LAYOUT -->
         <section
           id="playGround"
           class="bg-page-color w-full h-full flex flex-col overflow-y-auto flex-1 justify-center border-t-2 border-lines-color"
-        >
-          <ul role="list" class="flex gap-6 w-full h-full p-6">
-            <ul class="column w-[280px] h-full">
-              <h3
-                class="column__header mb-6 text-[#828fa3] flex items-center gap-3"
-              >
-                <span class="w-4 h-4 bg-primary-color rounded-full"></span>
-                <span class="tracking-widest text-sm font-bold">Todo(4)</span>
-              </h3>
-              <div class="flex items-center flex-col gap-5">
-                <div
-                  class="card duration-200 bg-content-color w-280 py-6 px-4 rounded-lg font-bold shadow-lg hover:shadow-md hover:cursor-pointer subpixel-antialiased"
-                >
-                  <p class="card__title text-color capitalize">
-                    Build UI for search
-                  </p>
-                  <p class="card__status text-slate-500">0 of 2 substasks</p>
-                </div>
-              </div>
-            </ul>
-          </ul>
-          <!-- SIDEBAR REVEALER -->
-          <div
-            class="sidebar-revealer hidden md:block absolute left-0 bottom-10 py-5"
-          >
-            <i
-              class="icon-eye btn rounded-r-full text-[16px] text-[#fff] hover:bg-primary-light-color cursor-pointer px-6 py-5 bg-primary-color transition duration-200 ease-in-out focus:outline-none"
-            ></i>
-          </div>
-        </section>
+        ></section>
       </main>
     </div>
 
@@ -211,5 +173,6 @@
     <script src="../../components/header/header.js"></script>
     <script src="../../components/sidebar/sidebar.js"></script>
     <script src="layout.js"></script>
+    <script src="rendering.js"></script>
   </body>
 </html>
