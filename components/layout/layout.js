@@ -337,6 +337,39 @@ const boardData = {
   selectedColumn: 0,
   selectedTask: 0,
 }
+const boardList = document.getElementById('boardList')
+const playGround = document.getElementById('playGround')
+
+let isDragging = false
+let startPosition = { x: 0, y: 0 }
+let scrollLeft = 0
+let scrollTop = 0
+
+playGround.addEventListener('mousedown', (e) => {
+  isDragging = true
+  startPosition = {
+    x: e.clientX,
+    y: e.clientY,
+  }
+  scrollLeft = playGround.scrollLeft
+  scrollTop = playGround.scrollTop
+})
+
+document.addEventListener('mouseup', () => {
+  if (isDragging) {
+    isDragging = false
+  }
+})
+
+document.addEventListener('mousemove', (e) => {
+  if (isDragging) {
+    const deltaX = e.clientX - startPosition.x
+    const deltaY = e.clientY - startPosition.y
+
+    playGround.scrollLeft = scrollLeft - deltaX
+    playGround.scrollTop = scrollTop - deltaY
+  }
+})
 
 function generateUniqueId() {
   // You can implement your own logic to generate a unique ID
@@ -370,8 +403,6 @@ function generateColumn(column) {
     </ul>
   `
 }
-const boardList = document.getElementById('boardList')
-const playGround = document.getElementById('playGround')
 
 // Function to generate HTML for a single board link
 function generateKanbanBoardName(board) {
@@ -414,8 +445,8 @@ function renderBoard(boardId) {
 
   // Check if the board is already rendered
   const isBoardRendered = document.getElementById(boardId) !== null
-  
-  //render boardList 
+
+  //render boardList
   boardList.innerHTML = generateKanbanBoardNames(boardData)
 
   if (board && !isBoardRendered) {
