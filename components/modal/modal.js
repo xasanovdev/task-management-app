@@ -2,53 +2,87 @@ const blocker = document.querySelector('.blocker')
 const closeModalButtons = document.querySelectorAll('.close-modal')
 const toggleModalButtons = document.querySelectorAll('.toggle-modal-button')
 const modals = document.querySelectorAll('.modal')
-const modalInputs = document.querySelectorAll('.modal-input')
 const buttons = document.querySelectorAll('.btn')
-const overlay = document.querySelector(".overlay")
+const overlay = document.querySelector('.overlay')
+const addNewColumnButton = document.querySelector('.addNewColumnButton')
+const createNewBoard = document.querySelector('.createNewBoard')
+const inputsWrapper = document.querySelector('.inputs-wrapper')
 
-buttons.forEach((button) => {
-  button.addEventListener('click', (e) => {
-    e.preventDefault()
-  })
-  modalInputs.forEach((modalInput) => {
-    if (modalInput.value.trim() === '') {
-      modalInput.classList.add('focus:border-danger-color')
-    } else {
-      console.log('asf')
-      modalInput.classList.remove('focus:border-danger-color')
-    }
-  })
+let modalInputs = null
+let errorMessage = null
+let removeColumn = null
+
+addNewColumnButton.addEventListener('click', (e) => {
+  e.preventDefault()
 })
-
-console.log(modalInputs)
 const openModal = (modalId) => {
   const modal = document.getElementById(modalId)
-  document.body.classList.add('active')
+  errorMessage = modal.querySelectorAll('.input-span')
+  modalInputs = Array.from(modal.querySelectorAll('.modal-input'))
+  removeColumn = modal.querySelector('close-btn')
+
   modal.classList.remove('hidden')
   blocker.classList.add('active')
   overlay.classList.remove('hidden')
   overlay.classList.add('flex')
-  modal.style.zIndex = "100"
+  modal.style.zIndex = '100'
 }
-const removeActiveModals = (modalInput) => {
-  if (modalInput.value.trim() === '') {
-    modalInput.classList.add('focus:border-danger-color')
-  } else {
-    modalInput.classList.remove('focus:border-danger-color')
+function addNewBoard(boardName, boardColumns) {
+  // Create a new board object with dynamic columns
+  const newBoard = {
+    id: generateUniqueId(),
+    name: boardName,
+    columns: boardColumns.map((columnName) => ({
+      name: columnName,
+      tasks: [],
+    })),
   }
+
+  console.log(newBoard)
+  console.log(boardData)
+  // Add the new board to your application or perform any necessary actions
+  // For example, you might have an array of boards:
+  boardData.boards.push(newBoard)
+
+  // Update your UI or trigger any necessary updates
+  renderBoard()
 }
 
-modalInputs.forEach((modalInput) => {
-  modalInput.addEventListener('input', () => {
-    removeActiveModals(modalInput)
-    console.log(modalInput)
-  })
+createNewBoard.addEventListener('click', (e) => {
+  e.preventDefault()
+
+  if (!modalInputs.every((modalInput) => modalInput.value !== '')) {
+    modalInputs.forEach((modalInput, index) => {
+      if (modalInput.value === '') {
+        modalInput.classList.add('error')
+        errorMessage[index].classList.remove('hidden')
+      } else {
+        modalInput.classList.remove('error')
+        errorMessage[index].classList.add('hidden')
+      }
+    })
+  } else {
+    const modalValues = modalInputs.map((modalInput) => modalInput.value)
+
+    // Assuming modalValues[0] is the board name and the rest are column names
+    const boardName = modalValues[0]
+    const columnNames = modalValues.slice(1)
+
+    // Call the addNewBoard function with the board name and column names
+    addNewBoard(boardName, columnNames)
+
+    // Reset modalInputs and errorMessage if needed
+    modalInputs = null
+    errorMessage = null
+
+    // Close the modal
+    closeModal('add-board-modal')
+  }
 })
 
 // closeModal function to close modals
 const closeModal = (modalId) => {
   const modal = document.getElementById(modalId)
-  document.body.classList.remove('active')
   modal.classList.add('hidden')
   blocker.classList.remove('active')
   overlay.classList.add('hidden')
@@ -75,13 +109,18 @@ blocker.addEventListener('click', () => {
     modal.classList.add('hidden')
   })
   blocker.classList.add('hidden')
+  overlay.classList.add('hidden')
+  overlay.classList.remove('flex')
 })
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     modals.forEach((modal) => {
       modal.classList.add('hidden')
+      modal.style.zIndex = '0'
     })
-    blocker.classList.add('hidden')
+    blocker.classList.remove('active')
+    overlay.classList.add('hidden')
+    overlay.classList.remove('flex')
   }
 })

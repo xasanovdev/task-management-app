@@ -414,6 +414,9 @@ function renderBoard(boardId) {
 
   // Check if the board is already rendered
   const isBoardRendered = document.getElementById(boardId) !== null
+  
+  //render boardList 
+  boardList.innerHTML = generateKanbanBoardNames(boardData)
 
   if (board && !isBoardRendered) {
     // Render the Kanban board
