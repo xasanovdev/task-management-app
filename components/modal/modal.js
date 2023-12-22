@@ -2,61 +2,109 @@ const blocker = document.querySelector('.blocker')
 const closeModalButtons = document.querySelectorAll('.close-modal')
 const toggleModalButtons = document.querySelectorAll('.toggle-modal-button')
 const modals = document.querySelectorAll('.modal')
-const buttons = document.querySelectorAll('.btn')
 const overlay = document.querySelector('.overlay')
-const addNewColumnButton = document.querySelector('.addNewColumnButton')
 const createNewBoard = document.querySelector('.createNewBoard')
-const inputsWrapper = document.querySelector('.inputs-wrapper')
+
+const columnInputsWrapper = document.querySelector('.column-inputs-wrapper')
+const taskInputsWrapper = document.querySelector('.task-inputs-wrapper')
+
+const addNewColumnButton = document.querySelector('.addNewColumnButton')
+const addNewTaskButton = document.querySelector('.addNewTaskButton')
 
 let modalInputs = null
 let errorMessage = null
 
 addNewColumnButton.addEventListener('click', (e) => {
   e.preventDefault()
-  addNewColumnToInputs() // Add an initial empty column input
+  addNewToInputs(columnInputsWrapper) // Add an initial empty column input
 })
 
-// Event delegation to handle close-btn clicks
-inputsWrapper.addEventListener('click', (e) => {
-  if (e.target.classList.contains('close-btn')) {
-    e.preventDefault()
-    const columnWrapper = e.target.closest('.relative')
+addNewTaskButton.addEventListener('click', (e) => {
+  e.preventDefault()
+  addNewToInputs(taskInputsWrapper) // Add an initial empty task input
+})
+function deleteInput(button) {
+  const inputWrapper = button.closest('.relative')
+  const inputType = inputWrapper.classList.contains('column-input')
+    ? 'column'
+    : 'task'
 
-    // Ensure there is at least one column remaining
-    if (inputsWrapper.childElementCount > 3) {
-      columnWrapper.remove()
-    }
+  // Your logic for deleting the input based on the type (column or task)
+  if (inputType === 'column') {
+    // Delete column logic
+    deleteColumn(inputWrapper)
+  } else {
+    // Delete task logic
+    deleteTask(inputWrapper)
   }
-})
 
-function addNewColumnToInputs() {
-  const columnInputHtml = generateColumnInput('')
-  inputsWrapper.insertAdjacentHTML('beforeend', columnInputHtml)
-
-  // Clear modalInputs array
-  modalInputs = []
-  errorMessage = []
-
-  errorMessage = inputsWrapper.querySelector('.input-span')
-
-  // Collect values from all input elements
-  const inputElements = inputsWrapper.querySelectorAll('.modal-input')
-  inputElements.forEach((input) => {
-    modalInputs.push(input.value)
-  })
-
+  // Optionally, update the board when an input is deleted
   renderBoard()
-  console.log(modalInputs)
 }
 
-function generateColumnInput(columnInput) {
+function deleteInput(inputElement) {
+  const inputWrapper = inputElement.parentElement
+  // Check if inputWrapper has children before accessing them
+  if (inputWrapper.children.length > 1) {
+    inputElement.remove()
+    modalInputs = []
+    errorMessage = []
+
+    // Re-collect values from all remaining input elements
+    const remainingInputs = inputWrapper.querySelectorAll('.modal-input')
+    remainingInputs.forEach((input) => {
+      modalInputs.push(input.value)
+    })
+
+    renderBoard()
+    console.log(modalInputs)
+  } else {
+    console.error('Cannot delete the last input element.')
+  }
+}
+
+
+function addNewToInputs(inputWrapper) {
+  if (inputWrapper) {
+    const columnInputHtml = generateInput('')
+    inputWrapper.insertAdjacentHTML('beforeend', columnInputHtml)
+
+    // Find the last added input element
+    const newInput = inputWrapper.lastElementChild
+
+    // Attach event listener to the delete button
+    const deleteButton = newInput.querySelector('.close-btn')
+    deleteButton.addEventListener('click', () => {
+      deleteInput(newInput)
+    })
+
+    // Clear modalInputs array
+    modalInputs = []
+    errorMessage = []
+
+    errorMessage = newInput.querySelector('.input-span')
+
+    // Collect values from all input elements
+    const inputElements = newInput.querySelectorAll('.modal-input')
+    inputElements.forEach((input) => {
+      modalInputs.push(input.value)
+    })
+
+    renderBoard()
+    console.log(modalInputs)
+  } else {
+    console.error('Input wrapper is null or undefined.')
+  }
+}
+
+function generateInput(input) {
   return `
     <div class="relative flex gap-4 w-full">
       <input
         class="modal-input block bg-transparent w-full px-4 py-2 rounded text-color outline-none cursor-pointer font-medium text-[13px] leading-[23px] border border-input-color focus:border-primary-color active:transition duration-200 active:ease-in"
         type="text"
         placeholder="e.g. Take coffee break"
-        value="${columnInput}"
+        value="${input}"
       />
       <button
         type="button"
@@ -72,10 +120,10 @@ function generateColumnInput(columnInput) {
 }
 
 function openModal(modalId) {
+  console.log(modalId)
   const modal = document.getElementById(modalId)
   modalInputs = Array.from(modal.querySelectorAll('.modal-input'))
   errorMessage = Array.from(modal.querySelectorAll('.input-span'))
-  removeColumn = modal.querySelector('.close-btn') // Add the dot here
 
   modal.classList.remove('hidden')
   blocker.classList.add('active')
@@ -83,10 +131,11 @@ function openModal(modalId) {
   overlay.classList.add('flex')
   modal.style.zIndex = '100'
 }
+
 function addNewBoard(boardName, boardColumns) {
   // Create a new board object with dynamic columns
   const newBoard = {
-    id: generateUniqueId(),
+    id: generateUniqueId(), // Make sure to implement this function
     name: boardName,
     columns: boardColumns.map((columnName) => ({
       name: columnName,
@@ -108,8 +157,8 @@ createNewBoard.addEventListener('click', (e) => {
   e.preventDefault()
 
   // Update modalInputs with the latest values
-  modalInputs = Array.from(inputsWrapper.querySelectorAll('.modal-input'))
-  errorMessage = Array.from(inputsWrapper.querySelectorAll('.input-span'))
+  modalInputs = Array.from(columnInputsWrapper.querySelectorAll('.modal-input'))
+  errorMessage = Array.from(columnInputsWrapper.querySelectorAll('.input-span'))
   let hasError = false // Flag to track if there is any error
 
   // Validate boardName (assuming it is the first input element)
@@ -156,10 +205,6 @@ createNewBoard.addEventListener('click', (e) => {
   }
 })
 
-
-
-
-// closeModal function to close modals
 // closeModal function to close modals
 const closeModal = (modalId) => {
   const modal = document.getElementById(modalId)
