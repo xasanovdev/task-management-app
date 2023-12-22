@@ -1,13 +1,7 @@
-
-
-import { v4 as uuidv4 } from 'uuid'
-
-const key = uuidv4()
-console.log(key);
-
 const boardData = {
   boards: [
     {
+      id: '1',
       name: 'Platform Launch',
       columns: [
         {
@@ -242,6 +236,7 @@ const boardData = {
       ],
     },
     {
+      id: '2',
       name: 'Marketing Plan',
       columns: [
         {
@@ -291,6 +286,7 @@ const boardData = {
       ],
     },
     {
+      id: '3',
       name: 'Roadmap',
       columns: [
         {
@@ -347,7 +343,6 @@ function generateUniqueId() {
   // For simplicity, I'm using a basic timestamp-based approach here
   return Date.now().toString(36)
 }
-console.log(generateUniqueId())
 // Function to generate HTML for a task card
 function generateTaskCard(task) {
   return `
