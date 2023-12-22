@@ -4,6 +4,7 @@ const toggleModalButtons = document.querySelectorAll('.toggle-modal-button')
 const modals = document.querySelectorAll('.modal')
 const overlay = document.querySelector('.overlay')
 const createNewBoard = document.querySelector('.createNewBoard')
+const createNewTask = document.querySelector('.createNewTask')
 
 const columnInputsWrapper = document.querySelector('.column-inputs-wrapper')
 const taskInputsWrapper = document.querySelector('.task-inputs-wrapper')
@@ -12,6 +13,7 @@ const addNewColumnButton = document.querySelector('.addNewColumnButton')
 const addNewTaskButton = document.querySelector('.addNewTaskButton')
 
 let modalInputs = null
+let dropdownOptions = null
 let errorMessage = null
 
 addNewColumnButton.addEventListener('click', (e) => {
@@ -62,7 +64,6 @@ function deleteInput(inputElement) {
     console.error('Cannot delete the last input element.')
   }
 }
-
 
 function addNewToInputs(inputWrapper) {
   if (inputWrapper) {
@@ -119,17 +120,59 @@ function generateInput(input) {
   `
 }
 
-function openModal(modalId) {
-  console.log(modalId)
+function openModal(modalId, selectedBoard) {
   const modal = document.getElementById(modalId)
   modalInputs = Array.from(modal.querySelectorAll('.modal-input'))
   errorMessage = Array.from(modal.querySelectorAll('.input-span'))
+
+  // Extract unique status values from the selected board in the boardData object
+  const statusValues = extractStatusValues(boardData, selectedBoard)
+
+  console.log(selectedBoard)
+  // Populate dropdown options dynamically using the generateStatusToDropdown function
+  dropdownOptions = generateDropdownOptions(statusValues)
+
+  console.log();
+  // Update the HTML content of the dropdown
+  const dropdownElement = document.querySelector('.dropdown-options')
+  dropdownElement.innerHTML = dropdownOptions.join('')
 
   modal.classList.remove('hidden')
   blocker.classList.add('active')
   overlay.classList.remove('hidden')
   overlay.classList.add('flex')
   modal.style.zIndex = '100'
+}
+
+// Function to extract unique status values from the selected board columns in the boardData object
+function extractStatusValues(boardData, selectedBoard) {
+  const uniqueStatusValues = new Set()
+
+  const board = boardData.boards.find((board) => board.id === selectedBoard)
+  console.log(board)
+  if (board) {
+    board.columns.forEach((column) => {
+      uniqueStatusValues.add(column.name) // Add column name to the set
+    })
+  }
+
+  return Array.from(uniqueStatusValues)
+}
+
+// Function to generate dropdown options based on status values
+function generateDropdownOptions(statusValues) {
+  return statusValues.map(
+    (status) => `
+    <li
+      class="dropdown-option cursor-pointer p-3 hover:bg-content-color duration-200"
+    >
+      <span
+        class="option-text font-medium text-[13px] leading-[23px] text-[#828FA3]"
+        >${status}</span
+      >
+    </li>
+  `,
+  )
 }
 
 function addNewBoard(boardName, boardColumns) {
@@ -222,7 +265,7 @@ const closeModal = (modalId) => {
 toggleModalButtons.forEach((button) => {
   button.addEventListener('click', (e) => {
     const modalId = button.getAttribute('modal-id')
-    openModal(modalId)
+    openModal(modalId, boardData.selectedBoard)
   })
 })
 
@@ -253,3 +296,77 @@ document.addEventListener('keydown', (e) => {
     overlay.classList.remove('flex')
   }
 })
+
+let hasError = false
+
+createNewTask.addEventListener('click', (e) => {
+  e.preventDefault()
+
+  modalInputs = Array.from(taskInputsWrapper.querySelectorAll('.modal-input'))
+  errorMessage = Array.from(taskInputsWrapper.querySelectorAll('.input-span'))
+
+  let hasError = false // Declare hasError within the function scope
+
+  const taskNameInput = modalInputs[0]
+  const taskNameErrorMessage = errorMessage[0]
+
+  if (taskNameInput.value === '') {
+    taskNameInput.classList.add('error')
+    taskNameErrorMessage.classList.remove('hidden')
+    hasError = true
+  } else {
+    taskNameInput.classList.remove('error')
+    taskNameErrorMessage.classList.add('hidden')
+  }
+
+  const taskDescriptionInput = modalInputs[1]
+  const taskSubtasksInput = modalInputs.slice(2)
+
+  if (!hasError) {
+    // Use the selected status from the dropdown
+    const selectedStatus = sBtnText.innerText
+
+    addNewTask(
+      taskNameInput.value,
+      taskDescriptionInput.value,
+      taskSubtasksInput.map((input) => input.value),
+      selectedStatus,
+    )
+
+    modalInputs = errorMessage = null
+
+    closeModal('add-task-modal')
+  }
+})
+function addNewTask(taskName, taskDescription, taskSubtasks, status) {
+  const selectedBoard = boardData.boards.find(
+    (board) => board.id === boardData.selectedBoard,
+  )
+
+  if (selectedBoard) {
+    const selectedColumn = selectedBoard.columns[boardData.selectedColumn]
+
+    if (selectedColumn) {
+      const newTask = {
+        id: generateUniqueId(),
+        title: taskName,
+        description: taskDescription,
+        status: status, // Use the selected status here
+        subtasks: taskSubtasks.map((subtask) => ({
+          title: subtask,
+          isCompleted: false,
+        })),
+      }
+
+      console.log(newTask)
+      selectedColumn.tasks.push(newTask)
+
+      // Update the UI immediately after adding the task
+      renderBoard(boardData.selectedBoard)
+    } else {
+      console.error('Selected column not found.')
+    }
+  } else {
+    console.error('Selected board not found.')
+  }
+}
