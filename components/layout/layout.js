@@ -1,6 +1,6 @@
-const playGround = document.querySelector("#playGround")
-const addColumnBtn = document.querySelector("#addColumn")
-const columns = document.querySelectorAll(".column")
+const playGround = document.querySelector('#playGround')
+const addColumnBtn = document.querySelector('#addColumn')
+const columns = document.querySelectorAll('.column')
 
 if (columns.length === 0) {
   const div = document.createElement('div')

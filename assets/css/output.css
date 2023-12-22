@@ -662,11 +662,6 @@ video {
   margin: auto;
 }
 
-.mx-2 {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-}
-
 .mx-20 {
   margin-left: 5rem;
   margin-right: 5rem;
@@ -799,8 +794,8 @@ video {
   width: 100%;
 }
 
-.w-screen {
-  width: 100vw;
+.w-\[280px\] {
+  width: 280px;
 }
 
 .min-w-\[240px\] {
@@ -813,6 +808,14 @@ video {
 
 .min-w-full {
   min-width: 100%;
+}
+
+.min-w-\[280px\] {
+  min-width: 280px;
+}
+
+.max-w-\[280px\] {
+  max-width: 280px;
 }
 
 .max-w-\[480px\] {
@@ -894,10 +897,6 @@ video {
   gap: 1.5rem;
 }
 
-.gap-8 {
-  gap: 2rem;
-}
-
 .overflow-y-auto {
   overflow-y: auto;
 }
@@ -966,11 +965,6 @@ video {
 
 .border-transparent {
   border-color: transparent;
-}
-
-.bg-\[\#635FC7\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(99 95 199 / var(--tw-bg-opacity));
 }
 
 .bg-\[\#635fc71a\] {
@@ -1374,7 +1368,7 @@ body.active {
   --text-color: #000112;
   --lines-color: #e4ebfa;
   --gray-color: #828fa3;
-  --btn-light-color:rgba(99, 95, 199, 0.1);
+  --btn-light-color: rgba(99, 95, 199, 0.1);
 }
 
 .theme-dark {
@@ -1383,7 +1377,7 @@ body.active {
   --text-color: #fff;
   --lines-color: #3e3f4e;
   --gray-color: #fff;
-  --btn-light-color:rgba(255, 255, 255, 1);
+  --btn-light-color: rgba(255, 255, 255, 1);
 }
 
 :root {
@@ -1393,7 +1387,7 @@ body.active {
   --danger-color: #ea5555;
   --input-border: rgba(130, 143, 163, 0.25);
   --danger-light-color: #ff9898;
-  --btn-hover-color:rgba(99, 95, 199, 0.25);
+  --btn-hover-color: rgba(99, 95, 199, 0.25);
 }
 
 /* Apply Tailwind styles based on the theme class */
@@ -1404,7 +1398,7 @@ body.active {
   --text-color: #000112;
   --lines-color: #e4ebfa;
   --gray-color: #828fa3;
-  --btn-light-color:rgba(99, 95, 199, 0.1);
+  --btn-light-color: rgba(99, 95, 199, 0.1);
 }
 
 [data-theme='dark'] {
@@ -1413,7 +1407,7 @@ body.active {
   --text-color: #fff;
   --lines-color: #3e3f4e;
   --gray-color: #fff;
-  --btn-light-color:rgba(255, 255, 255, 1);
+  --btn-light-color: rgba(255, 255, 255, 1);
 }
 
 .checked\:bg-primary-color:checked {
@@ -1598,11 +1592,6 @@ body.active {
 
   .md\:border-r-2 {
     border-right-width: 2px;
-  }
-
-  .md\:px-5 {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
   }
 
   .md\:py-4 {
