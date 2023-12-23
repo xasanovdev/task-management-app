@@ -277,7 +277,8 @@ toggleModalButtons.forEach((button) => {
 closeModalButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const modalId = button.parentElement.parentElement.id
-    closeModal(modalId)
+    closeModal(modalI
+
   })
 })
 
