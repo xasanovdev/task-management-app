@@ -337,8 +337,39 @@ const boardData = {
   selectedColumn: 0,
   selectedTask: 0,
 }
-const boardList = document.getElementById('boardList')
-const playGround = document.getElementById('playGround')
+function renderBoard(boardId) {
+  const board = boardData.boards.find((board) => board.id === boardId)
+
+  if (!board) {
+    console.error(`Board with id ${boardId} not found.`)
+    return // Exit the function if the board is not found
+  }
+
+  const isBoardRendered = document.getElementById(boardId) !== null
+
+  // Update the board list (assuming boardList is a valid reference)
+  boardList.innerHTML = generateKanbanBoardNames(boardData)
+
+  // Render the selected board only if it's not already rendered
+  if (!isBoardRendered) {
+    // Assuming playGround is a valid reference
+    playGround.innerHTML = generateKanbanBoard(board)
+
+    // Update the selected board in boardData
+    boardData.selectedBoard = board.id
+
+    // Highlight the active link in the board list
+    const boardLinks = document.querySelectorAll('.board__link')
+    boardLinks.forEach((link) => {
+      link.classList.remove('active')
+      if (link.getAttribute('data-board-id') === boardId) {
+        link.classList.add('active')
+      }
+    })
+  }
+
+  console.log(boardData.selectedBoard)
+}
 
 let isDragging = false
 let startPosition = { x: 0, y: 0 }
@@ -398,26 +429,58 @@ function generateTaskCard(task) {
   `
 }
 
-// Function to open the task modal
 function openTaskModal(taskId) {
   // Find the task with the given ID from boardData
   const task = findTaskById(taskId)
+  selectedBoard = boardData.selectedBoard
 
-  console.log(task)
+  const statusValues = extractStatusValues(boardData, selectedBoard)
+  const dropdownOptions = statusValues.map(generateStatusToDropdown).join('')
+
+  // Update the HTML content of the dropdown
+  const dropdownElement = document?.querySelector('.dropdown-options')
+
+  if (dropdownElement) {
+    dropdownElement.innerHTML = dropdownOptions
+  }
+
+  // Ensure sBtnText is properly defined here (modify as needed)
+  const sBtnText = document.querySelector('.dBtn-text')
+
   // Open the modal with the task data
   if (task) {
     // Generate the modal HTML
-    const modalHtml = generateTaskModal(task)
+    const modalHtml = generateTaskModal(task, dropdownElement, statusValues)
 
     // Open the modal with the generated HTML
     openModal('open-task-modal', boardData.selectedBoard)
+
     // Update the HTML content of the task modal
     const taskModal = document.getElementById('open-task-modal')
     taskModal.innerHTML = modalHtml
+
+    // Setup the dropdown for the task modal
+    setupDropdown(taskModal.querySelector('.dropdown-menu'), task)
   }
 }
 
-function generateTaskModal(task) {
+function generateTaskModal(task, dropdownElement, statusValues) {
+  // ... (existing code)
+
+  // Get the dropdown options
+  const dropdownOptions = statusValues.map(generateStatusToDropdown).join('')
+
+  // Set up the dropdown for the task modal
+  const dropdownMenu = dropdownElement.querySelector('.dropdown-menu')
+  if (dropdownMenu) {
+    dropdownMenu.innerHTML = dropdownOptions
+    setupDropdown(dropdownMenu, task)
+  }
+
+  // ... (existing code)
+}
+
+function generateTaskModal(task, dropdownElement, statusValues) {
   // Extract task details
   const taskName = task.title
   const taskDescription = task.description || 'No description available'
@@ -461,11 +524,22 @@ function generateTaskModal(task) {
   const subtasksHtml = subtasksWithIds
     .map((subtask) => generateSubtaskItem(subtask))
     .join('')
-
   // Modal HTML
   const modalHtml = `
       <div class="h-full">
-        <i class="icon-close close-modal absolute top-6 right-6 sm:top-8 sm:right-8 cursor-pointer text-color hover:text-danger-color duration-150 active:text-danger-light-color"></i>
+        <div class="edit-delete-modal absolute right-28 top-[60px] group-focus:block">
+          <div
+            class="bg-page-color dark:bg-very-dark-grey rounded-lg text-sm w-36 flex flex-col fixed z-10"
+          >
+            <p class="text-color text-xs font-bold w-full p-4">
+              Edit Board
+            </p>
+            <p class="text-danger-color text-xs font-bold w-full p-4">
+              Delete Board
+            </p>
+          </div>
+        </div>      
+        <i class="icon-menu absolute top-6 right-6 sm:top-8 sm:right-8 cursor-pointer text-color hover:text-danger-color duration-150 active:text-danger-light-color"></i>
         <div>
           <h3 class="text-color text-[18px] font-bold">${taskName}</h3>
         </div>
@@ -475,14 +549,83 @@ function generateTaskModal(task) {
           <div class="subtasks mt-6 flex flex-col bg-page-color">
             ${subtasksHtml}
           </div>
+
           <div class="dropdown">
-            <!-- Dropdown code here -->
-          </div>
+            <div class="dropdown-menu relative w-full">
+              <div
+                class="dropdown-btn status min-w-full w-full justify-between flex items-center px-4 py-2 rounded border focus:outline-none active:border-[#635FC7] group"
+              >
+                <span
+                  class="dBtn-text m-0 text-gray-color cursor-pointer transition duration-400 ease-in-out text-[13px] leading-6"
+                  >${task.status}</span
+                >
+                <span class="dropdown-sign">
+                  <svg
+                    class="ml-10"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="11"
+                    height="8"
+                    viewBox="0 0 11 8"
+                    fill="none"
+                  >
+                    <path
+                      d="M0.79834 1.54858L5.49682 6.24707L10.1953 1.54858"
+                      stroke="#635FC7"
+                      stroke-width="2"
+                    />
+                  </svg>
+                </span>
+              </div>
+              ${dropdownElement ? dropdownElement.outerHTML : ''}
+            </div>
         </div>
       </div>
   `
+  // Get the dropdown options
+  const dropdownOptions = statusValues.map(generateStatusToDropdown).join('')
+
+  // Set up the dropdown for the task modal
+  const dropdownMenu = dropdownElement.querySelector('.dropdown-menu')
+  if (dropdownMenu) {
+    dropdownMenu.innerHTML = dropdownOptions
+    setupDropdown(dropdownMenu, task)
+  }
 
   return modalHtml
+}
+
+function updateTaskStatus(task, newStatus) {
+  // Update the task status in boardData
+  const board = boardData.boards.find((board) =>
+    board.columns
+      .flatMap((column) => column.tasks)
+      .some((t) => t.subtasks[0].id === task.subtasks[0].id),
+  )
+
+  if (board) {
+    const column = board.columns.find((column) =>
+      column.tasks.some((t) => t.subtasks[0].id === task.subtasks[0].id),
+    )
+
+    if (column) {
+      const taskToUpdate = column.tasks.find(
+        (t) => t.subtasks[0].id === task.subtasks[0].id,
+      )
+
+      if (taskToUpdate) {
+        console.log(
+          `Updating task status from ${taskToUpdate.status} to ${newStatus}`,
+        )
+        taskToUpdate.status = newStatus
+      }
+    }
+  }
+
+  // Log the current state of the boardData for debugging
+  console.log('Updated boardData:', boardData)
+
+  // Render the updated board
+  renderBoard(boardData.selectedBoard)
 }
 
 function toggleSubtaskCompleted(subtaskId) {
@@ -521,6 +664,9 @@ function toggleSubtaskCompleted(subtaskId) {
 
           boardData.boards[boardIndex].columns[columnIndex].tasks[taskIndex] =
             taskContainingSubtask
+
+          // Update the UI
+          updateSubtaskUI(subtask)
         }
       }
     }
@@ -572,7 +718,7 @@ function findBoardContainingColumn(column) {
 // Update the updateSubtaskUI function
 function updateSubtaskUI(subtask) {
   const checkbox = document.getElementById(subtask.id)
-
+  console.log(subtask)
   // Update the checkbox state
   if (checkbox) {
     checkbox.checked = subtask.isCompleted
@@ -594,19 +740,6 @@ function findSubtaskById(subtaskId) {
     .find((subtask) => subtask.id === subtaskId)
 
   return foundSubtask
-}
-
-// Add a function to update the UI based on the subtask state
-function updateSubtaskUI(subtask) {
-  console.log(subtask) // log free
-  const checkbox = document.getElementById(`${subtask.id}`) // log undefined
-
-  // Update the checkbox state
-  if (checkbox) {
-    checkbox.checked = subtask.isCompleted
-  }
-
-  // You can add additional UI updates here as needed
 }
 
 function findTaskById(taskId) {
@@ -652,6 +785,56 @@ function generateSubtaskItem(subtask) {
   `
 }
 
+function generateStatusDropdown(task) {
+  const columnNames = boardData.boards[boardData.selectedBoard].columns.map(
+    (column) => column.name,
+  )
+  console.log()
+  const statusOptionsHtml = columnNames
+    .map((status) => {
+      const isActive = task.status === status ? 'active' : ''
+      return `
+        <li class="dropdown-option cursor-pointer p-3 hover:bg-content-color duration-200 ${isActive}">
+          <span class="option-text font-medium text-[13px] leading-[23px] text-[#828FA3]">
+            ${status}
+          </span>
+        </li>
+      `
+    })
+    .join('')
+
+  return `
+    <div class="dropdown">
+      <div class="dropdown-menu relative w-full">
+        <div class="dropdown-btn status min-w-full w-full justify-between flex items-center px-4 py-2 rounded border focus:outline-none active:border-[#635FC7] group">
+          <span class="dBtn-text m-0 text-gray-color cursor-pointer transition duration-400 ease-in-out text-[13px] leading-6">
+            ${task.status}
+          </span>
+          <span class="dropdown-sign">
+            <svg
+              class="ml-10"
+              xmlns="http://www.w3.org/2000/svg"
+              width="11"
+              height="8"
+              viewBox="0 0 11 8"
+              fill="none"
+            >
+              <path
+                d="M0.79834 1.54858L5.49682 6.24707L10.1953 1.54858"
+                stroke="#635FC7"
+                stroke-width="2"
+              />
+            </svg>
+          </span>
+        </div>
+        <ul class="dropdown-options active w-full hidden mt-2 rounded bg-page-color">
+          ${statusOptionsHtml}
+        </ul>
+      </div>
+    </div>
+  `
+}
+
 function generateColumn(column) {
   const tasksHtml = column.tasks.map((task) => generateTaskCard(task)).join('')
   return `
@@ -690,37 +873,20 @@ function generateKanbanBoardNames(boardData) {
 }
 
 function generateKanbanBoard(board) {
+  if (!board || !board.columns) {
+    console.error('Invalid board data:', board)
+    return '' // Return an empty string or handle the error appropriately
+  }
+
   const columnsHtml = board.columns
     .map((column) => generateColumn(column))
     .join('')
+
   return `
     <ul id="${board.id}" class="kanban-board flex items-center overflow-y-auto p-6 gap-6 h-full" role="list">
       ${columnsHtml}
     </ul>
   `
-}
-
-function renderBoard(boardId) {
-  const board = boardData.boards.find((board) => board.id === boardId)
-  console.log(boardId)
-  const isBoardRendered = document.getElementById(boardId) !== null
-  boardList.innerHTML = generateKanbanBoardNames(boardData)
-
-  if (board && !isBoardRendered) {
-    playGround.innerHTML = generateKanbanBoard(board)
-
-    boardData.selectedBoard = board.id
-
-    const boardLinks = document.querySelectorAll('.board__link')
-    boardLinks.forEach((link) => {
-      link.classList.remove('active')
-      if (link.getAttribute('data-board-id') === boardId) {
-        link.classList.add('active')
-      }
-    })
-  }
-
-  console.log(boardData.selectedBoard)
 }
 
 boardList.addEventListener('click', (event) => {

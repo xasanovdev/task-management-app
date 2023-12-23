@@ -16,6 +16,30 @@ let modalInputs = null
 let dropdownOptions = null
 let errorMessage = null
 
+// Function to find the column containing a task
+function findColumnContainingTask(task) {
+  for (const board of boardData.boards) {
+    for (const column of board.columns) {
+      if (column.tasks.includes(task)) {
+        return column
+      }
+    }
+  }
+  return null
+}
+
+// Function to find the board containing a task
+function findBoardContainingTask(task) {
+  for (const board of boardData.boards) {
+    for (const column of board.columns) {
+      if (column.tasks.includes(task)) {
+        return board
+      }
+    }
+  }
+  return null
+}
+
 addNewColumnButton.addEventListener('click', (e) => {
   e.preventDefault()
   addNewToInputs(columnInputsWrapper) // Add an initial empty column input
@@ -91,7 +115,7 @@ function addNewToInputs(inputWrapper) {
       modalInputs.push(input.value)
     })
 
-    renderBoard()
+    renderBoard(boardData.selectedBoard)
     console.log(modalInputs)
   } else {
     console.error('Input wrapper is null or undefined.')
@@ -198,6 +222,7 @@ function addNewBoard(boardName, boardColumns) {
   boardData.boards.push(newBoard)
 
   // Update your UI or trigger any necessary updates
+  closeModal('add-new-board')
   renderBoard()
 }
 
@@ -256,11 +281,13 @@ createNewBoard.addEventListener('click', (e) => {
 // closeModal function to close modals
 const closeModal = (modalId) => {
   const modal = document.getElementById(modalId)
-  modal.classList.add('hidden')
-  blocker.classList.remove('active')
-  overlay.classList.add('hidden')
-  modal.style.zIndex = '0'
-  overlay.classList.remove('flex')
+  if (modal) {
+    modal.classList.add('hidden')
+    blocker.classList.remove('active')
+    overlay.classList.add('hidden')
+    modal.style.zIndex = '0'
+    overlay.classList.remove('flex')
+  }
 
   // Reset modalInputs and errorMessage
   modalInputs = null
@@ -277,8 +304,7 @@ toggleModalButtons.forEach((button) => {
 closeModalButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const modalId = button.parentElement.parentElement.id
-    closeModal(modalI
-
+    closeModal(modalId)
   })
 })
 
@@ -308,11 +334,16 @@ let hasError = false
 createNewTask.addEventListener('click', (e) => {
   e.preventDefault()
 
-  modalInputs = Array.from(taskInputsWrapper.querySelectorAll('.modal-input'))
-  errorMessage = Array.from(taskInputsWrapper.querySelectorAll('.input-span'))
+  const modalInputs = Array.from(
+    taskInputsWrapper.querySelectorAll('.modal-input'),
+  )
+  const errorMessage = Array.from(
+    taskInputsWrapper.querySelectorAll('.input-span'),
+  )
 
-  let hasError = false // Declare hasError within the function scope
+  let hasError = false
 
+  // Validate task name input
   const taskNameInput = modalInputs[0]
   const taskNameErrorMessage = errorMessage[0]
 
@@ -325,54 +356,73 @@ createNewTask.addEventListener('click', (e) => {
     taskNameErrorMessage.classList.add('hidden')
   }
 
-  const taskDescriptionInput = modalInputs[1]
-  const taskSubtasksInput = modalInputs.slice(2)
+  // Validate other inputs if needed
+
+  // Capture the selected status from dropdown options with class '.dBtn-text'
+  const dropdownOptions = Array.from(document.querySelectorAll('.dBtn-text'))
+
+  // Check which option has the 'active' class
+  const selectedStatus = dropdownOptions.find((option) =>
+    option.classList.contains('active'),
+  )
 
   if (!hasError) {
     // Use the selected status from the dropdown
-    const selectedStatus = sBtnText.innerText
+    const selectedStatusText = selectedStatus ? selectedStatus.innerText : null
 
+    // Call your addNewTask function with the collected data
     addNewTask(
       taskNameInput.value,
-      taskDescriptionInput.value,
-      taskSubtasksInput.map((input) => input.value),
-      selectedStatus,
+      modalInputs[1].value, // Assuming the second input is the task description
+      modalInputs.slice(2).map((input) => input.value), // Assuming the rest are subtasks
+      selectedStatusText,
     )
 
-    modalInputs = errorMessage = null
+    // Clear modalInputs and errorMessage arrays
+    modalInputs.forEach((input) => (input.value = ''))
+    errorMessage.forEach((errorSpan) => errorSpan.classList.add('hidden'))
 
     closeModal('add-task-modal')
   }
 })
+
 function addNewTask(taskName, taskDescription, taskSubtasks, status) {
   const selectedBoard = boardData.boards.find(
     (board) => board.id === boardData.selectedBoard,
   )
 
   if (selectedBoard) {
-    const selectedColumn = selectedBoard.columns[boardData.selectedColumn]
+    const selectedColumnIndex = boardData.selectedColumn
 
-    if (selectedColumn) {
-      const newTask = {
-        id: generateUniqueId(),
-        title: taskName,
-        description: taskDescription,
-        status: status, // Use the selected status here
-        subtasks: taskSubtasks.map((subtask) => ({
-          title: subtask,
-          isCompleted: false,
-        })),
+    if (
+      selectedColumnIndex >= 0 &&
+      selectedColumnIndex < selectedBoard.columns.length
+    ) {
+      const selectedColumn = selectedBoard.columns[selectedColumnIndex]
+
+      if (selectedColumn) {
+        const newTask = {
+          id: generateUniqueId(),
+          title: taskName,
+          description: taskDescription,
+          status: status,
+          subtasks: taskSubtasks.map((subtask) => ({
+            title: subtask,
+            isCompleted: false,
+          })),
+        }
+
+        selectedColumn.tasks.push(newTask)
+
+        // Render the updated board after adding the task
+        renderBoard(boardData.selectedBoard)
+      } else {
+        console.error('Selected column not found.', selectedColumnIndex)
       }
-
-      console.log(newTask)
-      selectedColumn.tasks.push(newTask)
-
-      // Update the UI immediately after adding the task
-      renderBoard(boardData.selectedBoard)
     } else {
-      console.error('Selected column not found.')
+      console.error('Invalid selected column index.', selectedColumnIndex)
     }
   } else {
-    console.error('Selected board not found.')
+    console.error('Selected board not found.', boardData.selectedBoard)
   }
 }
