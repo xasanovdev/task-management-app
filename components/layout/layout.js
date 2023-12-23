@@ -385,11 +385,269 @@ function generateStatusToDropdown(status) {
 }
 function generateTaskCard(task) {
   return `
-    <div class="card duration-200 shadow-lg bg-content-color w-[280px] py-6 px-4 rounded-lg font-bold hover:shadow-md hover:cursor-pointer subpixel-antialiased">
+    <div
+      modal-id="${task.id}"
+      class="card duration-200 shadow-lg bg-content-color w-[280px] py-6 px-4 rounded-lg font-bold hover:shadow-md hover:cursor-pointer subpixel-antialiased"
+      onclick="openTaskModal('${task.id}')"
+    >
       <p class="card__title text-color capitalize">${task.title}</p>
       <p class="card__status text-slate-500">${
         task.subtasks.filter((subtask) => !subtask.isCompleted).length
       } of ${task.subtasks.length} substasks</p>
+    </div>
+  `
+}
+
+// Function to open the task modal
+function openTaskModal(taskId) {
+  // Find the task with the given ID from boardData
+  const task = findTaskById(taskId)
+
+  console.log(task)
+  // Open the modal with the task data
+  if (task) {
+    // Generate the modal HTML
+    const modalHtml = generateTaskModal(task)
+
+    // Open the modal with the generated HTML
+    openModal('open-task-modal', boardData.selectedBoard)
+    // Update the HTML content of the task modal
+    const taskModal = document.getElementById('open-task-modal')
+    taskModal.innerHTML = modalHtml
+  }
+}
+
+function generateTaskModal(task) {
+  // Extract task details
+  const taskName = task.title
+  const taskDescription = task.description || 'No description available'
+  const subtasksCount = task.subtasks.length
+  const completedSubtasksCount = task.subtasks.filter(
+    (subtask) => subtask.isCompleted,
+  ).length
+
+  // Generate unique IDs for subtasks and update boardData
+  const subtasksWithIds = task.subtasks.map((subtask) => {
+    const uniqueSubtaskId = generateUniqueIdFromTitle(subtask.title)
+    subtask.id = uniqueSubtaskId // Update subtask ID in boardData
+    return subtask
+  })
+
+  // Update boardData with modified subtasks
+  const board = boardData.boards.find((board) =>
+    board.columns
+      .flatMap((column) => column.tasks)
+      .flatMap((t) => t.subtasks)
+      .some((s) => s.id === task.subtasks[0].id),
+  )
+
+  if (board) {
+    const column = board.columns.find((column) =>
+      column.tasks.some((t) => t.subtasks[0].id === task.subtasks[0].id),
+    )
+
+    if (column) {
+      const taskToUpdate = column.tasks.find(
+        (t) => t.subtasks[0].id === task.subtasks[0].id,
+      )
+
+      if (taskToUpdate) {
+        taskToUpdate.subtasks = subtasksWithIds
+      }
+    }
+  }
+
+  // Generate subtasks HTML
+  const subtasksHtml = subtasksWithIds
+    .map((subtask) => generateSubtaskItem(subtask))
+    .join('')
+
+  // Modal HTML
+  const modalHtml = `
+      <div class="h-full">
+        <i class="icon-close close-modal absolute top-6 right-6 sm:top-8 sm:right-8 cursor-pointer text-color hover:text-danger-color duration-150 active:text-danger-light-color"></i>
+        <div>
+          <h3 class="text-color text-[18px] font-bold">${taskName}</h3>
+        </div>
+        <div class="mt-6 text-[#828FA3] font-bold tracking-wide text-[13px]">${taskDescription}</div>
+        <div class="relative form-label flex flex-col gap-2 text-gray-color font-plus-jakarta-sans font-bold text-[12px] leading-5">
+          <h3>Subtasks (${completedSubtasksCount} of ${subtasksCount})</h3>
+          <div class="subtasks mt-6 flex flex-col bg-page-color">
+            ${subtasksHtml}
+          </div>
+          <div class="dropdown">
+            <!-- Dropdown code here -->
+          </div>
+        </div>
+      </div>
+  `
+
+  return modalHtml
+}
+
+function toggleSubtaskCompleted(subtaskId) {
+  // Find the corresponding subtask in the data structure
+  const subtask = findSubtaskById(subtaskId)
+
+  // Toggle the isCompleted property
+  if (subtask) {
+    subtask.isCompleted = !subtask.isCompleted
+
+    // Find the task containing the subtask in the data structure
+    const taskContainingSubtask = findTaskContainingSubtask(subtask)
+
+    if (taskContainingSubtask) {
+      // Find the column containing the task in the data structure
+      const columnContainingTask = findColumnContainingTask(
+        taskContainingSubtask,
+      )
+
+      if (columnContainingTask) {
+        // Find the board containing the column in the data structure
+        const boardContainingColumn =
+          findBoardContainingColumn(columnContainingTask)
+
+        if (boardContainingColumn) {
+          // Update the boardData with the modified structure
+          const boardIndex = boardData.boards.findIndex(
+            (board) => board === boardContainingColumn,
+          )
+          const columnIndex = boardContainingColumn.columns.findIndex(
+            (column) => column === columnContainingTask,
+          )
+          const taskIndex = columnContainingTask.tasks.findIndex(
+            (task) => task === taskContainingSubtask,
+          )
+
+          boardData.boards[boardIndex].columns[columnIndex].tasks[taskIndex] =
+            taskContainingSubtask
+        }
+      }
+    }
+  }
+
+  // Update the UI to reflect the new state
+  updateSubtaskUI(subtask)
+
+  // Render the board to reflect the changes
+  renderBoard(boardData.selectedBoard)
+}
+
+// Function to find the task containing a subtask
+function findTaskContainingSubtask(subtask) {
+  for (const board of boardData.boards) {
+    for (const column of board.columns) {
+      for (const task of column.tasks) {
+        if (task.subtasks.includes(subtask)) {
+          return task
+        }
+      }
+    }
+  }
+  return null
+}
+
+// Function to find the column containing a task
+function findColumnContainingTask(task) {
+  for (const board of boardData.boards) {
+    for (const column of board.columns) {
+      if (column.tasks.includes(task)) {
+        return column
+      }
+    }
+  }
+  return null
+}
+
+// Function to find the board containing a column
+function findBoardContainingColumn(column) {
+  for (const board of boardData.boards) {
+    if (board.columns.includes(column)) {
+      return board
+    }
+  }
+  return null
+}
+
+// Update the updateSubtaskUI function
+function updateSubtaskUI(subtask) {
+  const checkbox = document.getElementById(subtask.id)
+
+  // Update the checkbox state
+  if (checkbox) {
+    checkbox.checked = subtask.isCompleted
+  }
+
+  // You can add additional UI updates here as needed
+}
+
+// Assume you have a function to find a subtask by title
+function findSubtaskById(subtaskId) {
+  // Implement your logic to find the subtask by ID in your data structure
+  // For example, you can use boardData to find the subtask
+  // Replace this with your actual implementation
+
+  const foundSubtask = boardData.boards
+    .flatMap((board) => board.columns)
+    .flatMap((column) => column.tasks)
+    .flatMap((task) => task.subtasks)
+    .find((subtask) => subtask.id === subtaskId)
+
+  return foundSubtask
+}
+
+// Add a function to update the UI based on the subtask state
+function updateSubtaskUI(subtask) {
+  console.log(subtask) // log free
+  const checkbox = document.getElementById(`${subtask.id}`) // log undefined
+
+  // Update the checkbox state
+  if (checkbox) {
+    checkbox.checked = subtask.isCompleted
+  }
+
+  // You can add additional UI updates here as needed
+}
+
+function findTaskById(taskId) {
+  // Loop through boards to find the task with the given ID
+  for (const board of boardData.boards) {
+    for (const column of board.columns) {
+      const task = column.tasks.find((task) => task.id === taskId)
+      if (task) {
+        return task
+      }
+    }
+  }
+  return null // Task not found
+}
+
+function generateUniqueIdFromTitle(title) {
+  // Use a hash function or any unique ID generation method based on the title
+  // For simplicity, let's use a basic hash function for illustration
+  const hash = title
+    .split('')
+    .reduce((acc, char) => (acc * 31 + char.charCodeAt(0)) | 0, 0)
+  return `subtask-${hash}`
+}
+
+function generateSubtaskItem(subtask) {
+  // Generate HTML for each subtask
+  return `
+    <div class="flex items-center p-3 gap-4 cursor-pointer relative hover:bg-[635fc740] hover:transition duration-200 active:ease-in" onclick="toggleSubtaskCompleted('${
+      subtask.id
+    }')">
+      <i class="icon-tick checkbox-icon absolute top-4 text-white left-4 scale-1 duration-150"></i>
+      <input
+        type="checkbox"
+        id="${subtask.id}"
+        class="checkbox-input relative h-4 w-4 bg-white bg-text-color rounded-[2px] appearance-none border-[1px] border-solid border-[rgba(130, 143, 163, 0.25)] cursor-pointer checked:bg-primary-color rounded-[2px]"
+        ${subtask.isCompleted ? 'checked' : ''}
+      />
+      <label
+        for="${subtask.id}"
+        class="text-color pointer-events-none cursor-pointer w-full font-bold text-[12px] leading-normal"
+      >${subtask.title}</label>
     </div>
   `
 }

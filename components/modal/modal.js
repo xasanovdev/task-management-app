@@ -122,21 +122,25 @@ function generateInput(input) {
 
 function openModal(modalId, selectedBoard) {
   const modal = document.getElementById(modalId)
-  modalInputs = Array.from(modal.querySelectorAll('.modal-input'))
-  errorMessage = Array.from(modal.querySelectorAll('.input-span'))
+
+  // Check if modalInputs and errorMessage are already collected
+  if (modalInputs || errorMessage) {
+    modalInputs = Array.from(modal.querySelectorAll('.modal-input'))
+    errorMessage = Array.from(modal.querySelectorAll('.input-span'))
+  }
 
   // Extract unique status values from the selected board in the boardData object
   const statusValues = extractStatusValues(boardData, selectedBoard)
 
-  console.log(selectedBoard)
   // Populate dropdown options dynamically using the generateStatusToDropdown function
   dropdownOptions = generateDropdownOptions(statusValues)
 
-  console.log();
   // Update the HTML content of the dropdown
-  const dropdownElement = document.querySelector('.dropdown-options')
-  dropdownElement.innerHTML = dropdownOptions.join('')
+  const dropdownElement = modal?.querySelector('.dropdown-options')
 
+  if (dropdownElement) {
+    dropdownElement.innerHTML = dropdownOptions.join('')
+  }
   modal.classList.remove('hidden')
   blocker.classList.add('active')
   overlay.classList.remove('hidden')
@@ -150,6 +154,7 @@ function extractStatusValues(boardData, selectedBoard) {
 
   const board = boardData.boards.find((board) => board.id === selectedBoard)
   console.log(board)
+  boardData.selectedBoard = board.id
   if (board) {
     board.columns.forEach((column) => {
       uniqueStatusValues.add(column.name) // Add column name to the set
