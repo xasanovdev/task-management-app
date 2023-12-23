@@ -73,17 +73,7 @@ function deleteInput(inputElement) {
   // Check if inputWrapper has children before accessing them
   if (inputWrapper.children.length > 1) {
     inputElement.remove()
-    modalInputs = []
-    errorMessage = []
-
-    // Re-collect values from all remaining input elements
-    const remainingInputs = inputWrapper.querySelectorAll('.modal-input')
-    remainingInputs.forEach((input) => {
-      modalInputs.push(input.value)
-    })
-
-    renderBoard()
-    console.log(modalInputs)
+    updateModalArrays(inputWrapper)
   } else {
     console.error('Cannot delete the last input element.')
   }
@@ -103,23 +93,29 @@ function addNewToInputs(inputWrapper) {
       deleteInput(newInput)
     })
 
-    // Clear modalInputs array
-    modalInputs = []
-    errorMessage = []
-
-    errorMessage = newInput.querySelector('.input-span')
-
-    // Collect values from all input elements
-    const inputElements = newInput.querySelectorAll('.modal-input')
-    inputElements.forEach((input) => {
-      modalInputs.push(input.value)
-    })
-
+    updateModalArrays(inputWrapper)
     renderBoard(boardData.selectedBoard)
-    console.log(modalInputs)
   } else {
     console.error('Input wrapper is null or undefined.')
   }
+}
+
+function updateModalArrays(inputWrapper) {
+  // Clear modalInputs and errorMessage arrays
+  modalInputs = []
+  errorMessage = []
+
+  // Find the error messages in the new input
+  const errorMessages = inputWrapper.querySelectorAll('.input-span')
+
+  // Collect values from all input elements
+  const inputElements = inputWrapper.querySelectorAll('.modal-input')
+  inputElements.forEach((input, index) => {
+    modalInputs.push(input.value)
+    errorMessage.push(errorMessages[index]) // Add corresponding error message element
+  })
+
+  console.log(modalInputs)
 }
 
 function generateInput(input) {
@@ -145,6 +141,8 @@ function generateInput(input) {
 }
 
 function openModal(modalId, selectedBoard) {
+  
+  console.log(selectedBoard);
   const modal = document.getElementById(modalId)
 
   // Check if modalInputs and errorMessage are already collected
@@ -178,7 +176,7 @@ function extractStatusValues(boardData, selectedBoard) {
 
   const board = boardData.boards.find((board) => board.id === selectedBoard)
   console.log(board)
-  boardData.selectedBoard = board.id
+  boardData.selectedBoard = board?.id
   if (board) {
     board.columns.forEach((column) => {
       uniqueStatusValues.add(column.name) // Add column name to the set
@@ -215,16 +213,33 @@ function addNewBoard(boardName, boardColumns) {
     })),
   }
 
-  console.log(newBoard)
-  console.log(boardData)
   // Add the new board to your application or perform any necessary actions
   // For example, you might have an array of boards:
   boardData.boards.push(newBoard)
 
   // Update your UI or trigger any necessary updates
   closeModal('add-new-board')
-  renderBoard()
+  renderBoard() // Call renderBoard after adding a new board
 }
+
+// Assume you have a function to delete a board by ID
+function deleteBoard(boardId) {
+  // Implement your logic to delete the board by ID
+  // For example:
+  const indexToDelete = boardData.boards.findIndex(
+    (board) => board.id === boardId,
+  )
+  if (indexToDelete !== -1) {
+    boardData.boards.splice(indexToDelete, 1)
+    // You might also want to handle other related data structures or UI updates here
+  }
+
+  // Update your UI or trigger any necessary updates
+  renderBoard() // Call renderBoard after deleting a board
+}
+
+// Example usage when deleting a board (replace 'boardIdToDelete' with the actual ID):
+// deleteBoard('boardIdToDelete');
 
 createNewBoard.addEventListener('click', (e) => {
   e.preventDefault()
@@ -390,37 +405,45 @@ function addNewTask(taskName, taskDescription, taskSubtasks, status) {
   const selectedBoard = boardData.boards.find(
     (board) => board.id === boardData.selectedBoard,
   )
-
+  console.log(selectedBoard)
   if (selectedBoard) {
     const selectedColumnIndex = boardData.selectedColumn
 
-    if (
-      selectedColumnIndex >= 0 &&
-      selectedColumnIndex < selectedBoard.columns.length
-    ) {
-      const selectedColumn = selectedBoard.columns[selectedColumnIndex]
+    // Check if selectedColumnIndex is a valid number
+    if (Number.isInteger(selectedColumnIndex)) {
+      if (
+        selectedColumnIndex >= 0 &&
+        selectedColumnIndex < selectedBoard.columns.length
+      ) {
+        const selectedColumn = selectedBoard.columns[selectedColumnIndex]
 
-      if (selectedColumn) {
-        const newTask = {
-          id: generateUniqueId(),
-          title: taskName,
-          description: taskDescription,
-          status: status,
-          subtasks: taskSubtasks.map((subtask) => ({
-            title: subtask,
-            isCompleted: false,
-          })),
+        if (selectedColumn) {
+          const newTask = {
+            id: generateUniqueId(),
+            title: taskName,
+            description: taskDescription,
+            status: status,
+            subtasks: taskSubtasks.map((subtask) => ({
+              title: subtask,
+              isCompleted: false,
+            })),
+          }
+
+          selectedColumn.tasks.push(newTask)
+
+          // Render the updated board after adding the task
+          renderBoard(boardData.selectedBoard)
+        } else {
+          console.error('Selected column not found.', selectedColumnIndex)
         }
-
-        selectedColumn.tasks.push(newTask)
-
-        // Render the updated board after adding the task
-        renderBoard(boardData.selectedBoard)
       } else {
-        console.error('Selected column not found.', selectedColumnIndex)
+        console.error('Invalid selected column index.', selectedColumnIndex)
       }
     } else {
-      console.error('Invalid selected column index.', selectedColumnIndex)
+      console.error(
+        'Selected column index is not a number.',
+        selectedColumnIndex,
+      )
     }
   } else {
     console.error('Selected board not found.', boardData.selectedBoard)

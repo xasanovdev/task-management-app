@@ -338,14 +338,28 @@ const boardData = {
   selectedTask: 0,
 }
 function renderBoard(boardId) {
-  const board = boardData.boards.find((board) => board.id === boardId)
-
-  if (!board) {
-    console.error(`Board with id ${boardId} not found.`)
-    return // Exit the function if the board is not found
+  // Check if boardData.boards is an array
+  if (!Array.isArray(boardData.boards)) {
+    console.error('Invalid boardData.boards:', boardData.boards)
+    return
   }
 
-  const isBoardRendered = document.getElementById(boardId) !== null
+  // Find the board by ID
+  const board = boardData.boards.find((board) => board.id === boardId)
+
+  // Check if the board is found
+  if (!board) {
+    console.error(`Board with id ${boardId} not found.`)
+    return
+  }
+
+  // Check if board.id is defined and not null
+  if (board.id === undefined || board.id === null) {
+    console.error('Invalid board ID:', board.id)
+    return
+  }
+
+  const isBoardRendered = document.getElementById(board.id) !== null
 
   // Update the board list (assuming boardList is a valid reference)
   boardList.innerHTML = generateKanbanBoardNames(boardData)
@@ -357,12 +371,12 @@ function renderBoard(boardId) {
 
     // Update the selected board in boardData
     boardData.selectedBoard = board.id
-
+    boardData.selectedColumn = board.columns[0].id
     // Highlight the active link in the board list
     const boardLinks = document.querySelectorAll('.board__link')
     boardLinks.forEach((link) => {
       link.classList.remove('active')
-      if (link.getAttribute('data-board-id') === boardId) {
+      if (link.getAttribute('data-board-id') === board.id) {
         link.classList.add('active')
       }
     })
@@ -479,6 +493,113 @@ function generateTaskModal(task, dropdownElement, statusValues) {
 
   // ... (existing code)
 }
+function deleteTask(taskId) {
+  console.log(taskId)
+  // Find the board and column that contain the task
+  for (const board of boardData.boards) {
+    console.log(board)
+    for (const column of board.columns) {
+      console.log(column)
+      const taskIndex = column.tasks.findIndex((task) => task.id === taskId)
+      console.log(taskIndex)
+      if (taskIndex !== -1) {
+        // Remove the task from the column
+        column.tasks.splice(taskIndex, 1)
+
+        // If the column becomes empty, remove the column
+        if (column.tasks.length === 0) {
+          const columnIndex = board.columns.indexOf(column)
+          board.columns.splice(columnIndex, 1)
+        }
+
+        // If the board becomes empty, remove the board
+        if (board.columns.length === 0) {
+          const boardIndex = boardData.boards.indexOf(board)
+          boardData.boards.splice(boardIndex, 1)
+        }
+
+        // Assuming you have a function to update the UI after deletion
+        renderBoard(renderBoard.selectedBoard)
+
+        // Exit the function once the task is deleted
+        return
+      }
+    }
+
+    closeModal('open-modal-button')
+  }
+
+  // Log a message if the task is not found (for debugging purposes)
+  console.warn(`Task with ID ${taskId} not found.`)
+}
+
+function populateEditModal(task) {
+  // This is a generic example, you should replace it with your actual logic
+  const titleInput = document.getElementById('edit-task-title')
+  const descriptionInput = document.getElementById('edit-task-description')
+
+  // Populate the modal inputs with task details
+  titleInput.value = task.title
+  descriptionInput.value = task.description
+  // ... (populate other fields as needed)
+}
+
+function editTask(taskId) {
+  // Find the task by ID
+  const task = findTaskById(taskId)
+
+  // Populate the edit modal with task details
+  populateEditModal(task)
+  closeModal('open-task-modal')
+  // Open the edit modal
+  openModal('edit-task-modal')
+
+  // Handle the "Save Changes" button click
+  const saveChangesButton = document.getElementById('save-changes-button')
+  saveChangesButton.addEventListener('click', () => {
+    saveChanges(taskId)
+  })
+}
+
+function saveChanges(taskId) {
+  // Get the updated values from the modal inputs
+  const titleInput = document.getElementById('edit-task-title')
+  const descriptionInput = document.getElementById('edit-task-description')
+
+  // Validate the inputs if needed
+  // ...
+
+  // Update the task in the data structure
+  const task = findTaskById(taskId)
+  task.title = titleInput.value
+  task.description = descriptionInput.value
+  // ...
+
+  // Optionally, trigger a function to update the UI with the modified data
+  updateUI()
+
+  // Close the edit modal
+  closeModal('edit-task-modal')
+}
+
+// Function to find a task by ID
+function findTaskById(taskId) {
+  for (const board of boardData.boards) {
+    for (const column of board.columns) {
+      const task = column.tasks.find((task) => task.id === taskId)
+      if (task) {
+        return task
+      }
+    }
+  }
+  return null
+}
+
+// Function to update the UI with the modified data
+function updateUI() {
+  // Implement your logic to update the UI with the modified data
+  renderBoard(renderBoard(boardData.selectedBoard))
+}
 
 function generateTaskModal(task, dropdownElement, statusValues) {
   // Extract task details
@@ -524,63 +645,47 @@ function generateTaskModal(task, dropdownElement, statusValues) {
   const subtasksHtml = subtasksWithIds
     .map((subtask) => generateSubtaskItem(subtask))
     .join('')
+
   // Modal HTML
   const modalHtml = `
-      <div class="h-full">
-        <div class="edit-delete-modal absolute right-28 top-[60px] group-focus:block">
-          <div
-            class="bg-page-color dark:bg-very-dark-grey rounded-lg text-sm w-36 flex flex-col fixed z-10"
-          >
-            <p class="text-color text-xs font-bold w-full p-4">
-              Edit Board
-            </p>
-            <p class="text-danger-color text-xs font-bold w-full p-4">
-              Delete Board
-            </p>
-          </div>
-        </div>      
-        <i class="icon-menu absolute top-6 right-6 sm:top-8 sm:right-8 cursor-pointer text-color hover:text-danger-color duration-150 active:text-danger-light-color"></i>
-        <div>
-          <h3 class="text-color text-[18px] font-bold">${taskName}</h3>
-        </div>
-        <div class="mt-6 text-[#828FA3] font-bold tracking-wide text-[13px]">${taskDescription}</div>
-        <div class="relative form-label flex flex-col gap-2 text-gray-color font-plus-jakarta-sans font-bold text-[12px] leading-5">
-          <h3>Subtasks (${completedSubtasksCount} of ${subtasksCount})</h3>
-          <div class="subtasks mt-6 flex flex-col bg-page-color">
-            ${subtasksHtml}
-          </div>
+  <div class="h-full">
+    <div class="flex items-center gap-4 justify-between mb-6">
+      <button class="edit-task text-white font-bold w-full hover:opacity-80 bg-primary-color duration-100 rounded-full p-4" onclick="editTask('${
+        task.id
+      }')">Edit Board</button>
+      <button class="delete-task font-bold bg-danger-color hover:opacity-80 duration-100 rounded-full w-full p-4" onclick="deleteTask('${
+        task.id
+      }')">Delete Board</button>
+    </div>
 
-          <div class="dropdown">
-            <div class="dropdown-menu relative w-full">
-              <div
-                class="dropdown-btn status min-w-full w-full justify-between flex items-center px-4 py-2 rounded border focus:outline-none active:border-[#635FC7] group"
-              >
-                <span
-                  class="dBtn-text m-0 text-gray-color cursor-pointer transition duration-400 ease-in-out text-[13px] leading-6"
-                  >${task.status}</span
-                >
-                <span class="dropdown-sign">
-                  <svg
-                    class="ml-10"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="11"
-                    height="8"
-                    viewBox="0 0 11 8"
-                    fill="none"
-                  >
-                    <path
-                      d="M0.79834 1.54858L5.49682 6.24707L10.1953 1.54858"
-                      stroke="#635FC7"
-                      stroke-width="2"
-                    />
-                  </svg>
-                </span>
-              </div>
-              ${dropdownElement ? dropdownElement.outerHTML : ''}
-            </div>
+    <div>
+      <h3 class="text-color text-[18px] font-bold">${taskName}</h3>
+    </div>
+    <div class="mt-6 text-[#828FA3] font-bold tracking-wide text-[13px]">${taskDescription}</div>
+    <div class="relative form-label flex flex-col gap-2 text-gray-color font-plus-jakarta-sans font-bold text-[12px] leading-5">
+      <h3>Subtasks (${completedSubtasksCount} of ${subtasksCount})</h3>
+      <div class="subtasks mt-6 flex flex-col bg-page-color">
+        ${subtasksHtml}
+      </div>
+
+      <div class="dropdown">
+        <div class="dropdown-menu relative w-full">
+          <div class="dropdown-btn status min-w-full w-full justify-between flex items-center px-4 py-2 rounded border focus:outline-none active:border-[#635FC7] group">
+            <span class="dBtn-text m-0 text-gray-color cursor-pointer transition duration-400 ease-in-out text-[13px] leading-6">${
+              task.status
+            }</span>
+            <span class="dropdown-sign">
+              <svg xmlns="http://www.w3.org/2000/svg" width="11" height="8" viewBox="0 0 11 8" fill="none">
+                <path d="M0.79834 1.54858L5.49682 6.24707L10.1953 1.54858" stroke="#635FC7" stroke-width="2"/>
+              </svg>
+            </span>
+          </div>
+          ${dropdownElement ? dropdownElement.outerHTML : ''}
         </div>
       </div>
-  `
+    </div>
+  </div>
+`
   // Get the dropdown options
   const dropdownOptions = statusValues.map(generateStatusToDropdown).join('')
 
