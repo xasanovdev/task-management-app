@@ -36,8 +36,7 @@ const boardData = {
               ],
             },
           ],
-        },
-        {
+        }, {
           name: 'Doing',
           tasks: [
             {
@@ -399,7 +398,9 @@ function renderBoard(boardId) {
 
   cardJS()
   console.log(boardData.selectedBoard)
+
 }
+
 
 function generateUniqueId() {
   return Date.now().toString(36)
@@ -559,6 +560,7 @@ function saveChanges(task) {
   // Update the task in the data structure
   task.title = titleInput.value
   task.description = descriptionInput.value
+
 
   // Optionally, trigger a function to update the UI with the modified data
   updateUI()
