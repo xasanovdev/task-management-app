@@ -372,6 +372,19 @@ createNewTask.addEventListener('click', (e) => {
   }
 
   // Validate other inputs if needed
+  for (let index = 1; index < modalInputs.length; index++) {
+    const modalInput = modalInputs[index]
+    const currentErrorMessage = errorMessage[index]
+
+    if (modalInput.value === '') {
+      modalInput.classList.add('error')
+      currentErrorMessage.classList.remove('hidden')
+      hasError = true // Set the flag to true if there is an error
+    } else {
+      modalInput.classList.remove('error')
+      currentErrorMessage.classList.add('hidden')
+    }
+  }
 
   // Capture the selected status from dropdown options with class '.dBtn-text'
   const dropdownOptions = Array.from(document.querySelectorAll('.dBtn-text'))
