@@ -385,7 +385,7 @@ function renderBoard(boardId) {
 
     // Update the selected board in boardData
     boardData.selectedBoard = board.id
-    boardData.selectedColumn = board.columns[0].id
+    boardData.selectedColumn = board.columns[0]
     // Highlight the active link in the board list
     const boardLinks = document.querySelectorAll('.board__link')
     boardLinks.forEach((link) => {
@@ -460,7 +460,7 @@ function openTaskModal(taskId) {
     const taskModal = document.getElementById('open-task-modal')
     taskModal.innerHTML = modalHtml
 
-    // Setup the dropdown for the task modal
+    // Set up the dropdown for the task modal
     setupDropdown(taskModal.querySelector('.dropdown-menu'), task)
   }
 }

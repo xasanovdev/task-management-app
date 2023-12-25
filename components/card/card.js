@@ -12,13 +12,12 @@ function cardJS() {
   let dragSrcEl
 
 
-
   const newColumn = document.querySelector('#newColumn')
   const columns = document.querySelectorAll('.column')
   const theColumn = getColumnWithMostChildNodes(columns)
   newColumn.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn.querySelectorAll('.card').length * 5}px`
   columns.forEach(col => {
-    col.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn.querySelectorAll('.card').length *5 }px`
+    col.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn.querySelectorAll('.card').length * 5}px`
   })
 
   function isBefore(el1, el2) {
@@ -53,7 +52,7 @@ function cardJS() {
     return false
   }
 
-  function dragStart(e) {
+  function dragStart() {
     dragging = true
     // e.dataTransfer.dropEffect = 'move'
     // e.dataTransfer.setData('text/plain', null)
@@ -81,7 +80,6 @@ function cardJS() {
 
     dragging = true
     draggingColumn = this.closest('.column')
-    console.log(draggingColumn)
     e.dataTransfer.dropEffect = 'move'
     last = document.querySelector('.dragover')
     if (last === undefined || last === null) {
@@ -182,9 +180,10 @@ function cardJS() {
       col.style.height = `${newColumn.style.height + 600}px`
     })
 
-
-
-
+    if (this.querySelectorAll('.card').length === 0) {
+      this.appendChild(dragSrcEl)
+      dragSrcEl.classList.add("dragover")
+    }
 
     return false
   }
