@@ -1258,6 +1258,8 @@ function editTask(taskId) {
   // Find the task by ID
   const task = findTaskById(taskId)
 
+  console.log(task);
+
   // Populate the edit modal with task details
   populateEditModal(task)
   closeModal('open-task-modal')
@@ -1267,23 +1269,19 @@ function editTask(taskId) {
   // Handle the "Save Changes" button click
   const saveChangesButton = document.getElementById('save-changes-button')
   saveChangesButton.addEventListener('click', () => {
-    saveChanges(taskId)
+    saveChanges(task)
   })
 }
 
-function saveChanges(taskId) {
+function saveChanges(task) {
   // Get the updated values from the modal inputs
   const titleInput = document.getElementById('edit-task-title')
   const descriptionInput = document.getElementById('edit-task-description')
 
-  // Validate the inputs if needed
-  // ...
-
   // Update the task in the data structure
-  const task = findTaskById(taskId)
   task.title = titleInput.value
   task.description = descriptionInput.value
-  // ...
+  
 
   // Optionally, trigger a function to update the UI with the modified data
   updateUI()
@@ -1725,10 +1723,13 @@ if (boardData && boardData.boards.length > 0) {
 
 function createNewColumnElement() {
   // Create div element
-  const divElement = document.createElement('div')
+  const divElement = document.createElement('button')
 
   // Set class attribute
-  divElement.setAttribute('class', 'toggle-modal-button w-280 h-fit mt-9 flex rounded-md bg-gradient-primary cursor-pointer items-center content-center overflow-visible p-5 mb-48')
+  divElement.setAttribute(
+    'class',
+    'toggle-modal-button w-280 h-full flex rounded-md bg-gradient-to-br from-[#995eb40a] to-[#723b8883] cursor-pointer items-center content-center overflow-visible',
+  )
 
   // Set id attribute
   divElement.setAttribute('id', 'newColumn')

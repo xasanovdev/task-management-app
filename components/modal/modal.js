@@ -312,6 +312,7 @@ const closeModal = (modalId) => {
 toggleModalButtons.forEach((button) => {
   button.addEventListener('click', (e) => {
     const modalId = button.getAttribute('modal-id')
+    console.log(modalId);
     openModal(modalId, boardData.selectedBoard)
   })
 })
