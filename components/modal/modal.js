@@ -141,8 +141,7 @@ function generateInput(input) {
 }
 
 function openModal(modalId, selectedBoard) {
-  
-  console.log(selectedBoard);
+  console.log(selectedBoard)
   const modal = document.getElementById(modalId)
 
   // Check if modalInputs and errorMessage are already collected
@@ -169,6 +168,7 @@ function openModal(modalId, selectedBoard) {
   overlay.classList.add('flex')
   modal.style.zIndex = '100'
 }
+
 
 // Function to extract unique status values from the selected board columns in the boardData object
 function extractStatusValues(boardData, selectedBoard) {
@@ -312,7 +312,7 @@ const closeModal = (modalId) => {
 toggleModalButtons.forEach((button) => {
   button.addEventListener('click', (e) => {
     const modalId = button.getAttribute('modal-id')
-    console.log(modalId);
+    console.log(modalId)
     openModal(modalId, boardData.selectedBoard)
   })
 })

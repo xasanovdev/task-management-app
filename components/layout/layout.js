@@ -36,7 +36,8 @@ const boardData = {
               ],
             },
           ],
-        }, {
+        },
+        {
           name: 'Doing',
           tasks: [
             {
@@ -108,7 +109,7 @@ const boardData = {
               title:
                 'Research pricing points of various competitors and trial different business models',
               description:
-                'We know what we\'re planning to build for version one. Now we need to finalise the first pricing model we\'ll use. Keep iterating the subtasks until we have a coherent proposition.',
+                "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
               status: 'Doing',
               subtasks: [
                 {
@@ -161,7 +162,7 @@ const boardData = {
               id: 'd408b2f5-1238-4ebf-a159-4ef1d2dafa3b',
               title: 'Review results of usability tests and iterate',
               description:
-                'Keep iterating through the subtasks until we\'re clear on the core concepts for the app.',
+                "Keep iterating through the subtasks until we're clear on the core concepts for the app.",
               status: 'Done',
               subtasks: [
                 {
@@ -311,7 +312,7 @@ const boardData = {
               id: '260d9248-4f73-459f-93e4-10e975fc9929',
               title: 'Review early feedback and plan next steps for roadmap',
               description:
-                'Beyond the initial launch, we\'re keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.',
+                "Beyond the initial launch, we're keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.",
               status: '',
               subtasks: [
                 { title: 'Interview 10 customers', isCompleted: false },
@@ -348,8 +349,17 @@ function renderBoard(boardId) {
     return
   }
 
+  // If no boardId is provided, default to the first board in the array
+  if (!boardId && boardData.boards.length > 0) {
+    boardId = boardData.boards[0].id
+  }
+  console.log(boardId)
+
   // Find the board by ID
   const board = boardData.boards.find((board) => board.id === boardId)
+
+  console.log(board)
+  boardData.selectedBoard = boardId
 
   // Check if the board is found
   if (!board) {
@@ -389,9 +399,7 @@ function renderBoard(boardId) {
 
   cardJS()
   console.log(boardData.selectedBoard)
-
 }
-
 
 function generateUniqueId() {
   return Date.now().toString(36)
@@ -416,8 +424,8 @@ function generateTaskCard(task) {
     >
       <p class="card__title text-color capitalize">${task.title}</p>
       <p class="card__status text-slate-500">${
-    task.subtasks.filter((subtask) => !subtask.isCompleted).length
-  } of ${task.subtasks.length} substasks</p>
+        task.subtasks.filter((subtask) => !subtask.isCompleted).length
+      } of ${task.subtasks.length} substasks</p>
     </div>
   `
 }
@@ -528,7 +536,7 @@ function editTask(taskId) {
   // Find the task by ID
   const task = findTaskById(taskId)
 
-  console.log(task);
+  console.log(task)
 
   // Populate the edit modal with task details
   populateEditModal(task)
@@ -551,7 +559,6 @@ function saveChanges(task) {
   // Update the task in the data structure
   task.title = titleInput.value
   task.description = descriptionInput.value
-
 
   // Optionally, trigger a function to update the UI with the modified data
   updateUI()
@@ -629,11 +636,11 @@ function generateTaskModal(task, dropdownElement, statusValues) {
   <div class="h-full">
     <div class="flex items-center gap-4 justify-between mb-6">
       <button class="edit-task text-white font-bold w-full hover:opacity-80 bg-primary-color duration-100 rounded-full p-4" onclick="editTask('${
-    task.id
-  }')">Edit Board</button>
+        task.id
+      }')">Edit Board</button>
       <button class="delete-task font-bold bg-danger-color hover:opacity-80 duration-100 rounded-full w-full p-4" onclick="deleteTask('${
-    task.id
-  }')">Delete Board</button>
+        task.id
+      }')">Delete Board</button>
     </div>
 
     <div>
@@ -650,8 +657,8 @@ function generateTaskModal(task, dropdownElement, statusValues) {
         <div class="dropdown-menu relative w-full">
           <div class="dropdown-btn status min-w-full w-full justify-between flex items-center px-4 py-2 rounded border focus:outline-none active:border-[#635FC7] group">
             <span class="dBtn-text m-0 text-gray-color cursor-pointer transition duration-400 ease-in-out text-[13px] leading-6">${
-    task.status
-  }</span>
+              task.status
+            }</span>
             <span class="dropdown-sign">
               <svg xmlns="http://www.w3.org/2000/svg" width="11" height="8" viewBox="0 0 11 8" fill="none">
                 <path d="M0.79834 1.54858L5.49682 6.24707L10.1953 1.54858" stroke="#635FC7" stroke-width="2"/>
@@ -851,8 +858,8 @@ function generateSubtaskItem(subtask) {
   // Generate HTML for each subtask
   return `
     <div class="flex items-center p-3 gap-4 cursor-pointer relative hover:bg-[635fc740] hover:transition duration-200 active:ease-in" onclick="toggleSubtaskCompleted('${
-    subtask.id
-  }')">
+      subtask.id
+    }')">
       <i class="icon-tick checkbox-icon absolute top-4 text-white left-4 scale-1 duration-150"></i>
       <input
         type="checkbox"
@@ -958,9 +965,7 @@ function generateKanbanBoard(board) {
     return '' // Return an empty string or handle the error appropriately
   }
 
-  return board.columns
-    .map((column) => generateColumn(column))
-    .join('')
+  return board.columns.map((column) => generateColumn(column)).join('')
 }
 
 boardList.addEventListener('click', (event) => {
@@ -980,7 +985,7 @@ numberOfCreatedBoards.textContent = `All boards (${boardData.boards.length})`
 if (boardData && boardData.boards.length > 0) {
   const initialBoardId = boardData.boards[0].id
   renderBoard(initialBoardId)
-  window.addEventListener("DOMContentLoaded",()=>{
+  window.addEventListener('DOMContentLoaded', () => {
     cardJS()
   })
 }
@@ -992,7 +997,7 @@ function createNewColumnElement() {
   // Set class attribute
   divElement.setAttribute(
     'class',
-    'toggle-modal-button w-280 h-full flex rounded-md bg-gradient-to-br from-[#995eb40a] to-[#723b8883] cursor-pointer items-center content-center overflow-visible',
+    'toggle-modal-button new-column w-280 h-full flex rounded-md bg-gradient-to-br from-[#995eb40a] to-[#723b8883] cursor-pointer items-center content-center overflow-visible',
   )
 
   // Set id attribute
@@ -1005,10 +1010,14 @@ function createNewColumnElement() {
   const spanElement = document.createElement('span')
 
   // Set class attribute for span
-  spanElement.setAttribute('class', 'text-color text-center text-slate-500 capitalize text-2xl')
+  spanElement.setAttribute(
+    'class',
+    'text-color text-center text-slate-500 capitalize text-2xl',
+  )
 
   // Create inner HTML for span
-  spanElement.innerHTML = '<span class="text-3xl text-center">+</span> New Column'
+  spanElement.innerHTML =
+    '<span class="text-3xl text-center">+</span> New Column'
 
   // Append span element to div element
   divElement.appendChild(spanElement)
@@ -1016,3 +1025,14 @@ function createNewColumnElement() {
   // Return the generated element
   return divElement
 }
+
+const newColumnButtons = document.querySelectorAll('.new-column')
+
+newColumnButtons.forEach((newColumnButton) => {
+  newColumnButton.addEventListener('click', (e) => {
+    e.preventDefault()
+    console.log('clicked')
+    openModal('edit-board-modal', boardData.selectedBoard)
+    console.log(boardData)
+  })
+})
