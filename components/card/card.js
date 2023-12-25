@@ -11,6 +11,8 @@ function cardJS() {
   let startedColumn
   let dragSrcEl
 
+
+
   const newColumn = document.querySelector('#newColumn')
   const columns = document.querySelectorAll('.column')
   const theColumn = getColumnWithMostChildNodes(columns)
@@ -18,7 +20,6 @@ function cardJS() {
   columns.forEach(col => {
     col.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn.querySelectorAll('.card').length *5 }px`
   })
-
 
   function isBefore(el1, el2) {
     let cur
@@ -42,6 +43,7 @@ function cardJS() {
 
 
   function drag() {
+    dragging = true
     isDragging = false
     startPosition = { x: 0, y: 0 }
     scrollLeft = 0
@@ -72,7 +74,6 @@ function cardJS() {
   }
 
   function dragEnter(e) {
-    dragging=true
   }
 
   function dragOver(e) {
@@ -109,7 +110,7 @@ function cardJS() {
   }
 
   function dragLeave(e) {
-    dragging = false
+    dragging = true
     e.preventDefault()
     if (this.classList.contains('dragover') && this !== last) {
       this.classList.remove('dragover')
@@ -180,6 +181,9 @@ function cardJS() {
     columns.forEach(col => {
       col.style.height = `${newColumn.style.height + 600}px`
     })
+
+
+
 
 
     return false
