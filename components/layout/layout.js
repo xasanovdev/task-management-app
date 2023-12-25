@@ -337,7 +337,22 @@ const boardData = {
   selectedColumn: 0,
   selectedTask: 0,
 }
+
+// Assuming a function to handle column selection
+function handleColumnSelection(columnIndex) {
+  // Update the selectedColumn property
+  boardData.selectedColumn = columnIndex
+
+  // Perform actions related to the selected column, if needed
+  console.log(
+    `Selected Column: ${
+      boardData.boards[boardData.selectedBoard].columns[columnIndex].name
+    }`,
+  )
+}
+
 function renderBoard(boardId) {
+  console.log(boardId)
   // Check if boardData.boards is an array
   if (!Array.isArray(boardData.boards)) {
     console.error('Invalid boardData.boards:', boardData.boards)
@@ -346,6 +361,8 @@ function renderBoard(boardId) {
 
   // Find the board by ID
   const board = boardData.boards.find((board) => board.id === boardId)
+
+  console.log(boardId)
 
   // Check if the board is found
   if (!board) {
@@ -448,6 +465,8 @@ function openTaskModal(taskId) {
   const task = findTaskById(taskId)
   selectedBoard = boardData.selectedBoard
 
+  console.log(selectedBoard)
+
   const statusValues = extractStatusValues(boardData, selectedBoard)
   const dropdownOptions = statusValues.map(generateStatusToDropdown).join('')
 
@@ -467,7 +486,7 @@ function openTaskModal(taskId) {
     const modalHtml = generateTaskModal(task, dropdownElement, statusValues)
 
     // Open the modal with the generated HTML
-    openModal('open-task-modal', boardData.selectedBoard)
+    openModal('open-task-modal', boardData.selectedBoard, task)
 
     // Update the HTML content of the task modal
     const taskModal = document.getElementById('open-task-modal')
@@ -546,8 +565,9 @@ function populateEditModal(task) {
 
 function editTask(taskId) {
   // Find the task by ID
+  console.log(taskId)
   const task = findTaskById(taskId)
-
+  console.log(task)
   // Populate the edit modal with task details
   populateEditModal(task)
   closeModal('open-task-modal')
@@ -559,6 +579,8 @@ function editTask(taskId) {
   saveChangesButton.addEventListener('click', () => {
     saveChanges(taskId)
   })
+
+  renderBoard(boardData.selectedBoard)
 }
 
 function saveChanges(taskId) {
@@ -575,9 +597,6 @@ function saveChanges(taskId) {
   task.description = descriptionInput.value
   // ...
 
-  // Optionally, trigger a function to update the UI with the modified data
-  updateUI()
-
   // Close the edit modal
   closeModal('edit-task-modal')
 }
@@ -593,12 +612,6 @@ function findTaskById(taskId) {
     }
   }
   return null
-}
-
-// Function to update the UI with the modified data
-function updateUI() {
-  // Implement your logic to update the UI with the modified data
-  renderBoard(renderBoard(boardData.selectedBoard))
 }
 
 function generateTaskModal(task, dropdownElement, statusValues) {
@@ -700,37 +713,30 @@ function generateTaskModal(task, dropdownElement, statusValues) {
 }
 
 function updateTaskStatus(task, newStatus) {
-  // Update the task status in boardData
-  const board = boardData.boards.find((board) =>
-    board.columns
-      .flatMap((column) => column.tasks)
-      .some((t) => t.subtasks[0].id === task.subtasks[0].id),
-  )
+  console.log(newStatus)
+  console.log(boardData)
+  boardData.selectedColumn = newStatus
 
-  if (board) {
-    const column = board.columns.find((column) =>
+  const columnToUpdate = boardData.boards
+    .flatMap((board) => board.columns)
+    .find((column) =>
       column.tasks.some((t) => t.subtasks[0].id === task.subtasks[0].id),
     )
-
-    if (column) {
-      const taskToUpdate = column.tasks.find(
-        (t) => t.subtasks[0].id === task.subtasks[0].id,
+  console.log(columnToUpdate)
+  if (columnToUpdate) {
+    const taskToUpdate = columnToUpdate.tasks.find(
+      (t) => t.subtasks[0].id === task.subtasks[0].id,
+    )
+    if (taskToUpdate) {
+      console.log(
+        `Updating task status from ${taskToUpdate.status} to ${newStatus}`,
       )
-
-      if (taskToUpdate) {
-        console.log(
-          `Updating task status from ${taskToUpdate.status} to ${newStatus}`,
-        )
-        taskToUpdate.status = newStatus
-      }
+      taskToUpdate.status = newStatus
     }
   }
 
-  // Log the current state of the boardData for debugging
   console.log('Updated boardData:', boardData)
-
-  // Render the updated board
-  renderBoard(boardData.selectedBoard)
+  renderBoard(boardData.boards[boardData.selectedBoard])
 }
 
 function toggleSubtaskCompleted(subtaskId) {
