@@ -36,6 +36,734 @@ const boardData = {
               ],
             },
           ],
+        }, {
+          name: 'Doing',
+          tasks: [
+            {
+              id: '69eb5ce8-4720-441e-b7b4-0c1d8a59143d',
+              title: 'Design settings and search pages',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Settings - Account page', isCompleted: true },
+                { title: 'Settings - Billing page', isCompleted: true },
+                { title: 'Search page', isCompleted: false },
+              ],
+            },
+            {
+              id: '4a934216-0b96-475d-8284-d027e8657df3',
+              title: 'Build UI for onboarding flow',
+              description: '',
+              status: 'Todo',
+              subtasks: [
+                { title: 'Sign up page', isCompleted: true },
+                { title: 'Sign in page', isCompleted: false },
+                { title: 'Welcome page', isCompleted: false },
+              ],
+            },
+            {
+              id: 'd281d4b7-6576-4dfd-a9fb-30ac16bebeab',
+              title: 'Add account management endpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Upgrade plan', isCompleted: true },
+                { title: 'Cancel plan', isCompleted: true },
+                { title: 'Update payment method', isCompleted: false },
+              ],
+            },
+            {
+              id: 'f0c31e18-fd90-48f1-ac16-5b879a67dc08',
+              title: 'Design onboarding flow',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Sign up page', isCompleted: true },
+                { title: 'Sign in page', isCompleted: false },
+                { title: 'Welcome page', isCompleted: false },
+              ],
+            },
+            {
+              id: 'a08b169e-f940-45a3-b9d9-ffd8371e4139',
+              title: 'Add search enpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Add search endpoint', isCompleted: true },
+                { title: 'Define search filters', isCompleted: false },
+              ],
+            },
+            {
+              id: '790c810b-e300-4f7c-9359-f44b73184baa',
+              title: 'Add authentication endpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Define user model', isCompleted: true },
+                { title: 'Add auth endpoints', isCompleted: false },
+              ],
+            },
+            {
+              id: '8fcf9b2e-0fdb-4cf6-acdf-8969d96af37d',
+              title:
+                'Research pricing points of various competitors and trial different business models',
+              description:
+                'We know what we\'re planning to build for version one. Now we need to finalise the first pricing model we\'ll use. Keep iterating the subtasks until we have a coherent proposition.',
+              status: 'Doing',
+              subtasks: [
+                {
+                  title: 'Research competitor pricing and business models',
+                  isCompleted: true,
+                },
+                {
+                  title: 'Outline a business model that works for our solution',
+                  isCompleted: false,
+                },
+                {
+                  title:
+                    'Talk to potential customers about our proposed solution and ask for fair price expectancy',
+                  isCompleted: false,
+                },
+              ],
+            },
+          ],
+        }, {
+          name: 'Doing',
+          tasks: [
+            {
+              id: '69eb5ce8-4720-441e-b7b4-0c1d8a59143d',
+              title: 'Design settings and search pages',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Settings - Account page', isCompleted: true },
+                { title: 'Settings - Billing page', isCompleted: true },
+                { title: 'Search page', isCompleted: false },
+              ],
+            },
+            {
+              id: '4a934216-0b96-475d-8284-d027e8657df3',
+              title: 'Build UI for onboarding flow',
+              description: '',
+              status: 'Todo',
+              subtasks: [
+                { title: 'Sign up page', isCompleted: true },
+                { title: 'Sign in page', isCompleted: false },
+                { title: 'Welcome page', isCompleted: false },
+              ],
+            },
+            {
+              id: 'd281d4b7-6576-4dfd-a9fb-30ac16bebeab',
+              title: 'Add account management endpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Upgrade plan', isCompleted: true },
+                { title: 'Cancel plan', isCompleted: true },
+                { title: 'Update payment method', isCompleted: false },
+              ],
+            },
+            {
+              id: 'f0c31e18-fd90-48f1-ac16-5b879a67dc08',
+              title: 'Design onboarding flow',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Sign up page', isCompleted: true },
+                { title: 'Sign in page', isCompleted: false },
+                { title: 'Welcome page', isCompleted: false },
+              ],
+            },
+            {
+              id: 'a08b169e-f940-45a3-b9d9-ffd8371e4139',
+              title: 'Add search enpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Add search endpoint', isCompleted: true },
+                { title: 'Define search filters', isCompleted: false },
+              ],
+            },
+            {
+              id: '790c810b-e300-4f7c-9359-f44b73184baa',
+              title: 'Add authentication endpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Define user model', isCompleted: true },
+                { title: 'Add auth endpoints', isCompleted: false },
+              ],
+            },
+            {
+              id: '8fcf9b2e-0fdb-4cf6-acdf-8969d96af37d',
+              title:
+                'Research pricing points of various competitors and trial different business models',
+              description:
+                'We know what we\'re planning to build for version one. Now we need to finalise the first pricing model we\'ll use. Keep iterating the subtasks until we have a coherent proposition.',
+              status: 'Doing',
+              subtasks: [
+                {
+                  title: 'Research competitor pricing and business models',
+                  isCompleted: true,
+                },
+                {
+                  title: 'Outline a business model that works for our solution',
+                  isCompleted: false,
+                },
+                {
+                  title:
+                    'Talk to potential customers about our proposed solution and ask for fair price expectancy',
+                  isCompleted: false,
+                },
+              ],
+            },
+          ],
+        }, {
+          name: 'Doing',
+          tasks: [
+            {
+              id: '69eb5ce8-4720-441e-b7b4-0c1d8a59143d',
+              title: 'Design settings and search pages',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Settings - Account page', isCompleted: true },
+                { title: 'Settings - Billing page', isCompleted: true },
+                { title: 'Search page', isCompleted: false },
+              ],
+            },
+            {
+              id: '4a934216-0b96-475d-8284-d027e8657df3',
+              title: 'Build UI for onboarding flow',
+              description: '',
+              status: 'Todo',
+              subtasks: [
+                { title: 'Sign up page', isCompleted: true },
+                { title: 'Sign in page', isCompleted: false },
+                { title: 'Welcome page', isCompleted: false },
+              ],
+            },
+            {
+              id: 'd281d4b7-6576-4dfd-a9fb-30ac16bebeab',
+              title: 'Add account management endpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Upgrade plan', isCompleted: true },
+                { title: 'Cancel plan', isCompleted: true },
+                { title: 'Update payment method', isCompleted: false },
+              ],
+            },
+            {
+              id: 'f0c31e18-fd90-48f1-ac16-5b879a67dc08',
+              title: 'Design onboarding flow',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Sign up page', isCompleted: true },
+                { title: 'Sign in page', isCompleted: false },
+                { title: 'Welcome page', isCompleted: false },
+              ],
+            },
+            {
+              id: 'a08b169e-f940-45a3-b9d9-ffd8371e4139',
+              title: 'Add search enpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Add search endpoint', isCompleted: true },
+                { title: 'Define search filters', isCompleted: false },
+              ],
+            },
+            {
+              id: '790c810b-e300-4f7c-9359-f44b73184baa',
+              title: 'Add authentication endpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Define user model', isCompleted: true },
+                { title: 'Add auth endpoints', isCompleted: false },
+              ],
+            },
+            {
+              id: '8fcf9b2e-0fdb-4cf6-acdf-8969d96af37d',
+              title:
+                'Research pricing points of various competitors and trial different business models',
+              description:
+                'We know what we\'re planning to build for version one. Now we need to finalise the first pricing model we\'ll use. Keep iterating the subtasks until we have a coherent proposition.',
+              status: 'Doing',
+              subtasks: [
+                {
+                  title: 'Research competitor pricing and business models',
+                  isCompleted: true,
+                },
+                {
+                  title: 'Outline a business model that works for our solution',
+                  isCompleted: false,
+                },
+                {
+                  title:
+                    'Talk to potential customers about our proposed solution and ask for fair price expectancy',
+                  isCompleted: false,
+                },
+              ],
+            },
+          ],
+        }, {
+          name: 'Doing',
+          tasks: [
+            {
+              id: '69eb5ce8-4720-441e-b7b4-0c1d8a59143d',
+              title: 'Design settings and search pages',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Settings - Account page', isCompleted: true },
+                { title: 'Settings - Billing page', isCompleted: true },
+                { title: 'Search page', isCompleted: false },
+              ],
+            },
+            {
+              id: '4a934216-0b96-475d-8284-d027e8657df3',
+              title: 'Build UI for onboarding flow',
+              description: '',
+              status: 'Todo',
+              subtasks: [
+                { title: 'Sign up page', isCompleted: true },
+                { title: 'Sign in page', isCompleted: false },
+                { title: 'Welcome page', isCompleted: false },
+              ],
+            },
+            {
+              id: 'd281d4b7-6576-4dfd-a9fb-30ac16bebeab',
+              title: 'Add account management endpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Upgrade plan', isCompleted: true },
+                { title: 'Cancel plan', isCompleted: true },
+                { title: 'Update payment method', isCompleted: false },
+              ],
+            },
+            {
+              id: 'f0c31e18-fd90-48f1-ac16-5b879a67dc08',
+              title: 'Design onboarding flow',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Sign up page', isCompleted: true },
+                { title: 'Sign in page', isCompleted: false },
+                { title: 'Welcome page', isCompleted: false },
+              ],
+            },
+            {
+              id: 'a08b169e-f940-45a3-b9d9-ffd8371e4139',
+              title: 'Add search enpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Add search endpoint', isCompleted: true },
+                { title: 'Define search filters', isCompleted: false },
+              ],
+            },
+            {
+              id: '790c810b-e300-4f7c-9359-f44b73184baa',
+              title: 'Add authentication endpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Define user model', isCompleted: true },
+                { title: 'Add auth endpoints', isCompleted: false },
+              ],
+            },
+            {
+              id: '8fcf9b2e-0fdb-4cf6-acdf-8969d96af37d',
+              title:
+                'Research pricing points of various competitors and trial different business models',
+              description:
+                'We know what we\'re planning to build for version one. Now we need to finalise the first pricing model we\'ll use. Keep iterating the subtasks until we have a coherent proposition.',
+              status: 'Doing',
+              subtasks: [
+                {
+                  title: 'Research competitor pricing and business models',
+                  isCompleted: true,
+                },
+                {
+                  title: 'Outline a business model that works for our solution',
+                  isCompleted: false,
+                },
+                {
+                  title:
+                    'Talk to potential customers about our proposed solution and ask for fair price expectancy',
+                  isCompleted: false,
+                },
+              ],
+            },
+          ],
+        }, {
+          name: 'Doing',
+          tasks: [
+            {
+              id: '69eb5ce8-4720-441e-b7b4-0c1d8a59143d',
+              title: 'Design settings and search pages',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Settings - Account page', isCompleted: true },
+                { title: 'Settings - Billing page', isCompleted: true },
+                { title: 'Search page', isCompleted: false },
+              ],
+            },
+            {
+              id: '4a934216-0b96-475d-8284-d027e8657df3',
+              title: 'Build UI for onboarding flow',
+              description: '',
+              status: 'Todo',
+              subtasks: [
+                { title: 'Sign up page', isCompleted: true },
+                { title: 'Sign in page', isCompleted: false },
+                { title: 'Welcome page', isCompleted: false },
+              ],
+            },
+            {
+              id: 'd281d4b7-6576-4dfd-a9fb-30ac16bebeab',
+              title: 'Add account management endpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Upgrade plan', isCompleted: true },
+                { title: 'Cancel plan', isCompleted: true },
+                { title: 'Update payment method', isCompleted: false },
+              ],
+            },
+            {
+              id: 'f0c31e18-fd90-48f1-ac16-5b879a67dc08',
+              title: 'Design onboarding flow',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Sign up page', isCompleted: true },
+                { title: 'Sign in page', isCompleted: false },
+                { title: 'Welcome page', isCompleted: false },
+              ],
+            },
+            {
+              id: 'a08b169e-f940-45a3-b9d9-ffd8371e4139',
+              title: 'Add search enpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Add search endpoint', isCompleted: true },
+                { title: 'Define search filters', isCompleted: false },
+              ],
+            },
+            {
+              id: '790c810b-e300-4f7c-9359-f44b73184baa',
+              title: 'Add authentication endpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Define user model', isCompleted: true },
+                { title: 'Add auth endpoints', isCompleted: false },
+              ],
+            },
+            {
+              id: '8fcf9b2e-0fdb-4cf6-acdf-8969d96af37d',
+              title:
+                'Research pricing points of various competitors and trial different business models',
+              description:
+                'We know what we\'re planning to build for version one. Now we need to finalise the first pricing model we\'ll use. Keep iterating the subtasks until we have a coherent proposition.',
+              status: 'Doing',
+              subtasks: [
+                {
+                  title: 'Research competitor pricing and business models',
+                  isCompleted: true,
+                },
+                {
+                  title: 'Outline a business model that works for our solution',
+                  isCompleted: false,
+                },
+                {
+                  title:
+                    'Talk to potential customers about our proposed solution and ask for fair price expectancy',
+                  isCompleted: false,
+                },
+              ],
+            },
+          ],
+        }, {
+          name: 'Doing',
+          tasks: [
+            {
+              id: '69eb5ce8-4720-441e-b7b4-0c1d8a59143d',
+              title: 'Design settings and search pages',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Settings - Account page', isCompleted: true },
+                { title: 'Settings - Billing page', isCompleted: true },
+                { title: 'Search page', isCompleted: false },
+              ],
+            },
+            {
+              id: '4a934216-0b96-475d-8284-d027e8657df3',
+              title: 'Build UI for onboarding flow',
+              description: '',
+              status: 'Todo',
+              subtasks: [
+                { title: 'Sign up page', isCompleted: true },
+                { title: 'Sign in page', isCompleted: false },
+                { title: 'Welcome page', isCompleted: false },
+              ],
+            },
+            {
+              id: 'd281d4b7-6576-4dfd-a9fb-30ac16bebeab',
+              title: 'Add account management endpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Upgrade plan', isCompleted: true },
+                { title: 'Cancel plan', isCompleted: true },
+                { title: 'Update payment method', isCompleted: false },
+              ],
+            },
+            {
+              id: 'f0c31e18-fd90-48f1-ac16-5b879a67dc08',
+              title: 'Design onboarding flow',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Sign up page', isCompleted: true },
+                { title: 'Sign in page', isCompleted: false },
+                { title: 'Welcome page', isCompleted: false },
+              ],
+            },
+            {
+              id: 'a08b169e-f940-45a3-b9d9-ffd8371e4139',
+              title: 'Add search enpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Add search endpoint', isCompleted: true },
+                { title: 'Define search filters', isCompleted: false },
+              ],
+            },
+            {
+              id: '790c810b-e300-4f7c-9359-f44b73184baa',
+              title: 'Add authentication endpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Define user model', isCompleted: true },
+                { title: 'Add auth endpoints', isCompleted: false },
+              ],
+            },
+            {
+              id: '8fcf9b2e-0fdb-4cf6-acdf-8969d96af37d',
+              title:
+                'Research pricing points of various competitors and trial different business models',
+              description:
+                'We know what we\'re planning to build for version one. Now we need to finalise the first pricing model we\'ll use. Keep iterating the subtasks until we have a coherent proposition.',
+              status: 'Doing',
+              subtasks: [
+                {
+                  title: 'Research competitor pricing and business models',
+                  isCompleted: true,
+                },
+                {
+                  title: 'Outline a business model that works for our solution',
+                  isCompleted: false,
+                },
+                {
+                  title:
+                    'Talk to potential customers about our proposed solution and ask for fair price expectancy',
+                  isCompleted: false,
+                },
+              ],
+            },
+          ],
+        }, {
+          name: 'Doing',
+          tasks: [
+            {
+              id: '69eb5ce8-4720-441e-b7b4-0c1d8a59143d',
+              title: 'Design settings and search pages',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Settings - Account page', isCompleted: true },
+                { title: 'Settings - Billing page', isCompleted: true },
+                { title: 'Search page', isCompleted: false },
+              ],
+            },
+            {
+              id: '4a934216-0b96-475d-8284-d027e8657df3',
+              title: 'Build UI for onboarding flow',
+              description: '',
+              status: 'Todo',
+              subtasks: [
+                { title: 'Sign up page', isCompleted: true },
+                { title: 'Sign in page', isCompleted: false },
+                { title: 'Welcome page', isCompleted: false },
+              ],
+            },
+            {
+              id: 'd281d4b7-6576-4dfd-a9fb-30ac16bebeab',
+              title: 'Add account management endpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Upgrade plan', isCompleted: true },
+                { title: 'Cancel plan', isCompleted: true },
+                { title: 'Update payment method', isCompleted: false },
+              ],
+            },
+            {
+              id: 'f0c31e18-fd90-48f1-ac16-5b879a67dc08',
+              title: 'Design onboarding flow',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Sign up page', isCompleted: true },
+                { title: 'Sign in page', isCompleted: false },
+                { title: 'Welcome page', isCompleted: false },
+              ],
+            },
+            {
+              id: 'a08b169e-f940-45a3-b9d9-ffd8371e4139',
+              title: 'Add search enpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Add search endpoint', isCompleted: true },
+                { title: 'Define search filters', isCompleted: false },
+              ],
+            },
+            {
+              id: '790c810b-e300-4f7c-9359-f44b73184baa',
+              title: 'Add authentication endpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Define user model', isCompleted: true },
+                { title: 'Add auth endpoints', isCompleted: false },
+              ],
+            },
+            {
+              id: '8fcf9b2e-0fdb-4cf6-acdf-8969d96af37d',
+              title:
+                'Research pricing points of various competitors and trial different business models',
+              description:
+                'We know what we\'re planning to build for version one. Now we need to finalise the first pricing model we\'ll use. Keep iterating the subtasks until we have a coherent proposition.',
+              status: 'Doing',
+              subtasks: [
+                {
+                  title: 'Research competitor pricing and business models',
+                  isCompleted: true,
+                },
+                {
+                  title: 'Outline a business model that works for our solution',
+                  isCompleted: false,
+                },
+                {
+                  title:
+                    'Talk to potential customers about our proposed solution and ask for fair price expectancy',
+                  isCompleted: false,
+                },
+              ],
+            },
+          ],
+        }, {
+          name: 'Doing',
+          tasks: [
+            {
+              id: '69eb5ce8-4720-441e-b7b4-0c1d8a59143d',
+              title: 'Design settings and search pages',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Settings - Account page', isCompleted: true },
+                { title: 'Settings - Billing page', isCompleted: true },
+                { title: 'Search page', isCompleted: false },
+              ],
+            },
+            {
+              id: '4a934216-0b96-475d-8284-d027e8657df3',
+              title: 'Build UI for onboarding flow',
+              description: '',
+              status: 'Todo',
+              subtasks: [
+                { title: 'Sign up page', isCompleted: true },
+                { title: 'Sign in page', isCompleted: false },
+                { title: 'Welcome page', isCompleted: false },
+              ],
+            },
+            {
+              id: 'd281d4b7-6576-4dfd-a9fb-30ac16bebeab',
+              title: 'Add account management endpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Upgrade plan', isCompleted: true },
+                { title: 'Cancel plan', isCompleted: true },
+                { title: 'Update payment method', isCompleted: false },
+              ],
+            },
+            {
+              id: 'f0c31e18-fd90-48f1-ac16-5b879a67dc08',
+              title: 'Design onboarding flow',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Sign up page', isCompleted: true },
+                { title: 'Sign in page', isCompleted: false },
+                { title: 'Welcome page', isCompleted: false },
+              ],
+            },
+            {
+              id: 'a08b169e-f940-45a3-b9d9-ffd8371e4139',
+              title: 'Add search enpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Add search endpoint', isCompleted: true },
+                { title: 'Define search filters', isCompleted: false },
+              ],
+            },
+            {
+              id: '790c810b-e300-4f7c-9359-f44b73184baa',
+              title: 'Add authentication endpoints',
+              description: '',
+              status: 'Doing',
+              subtasks: [
+                { title: 'Define user model', isCompleted: true },
+                { title: 'Add auth endpoints', isCompleted: false },
+              ],
+            },
+            {
+              id: '8fcf9b2e-0fdb-4cf6-acdf-8969d96af37d',
+              title:
+                'Research pricing points of various competitors and trial different business models',
+              description:
+                'We know what we\'re planning to build for version one. Now we need to finalise the first pricing model we\'ll use. Keep iterating the subtasks until we have a coherent proposition.',
+              status: 'Doing',
+              subtasks: [
+                {
+                  title: 'Research competitor pricing and business models',
+                  isCompleted: true,
+                },
+                {
+                  title: 'Outline a business model that works for our solution',
+                  isCompleted: false,
+                },
+                {
+                  title:
+                    'Talk to potential customers about our proposed solution and ask for fair price expectancy',
+                  isCompleted: false,
+                },
+              ],
+            },
+          ],
         },
         {
           name: 'Doing',
@@ -109,7 +837,7 @@ const boardData = {
               title:
                 'Research pricing points of various competitors and trial different business models',
               description:
-                "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
+                'We know what we\'re planning to build for version one. Now we need to finalise the first pricing model we\'ll use. Keep iterating the subtasks until we have a coherent proposition.',
               status: 'Doing',
               subtasks: [
                 {
@@ -162,7 +890,7 @@ const boardData = {
               id: 'd408b2f5-1238-4ebf-a159-4ef1d2dafa3b',
               title: 'Review results of usability tests and iterate',
               description:
-                "Keep iterating through the subtasks until we're clear on the core concepts for the app.",
+                'Keep iterating through the subtasks until we\'re clear on the core concepts for the app.',
               status: 'Done',
               subtasks: [
                 {
@@ -312,7 +1040,7 @@ const boardData = {
               id: '260d9248-4f73-459f-93e4-10e975fc9929',
               title: 'Review early feedback and plan next steps for roadmap',
               description:
-                "Beyond the initial launch, we're keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.",
+                'Beyond the initial launch, we\'re keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.',
               status: '',
               subtasks: [
                 { title: 'Interview 10 customers', isCompleted: false },
@@ -338,19 +1066,9 @@ const boardData = {
   selectedTask: 0,
 }
 
-// Assuming a function to handle column selection
-function handleColumnSelection(columnIndex) {
-  // Update the selectedColumn property
-  boardData.selectedColumn = columnIndex
+const playGround = document.querySelector("#playGround")
 
-  // Perform actions related to the selected column, if needed
-  console.log(
-    `Selected Column: ${
-      boardData.boards[boardData.selectedBoard].columns[columnIndex].name
-    }`,
-  )
-}
-
+const boardList = document.querySelector(".board-list")
 function renderBoard(boardId) {
   console.log(boardId)
   // Check if boardData.boards is an array
@@ -402,40 +1120,11 @@ function renderBoard(boardId) {
   console.log(boardData.selectedBoard)
 }
 
-let isDragging = false
-let startPosition = { x: 0, y: 0 }
-let scrollLeft = 0
-let scrollTop = 0
-
-playGround.addEventListener('mousedown', (e) => {
-  isDragging = true
-  startPosition = {
-    x: e.clientX,
-    y: e.clientY,
-  }
-  scrollLeft = playGround.scrollLeft
-  scrollTop = playGround.scrollTop
-})
-
-document.addEventListener('mouseup', () => {
-  if (isDragging) {
-    isDragging = false
-  }
-})
-
-document.addEventListener('mousemove', (e) => {
-  if (isDragging) {
-    const deltaX = e.clientX - startPosition.x
-    const deltaY = e.clientY - startPosition.y
-
-    playGround.scrollLeft = scrollLeft - deltaX
-    playGround.scrollTop = scrollTop - deltaY
-  }
-})
 
 function generateUniqueId() {
   return Date.now().toString(36)
 }
+
 function generateStatusToDropdown(status) {
   return `
   <li class="dropdown-option cursor-pointer p-3 hover:bg-content-color duration-200">
@@ -445,6 +1134,7 @@ function generateStatusToDropdown(status) {
   </li>
   `
 }
+
 function generateTaskCard(task) {
   return `
     <div
@@ -454,8 +1144,8 @@ function generateTaskCard(task) {
     >
       <p class="card__title text-color capitalize">${task.title}</p>
       <p class="card__status text-slate-500">${
-        task.subtasks.filter((subtask) => !subtask.isCompleted).length
-      } of ${task.subtasks.length} substasks</p>
+    task.subtasks.filter((subtask) => !subtask.isCompleted).length
+  } of ${task.subtasks.length} substasks</p>
     </div>
   `
 }
@@ -512,6 +1202,7 @@ function generateTaskModal(task, dropdownElement, statusValues) {
 
   // ... (existing code)
 }
+
 function deleteTask(taskId) {
   console.log(taskId)
   // Find the board and column that contain the task
@@ -664,11 +1355,11 @@ function generateTaskModal(task, dropdownElement, statusValues) {
   <div class="h-full">
     <div class="flex items-center gap-4 justify-between mb-6">
       <button class="edit-task text-white font-bold w-full hover:opacity-80 bg-primary-color duration-100 rounded-full p-4" onclick="editTask('${
-        task.id
-      }')">Edit Board</button>
+    task.id
+  }')">Edit Board</button>
       <button class="delete-task font-bold bg-danger-color hover:opacity-80 duration-100 rounded-full w-full p-4" onclick="deleteTask('${
-        task.id
-      }')">Delete Board</button>
+    task.id
+  }')">Delete Board</button>
     </div>
 
     <div>
@@ -685,8 +1376,8 @@ function generateTaskModal(task, dropdownElement, statusValues) {
         <div class="dropdown-menu relative w-full">
           <div class="dropdown-btn status min-w-full w-full justify-between flex items-center px-4 py-2 rounded border focus:outline-none active:border-[#635FC7] group">
             <span class="dBtn-text m-0 text-gray-color cursor-pointer transition duration-400 ease-in-out text-[13px] leading-6">${
-              task.status
-            }</span>
+    task.status
+  }</span>
             <span class="dropdown-sign">
               <svg xmlns="http://www.w3.org/2000/svg" width="11" height="8" viewBox="0 0 11 8" fill="none">
                 <path d="M0.79834 1.54858L5.49682 6.24707L10.1953 1.54858" stroke="#635FC7" stroke-width="2"/>
@@ -879,8 +1570,8 @@ function generateSubtaskItem(subtask) {
   // Generate HTML for each subtask
   return `
     <div class="flex items-center p-3 gap-4 cursor-pointer relative hover:bg-[635fc740] hover:transition duration-200 active:ease-in" onclick="toggleSubtaskCompleted('${
-      subtask.id
-    }')">
+    subtask.id
+  }')">
       <i class="icon-tick checkbox-icon absolute top-4 text-white left-4 scale-1 duration-150"></i>
       <input
         type="checkbox"
@@ -949,7 +1640,7 @@ function generateStatusDropdown(task) {
 function generateColumn(column) {
   const tasksHtml = column.tasks.map((task) => generateTaskCard(task)).join('')
   return `
-    <ul class="column w-[280px] h-full">
+    <li class="column overflow-visible flex flex-col items-start w-[280px] h-fit">
       <h3 class="column__header mb-6 text-[#828fa3] flex items-center gap-3">
         <span class="w-4 h-4 bg-primary-color rounded-full"></span>
         <span class="tracking-widest text-sm font-bold">${column.name} (${column.tasks.length})</span>
@@ -957,7 +1648,7 @@ function generateColumn(column) {
       <div class="flex items-center flex-col gap-5">
         ${tasksHtml}
       </div>
-    </ul>
+    </li>
   `
 }
 
@@ -994,7 +1685,7 @@ function generateKanbanBoard(board) {
     .join('')
 
   return `
-    <ul id="${board.id}" class="kanban-board flex items-center overflow-y-auto p-6 gap-6 h-full" role="list">
+    <ul id="${board.id}" class="kanban-board overflow-visible h-fit flex p-6 gap-6 mb-14" role="list">
       ${columnsHtml}
     </ul>
   `
@@ -1019,32 +1710,3 @@ if (boardData && boardData.boards.length > 0) {
   renderBoard(initialBoardId)
 }
 
-const addColumnBtn = document.querySelector('#addColumn')
-const columns = document.querySelectorAll('.column')
-
-if (columns.length === 0) {
-  const div = document.createElement('div')
-  div.innerHTML = `
-    <div class="flex flex-col gap-8 w-full items-center content-center text-center">
-      <span class="text-center text-4.5 text-[#828FA3] mx-2 md:px-5">
-        This board is empty. Create a new column to get started.
-      </span>
-      <button
-        class="btn rounded-full text-center py-3.5 mx-auto px-4 font-plus-jakarta-sans font-bold text-[15px] leading-5 cursor-pointer transition duration-200 ease-in-out focus:outline-none bg-primary-color text-white hover:bg-primary-light-color"
-        id="addColumn"
-      >
-        + Add New Column
-      </button>
-    </div>
-  `
-  playGround.appendChild(div)
-} else {
-  const div = document.createElement('div')
-  div.innerHTML = `
-    <div
-      id="newColumn"
-      class="w-280 h-280 rounded-md bg-gradient-to-br from-slate-300 to-slate-200"
-    ></div>
-  `
-  playGround.appendChild(div)
-}
