@@ -18,6 +18,7 @@ function setupDropdown(optionMenu, task) {
 
       // Close the modal
       closeModal('open-task-modal')
+
     })
   })
 

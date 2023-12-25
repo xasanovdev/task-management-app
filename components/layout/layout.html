@@ -381,18 +381,18 @@
           </div>
         </div>
       </div>
-      <!-- Edit Task modal -->
+      <!-- Edit Board modal -->
 
       <div
         class="relative modal hidden max-w-[480px] max-h-[85vh] overflow-y-auto w-full mx-auto z-20 bg-content-color p-6 sm:p-8"
-        id="edit-task-modal"
+        id="edit-board-modal"
       >
         <div class="h-full">
           <i
             class="icon-close close-modal absolute top-6 right-6 sm:top-8 sm:right-8 cursor-pointer text-color hover:text-danger-color duration-150 active:text-danger-light-color"
           ></i>
           <div class="">
-            <h3 class="text-color text-[18px] font-bold">Edit Task</h3>
+            <h3 class="text-color text-[18px] font-bold">Edit Board</h3>
           </div>
           <div
             class="relative form-label flex flex-col gap-2 text-gray-color font-plus-jakarta-sans font-bold text-[12px] leading-5"
@@ -415,18 +415,6 @@
                   >Can’t be empty</span
                 >
               </div>
-              <div
-                for="textarea"
-                class="relative w-full mt-6 text-gray-color flex flex-col gap-2 not-italic text-[12px] font-bold leading-normal"
-              >
-                <h3 class="text-left w-full">Description</h3>
-                <textarea
-                  id="edit-task-description"
-                  name="textarea"
-                  class="block modal-input bg-transparent w-full text-color resize-none pl-4 pr-[25px] font-medium leading-[23px] pb-[57px] pt-2 rounded right-1 border border-input-color focus:border-primary-color outline-none active:transition ease-in duration-200"
-                  placeholder="e.g. It’s always good to take a break. This 15-minute break will recharge the batteries a little."
-                ></textarea>
-              </div>
               <!-- Other fields go here -->
             </div>
 
@@ -438,7 +426,7 @@
             <button
               type="submit"
               id="save-changes-button"
-              class="createNewTask btn mt-6 rounded-full w-full text-center py-2 font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 focus:outline-none bg-primary-color text-white hover:bg-primary-light-color"
+              class="btn mt-6 rounded-full w-full text-center py-2 font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 focus:outline-none bg-primary-color text-white hover:bg-primary-light-color"
             >
               Save changes
             </button>
@@ -479,18 +467,7 @@
                   >Can’t be empty</span
                 >
               </div>
-              <div
-                for="textarea"
-                class="relative w-full mt-6 text-gray-color flex flex-col gap-2 not-italic text-[12px] font-bold leading-normal"
-              >
-                <h3 class="text-left w-full">Description</h3>
-                <textarea
-                  id="edit-task-description"
-                  name="textarea"
-                  class="block modal-input bg-transparent w-full text-color resize-none pl-4 pr-[25px] font-medium leading-[23px] pb-[57px] pt-2 rounded right-1 border border-input-color focus:border-primary-color outline-none active:transition ease-in duration-200"
-                  placeholder="e.g. It’s always good to take a break. This 15-minute break will recharge the batteries a little."
-                ></textarea>
-              </div>
+              
               <!-- Other fields go here -->
             </div>
 
@@ -502,7 +479,7 @@
             <button
               type="submit"
               id="save-changes-button"
-              class="createNewTask btn mt-6 rounded-full w-full text-center py-2 font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 focus:outline-none bg-primary-color text-white hover:bg-primary-light-color"
+              class="btn mt-6 rounded-full w-full text-center py-2 font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 focus:outline-none bg-primary-color text-white hover:bg-primary-light-color"
             >
               Save changes
             </button>

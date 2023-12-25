@@ -36,7 +36,8 @@ const boardData = {
               ],
             },
           ],
-        }, {
+        },
+        {
           name: 'Doing',
           tasks: [
             {
@@ -383,10 +384,17 @@ function renderBoard(boardId) {
     playGround.innerHTML = generateKanbanBoard(board)
     playGround.appendChild(createNewColumnElement())
 
+    const newColumnButtons = document.querySelectorAll('.new-column')
+
+    newColumnButtons.forEach((newColumnButton) => {
+      newColumnButton.addEventListener('click', (e) => {
+        e.preventDefault()
+        console.log('clicked')
+        openModal('edit-board-modal', boardData.selectedBoard)
+      })
+    })
+
     // Update the selected board in boardData
-    boardData.selectedBoard = board.id
-    boardData.selectedColumn = board.columns[0].id
-    // Highlight the active link in the board list
     const boardLinks = document.querySelectorAll('.board__link')
     boardLinks.forEach((link) => {
       link.classList.remove('active')
@@ -398,9 +406,7 @@ function renderBoard(boardId) {
 
   cardJS()
   console.log(boardData.selectedBoard)
-
 }
-
 
 function generateUniqueId() {
   return Date.now().toString(36)
@@ -436,7 +442,7 @@ function openTaskModal(taskId) {
   const task = findTaskById(taskId)
   let selectedBoard = boardData.selectedBoard
 
-  const statusValues = extractStatusValues(boardData, selectedBoard)
+  const statusValues = extractStatusValues(selectedBoard)
   const dropdownOptions = statusValues.map(generateStatusToDropdown).join('')
 
   // Update the HTML content of the dropdown
@@ -525,11 +531,9 @@ function deleteTask(taskId) {
 function populateEditModal(task) {
   // This is a generic example, you should replace it with your actual logic
   const titleInput = document.getElementById('edit-task-title')
-  const descriptionInput = document.getElementById('edit-task-description')
 
   // Populate the modal inputs with task details
   titleInput.value = task.title
-  descriptionInput.value = task.description
   // ... (populate other fields as needed)
 }
 
@@ -543,7 +547,7 @@ function editTask(taskId) {
   populateEditModal(task)
   closeModal('open-task-modal')
   // Open the edit modal
-  openModal('edit-task-modal')
+  openModal('edit-task-modal',boardData.selectedBoard)
 
   // Handle the "Save Changes" button click
   const saveChangesButton = document.getElementById('save-changes-button')
@@ -560,7 +564,6 @@ function saveChanges(task) {
   // Update the task in the data structure
   task.title = titleInput.value
   task.description = descriptionInput.value
-
 
   // Optionally, trigger a function to update the UI with the modified data
   updateUI()
@@ -1027,14 +1030,3 @@ function createNewColumnElement() {
   // Return the generated element
   return divElement
 }
-
-const newColumnButtons = document.querySelectorAll('.new-column')
-
-newColumnButtons.forEach((newColumnButton) => {
-  newColumnButton.addEventListener('click', (e) => {
-    e.preventDefault()
-    console.log('clicked')
-    openModal('edit-board-modal', boardData.selectedBoard)
-    console.log(boardData)
-  })
-})
