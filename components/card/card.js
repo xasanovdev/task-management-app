@@ -123,7 +123,9 @@ function cardJS() {
   }
 
   function dragDrop() {
-    this.classList.remove('dragover')
+    document.querySelectorAll('.dragover').forEach(el => {
+      el.classList.remove('dragover')
+    })
     dragging = false
     header.scrollIntoView({ behavior: 'smooth', block: 'end' })
     makeMouseScrollable(playGround)
@@ -182,7 +184,7 @@ function cardJS() {
 
     if (this.querySelectorAll('.card').length === 0) {
       this.appendChild(dragSrcEl)
-      dragSrcEl.classList.add("dragover")
+      dragSrcEl.classList.add('dragover')
     }
 
     return false

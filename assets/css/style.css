@@ -28,7 +28,7 @@ body.active {
 .dragover{
   border: 2px solid #635fc7;
   opacity: 50%;
-  animation: zoomInZoomOut .3s;
+  animation: zoomInZoomOut .4s;
 }
 
 @keyframes zoomInZoomOut {
