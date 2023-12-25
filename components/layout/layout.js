@@ -635,12 +635,12 @@ function generateTaskModal(task, dropdownElement, statusValues) {
   const modalHtml = `
   <div class="h-full">
     <div class="flex items-center gap-4 justify-between mb-6">
-      <button class="edit-task text-white font-bold w-full hover:opacity-80 bg-primary-color duration-100 rounded-full p-4" onclick="editTask('${
+      <button class="edit-task rounded-full w-full text-center py-4 font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 outline-none text-primary-color dark:bg-white bg-[#635fc71a] hover:bg-[#635FC740]" onclick="editTask('${
         task.id
-      }')">Edit Board</button>
-      <button class="delete-task font-bold bg-danger-color hover:opacity-80 duration-100 rounded-full w-full p-4" onclick="deleteTask('${
+      }')">Edit Task</button>
+      <button class="delete-task font-bold text-white bg-danger-color hover:opacity-80 duration-100 rounded-full w-full p-4" onclick="deleteTask('${
         task.id
-      }')">Delete Board</button>
+      }')">Delete Task</button>
     </div>
 
     <div>
