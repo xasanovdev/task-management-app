@@ -1141,7 +1141,7 @@ function generateTaskCard(task) {
   return `
     <div
       modal-id="${task.id}"
-      class="card toggle-modal-button bg-content-color w-280 h-fit py-6 px-4 rounded-lg font-bold shadow-sh-color shadow-sm hover:cursor-pointer hover:text-primary-color subpixel-antialiased"
+      class="card toggle-modal-button bg-content-color w-280 h-fit py-6 px-4 rounded-lg font-bold shadow-sh-color shadow-sm hover:cursor-pointer subpixel-antialiased"
       onclick="openTaskModal('${task.id}')"
     >
       <p class="card__title text-color capitalize">${task.title}</p>

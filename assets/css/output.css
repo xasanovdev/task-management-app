@@ -1391,6 +1391,24 @@ body.active {
 .card{
   border: 2px solid transparent;
 }
+.card:hover {
+  border: 2px solid #635fc7;
+  color: #635fc7;
+}
+.card:hover .card__title {
+  color: #635fc7;
+  animation: zoomInZoomOut .3s;
+}
+
+zoomInZoomOut {
+  0% {
+    transform: scale(0.999999999999, 0.9999999999999);
+  }
+
+  100% {
+    transform: scale(1, 1);
+  }
+}
 
 .dragover{
   border: 2px solid #635fc7;
