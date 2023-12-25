@@ -192,7 +192,7 @@ function cardJS() {
     const newColumn = document.querySelector('#newColumn')
     const columns = document.querySelectorAll('.column')
     const theColumn = getColumnWithMostChildNodes(columns)
-    newColumn.style.height = `${calculateSumOfCardHeights(theColumn)+theColumn.querySelectorAll(".card").length*10}px`
+    newColumn.style.height = `${calculateSumOfCardHeights(theColumn)+theColumn.querySelectorAll(".card").length*5}px`
     columns.forEach(col => {
       col.style.height = `${newColumn.style.height + 100}px`
     })
