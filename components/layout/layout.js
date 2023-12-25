@@ -921,14 +921,12 @@ function generateStatusDropdown(task) {
 function generateColumn(column) {
   const tasksHtml = column.tasks.map((task) => generateTaskCard(task)).join('')
   return `
-    <li class="column relative h-screen text-color flex flex-col w-280 gap-5 mb-14">
+    <li class="column relative h-screen h-min-[60px] text-color flex flex-col items-start w-280 gap-5 overflow-visible">
       <h3 class="column__header mb-6 text-[#828fa3] flex items-center gap-3">
         <span class="w-4 h-4 bg-primary-color rounded-full"></span>
         <span class="tracking-widest text-sm font-bold">${column.name} (${column.tasks.length})</span>
       </h3>
-      <div class="flex items-center flex-col gap-5">
         ${tasksHtml}
-      </div>
     </li>
   `
 }
@@ -949,10 +947,9 @@ function generateKanbanBoardName(board) {
 }
 
 function generateKanbanBoardNames(boardData) {
-  const boardNamesHtml = boardData.boards
+  return boardData.boards
     .map((board) => generateKanbanBoardName(board))
     .join('')
-  return boardNamesHtml
 }
 
 function generateKanbanBoard(board) {
@@ -961,15 +958,9 @@ function generateKanbanBoard(board) {
     return '' // Return an empty string or handle the error appropriately
   }
 
-  const columnsHtml = board.columns
+  return board.columns
     .map((column) => generateColumn(column))
     .join('')
-
-  return `
-    <ul id="${board.id}" class="kanban-board overflow-visible h-fit flex p-6 gap-6 mb-14" role="list">
-      ${columnsHtml}
-    </ul>
-  `
 }
 
 boardList.addEventListener('click', (event) => {
