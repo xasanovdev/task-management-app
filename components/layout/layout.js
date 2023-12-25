@@ -929,13 +929,13 @@ function generateStatusDropdown(task) {
 function generateColumn(column) {
   const tasksHtml = column.tasks.map((task) => generateTaskCard(task)).join('')
   return `
-    <li class="column relative h-screen h-min-[60px] text-color flex flex-col items-start w-280 gap-5 overflow-visible">
+    <div class="column relative h-full text-color flex flex-col items-start w-280 gap-5 overflow-visible">
       <h3 class="column__header mb-6 text-[#828fa3] flex items-center gap-3">
         <span class="w-4 h-4 bg-primary-color rounded-full"></span>
         <span class="tracking-widest text-sm font-bold">${column.name} (${column.tasks.length})</span>
       </h3>
         ${tasksHtml}
-    </li>
+    </div>
   `
 }
 
