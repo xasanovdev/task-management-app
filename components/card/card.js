@@ -86,7 +86,6 @@ function cardJS() {
     }
 
     if (dragSrcEl !== this && !this.contains(dragSrcEl)) {
-
       if (isBefore(dragSrcEl, this)) {
         draggingColumn.insertBefore(dragSrcEl, this);
       } else {
@@ -193,9 +192,9 @@ function cardJS() {
     const newColumn = document.querySelector('#newColumn')
     const columns = document.querySelectorAll('.column')
     const theColumn = getColumnWithMostChildNodes(columns)
-    newColumn.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn.querySelectorAll('.card').length * 18}px`
+    newColumn.style.height = `${calculateSumOfCardHeights(theColumn)+theColumn.querySelectorAll(".card").length*10}px`
     columns.forEach(col => {
-      col.style.height = `${100}%`
+      col.style.height = `${newColumn.style.height + 100}px`
     })
 
 
