@@ -690,6 +690,10 @@ video {
   margin-bottom: 6rem;
 }
 
+.mb-48 {
+  margin-bottom: 12rem;
+}
+
 .mb-6 {
   margin-bottom: 1.5rem;
 }
@@ -738,10 +742,6 @@ video {
   margin-top: 15rem;
 }
 
-.mb-48 {
-  margin-bottom: 12rem;
-}
-
 .mt-9 {
   margin-top: 2.25rem;
 }
@@ -774,8 +774,9 @@ video {
   height: 1.5rem;
 }
 
-.h-\[90vh\] {
-  height: 90vh;
+.h-fit {
+  height: -moz-fit-content;
+  height: fit-content;
 }
 
 .h-full {
@@ -784,11 +785,6 @@ video {
 
 .h-screen {
   height: 100vh;
-}
-
-.h-fit {
-  height: -moz-fit-content;
-  height: fit-content;
 }
 
 .max-h-\[85vh\] {
@@ -898,8 +894,8 @@ video {
   gap: 1.25rem;
 }
 
-.overflow-auto {
-  overflow: auto;
+.overflow-hidden {
+  overflow: hidden;
 }
 
 .overflow-visible {
@@ -1028,12 +1024,12 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.bg-gradient-to-br {
-  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
-}
-
 .bg-gradient-primary {
   background-image: linear-gradient(180deg, var(--gradient-f) 0%, var(--gradient-t) 100%);
+}
+
+.bg-gradient-to-br {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
 }
 
 .from-slate-300 {
@@ -1058,16 +1054,16 @@ video {
   padding: 0.75rem;
 }
 
+.p-5 {
+  padding: 1.25rem;
+}
+
 .p-6 {
   padding: 1.5rem;
 }
 
 .p-\[10px\] {
   padding: 10px;
-}
-
-.p-5 {
-  padding: 1.25rem;
 }
 
 .px-3 {
@@ -1162,6 +1158,11 @@ video {
   line-height: 2rem;
 }
 
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
 .text-\[12px\] {
   font-size: 12px;
 }
@@ -1185,11 +1186,6 @@ video {
 .text-base {
   font-size: 1rem;
   line-height: 1.5rem;
-}
-
-.text-3xl {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
 }
 
 .font-bold {
