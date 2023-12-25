@@ -179,7 +179,7 @@ function extractStatusValues(selectedBoard) {
   const uniqueStatusValues = new Set()
 
   const board = boardData.boards.find((board) => board.id === selectedBoard)
-
+  boardData.selectedBoard = board.id
   console.log(board)
   if (board) {
     board.columns.forEach((column) => {
@@ -432,8 +432,6 @@ createNewTask.addEventListener('click', (e) => {
   )
 
   console.log(dropdownOptions);
-  // Extract text content from dBtn-text elements
-  setupDropdown(dropdownMenu, '')
 
   // Check which option has the 'active' class
   const selectedStatus = dropdownOptions[0]

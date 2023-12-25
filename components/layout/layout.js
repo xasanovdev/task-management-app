@@ -353,8 +353,6 @@ function renderBoard(boardId) {
   if (!boardId && boardData.boards.length > 0) {
     boardId = boardData.boards[0].id
   }
-  console.log(boardId)
-
   // Find the board by ID
   const board = boardData.boards.find((board) => board.id === boardId)
 
@@ -404,7 +402,7 @@ function renderBoard(boardId) {
     })
   }
   cardJS()
-  console.log(boardData.selectedBoard)
+  console.log(boardData.boards[boardData.selectedBoard].columns)
 }
 
 function generateUniqueId() {
@@ -879,55 +877,6 @@ function generateSubtaskItem(subtask) {
   `
 }
 
-function generateStatusDropdown(task) {
-  const columnNames = boardData.boards[boardData.selectedBoard].columns.map(
-    (column) => column.name,
-  )
-  console.log()
-  const statusOptionsHtml = columnNames
-    .map((status) => {
-      const isActive = task.status === status ? 'active' : ''
-      return `
-        <li class="dropdown-option cursor-pointer p-3 hover:bg-content-color duration-200 ${isActive}">
-          <span class="option-text font-medium text-[13px] leading-[23px] text-[#828FA3]">
-            ${status}
-          </span>
-        </li>
-      `
-    })
-    .join('')
-
-  return `
-    <div class="dropdown">
-      <div class="dropdown-menu relative w-full">
-        <div class="dropdown-btn status min-w-full w-full justify-between flex items-center px-4 py-2 rounded border focus:outline-none active:border-[#635FC7] group">
-          <span class="dBtn-text m-0 text-gray-color cursor-pointer transition duration-400 ease-in-out text-[13px] leading-6">
-            ${task.status}
-          </span>
-          <span class="dropdown-sign">
-            <svg
-              class="ml-10"
-              xmlns="http://www.w3.org/2000/svg"
-              width="11"
-              height="8"
-              viewBox="0 0 11 8"
-              fill="none"
-            >
-              <path
-                d="M0.79834 1.54858L5.49682 6.24707L10.1953 1.54858"
-                stroke="#635FC7"
-                stroke-width="2"
-              />
-            </svg>
-          </span>
-        </div>
-        <ul class="dropdown-options active w-full hidden mt-2 rounded bg-page-color">
-          ${statusOptionsHtml}
-        </ul>
-      </div>
-    </div>
-  `
-}
 
 function generateColumn(column) {
   const tasksHtml = column.tasks.map((task) => generateTaskCard(task)).join('')
@@ -977,6 +926,7 @@ boardList.addEventListener('click', (event) => {
   const targetLink = event.target.closest('.board__link')
   if (targetLink) {
     const boardId = targetLink.getAttribute('data-board-id')
+    console.log(boardData.boards);
     renderBoard(boardId)
   }
 })
