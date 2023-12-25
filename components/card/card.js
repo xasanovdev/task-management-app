@@ -11,9 +11,16 @@ function cardJS() {
   let startedColumn
   let dragSrcEl
 
+  const newColumn = document.querySelector('#newColumn')
+  const columns = document.querySelectorAll('.column')
+  const theColumn = getColumnWithMostChildNodes(columns)
+  newColumn.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn.querySelectorAll('.card').length * 5}px`
+  columns.forEach(col => {
+    col.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn.querySelectorAll('.card').length *5 }px`
+  })
+
 
   function isBefore(el1, el2) {
-    console.log(el1,el2)
     let cur
     if (el2.parentNode === el1.parentNode) {
       for (cur = el1.previousSibling; cur; cur = cur.previousSibling) {
@@ -35,7 +42,6 @@ function cardJS() {
 
 
   function drag() {
-    dragging = true
     isDragging = false
     startPosition = { x: 0, y: 0 }
     scrollLeft = 0
@@ -47,15 +53,15 @@ function cardJS() {
 
   function dragStart(e) {
     dragging = true
-    e.dataTransfer.dropEffect = 'move'
-    e.dataTransfer.setData('text/plain', null)
-    dragSrcEl = e.target
+    // e.dataTransfer.dropEffect = 'move'
+    // e.dataTransfer.setData('text/plain', null)
+    dragSrcEl = this
     dragSrcEl.opacity = 0.5
 
     startedColumn = this.closest('.column')
 
-    e.dataTransfer.setData('taskId', this.id)
-    e.dataTransfer.setData('completed', this.getAttribute('data-completed'))
+    // e.dataTransfer.setData('taskId', this.id)
+    // e.dataTransfer.setData('completed', this.getAttribute('data-completed'))
 
     isDragging = false
     startPosition = { x: 0, y: 0 }
@@ -66,18 +72,18 @@ function cardJS() {
   }
 
   function dragEnter(e) {
+    dragging=true
   }
 
   function dragOver(e) {
+    e.preventDefault()
+
     dragging = true
     draggingColumn = this.closest('.column')
-    e.preventDefault()
+    console.log(draggingColumn)
     e.dataTransfer.dropEffect = 'move'
-
-
-    last = document.querySelectorAll('.dragover')[0]
-
-    if (last === undefined) {
+    last = document.querySelector('.dragover')
+    if (last === undefined || last === null) {
       this.classList.add('dragover')
     } else {
       last.classList.remove('dragover')
@@ -87,13 +93,12 @@ function cardJS() {
 
     if (dragSrcEl !== this && !this.contains(dragSrcEl)) {
       if (isBefore(dragSrcEl, this)) {
-        draggingColumn.insertBefore(dragSrcEl, this);
+        draggingColumn.insertBefore(dragSrcEl, this)
       } else {
-        draggingColumn.insertBefore(dragSrcEl, this.nextElementSibling);
+        draggingColumn.insertBefore(dragSrcEl, this.nextElementSibling)
       }
     }
 
-    this.scrollIntoView({ behavior: 'smooth', block: 'end' })
 
     isDragging = false
     startPosition = { x: 0, y: 0 }
@@ -104,7 +109,7 @@ function cardJS() {
   }
 
   function dragLeave(e) {
-    dragging = true
+    dragging = false
     e.preventDefault()
     if (this.classList.contains('dragover') && this !== last) {
       this.classList.remove('dragover')
@@ -128,21 +133,11 @@ function cardJS() {
     newColumn.style.height = `${findColumnWithLargestHeight().scrollHeight - 34}px`
   }
 
-  async function dragEnd() {
+  function dragEnd() {
     this.classList.remove('dragover')
     header.scrollIntoView({ behavior: 'smooth', block: 'end' })
 
     droppedColumn = this.closest('.column')
-    //
-    // console.log("Dropped Column ID:", droppedColumn.id);
-    // console.log("Number of Cards in Dropped Column:", droppedColumn.querySelectorAll(".card").length);
-    //
-    // const updatedCol = updatedColumn(defaultBoard, droppedColumn.id, droppedColumn, await fetchData());
-    // console.log("Updated Column:", updatedCol);
-    //
-    // updateColumn(defaultBoard, droppedColumn.id, droppedColumn, await fetchData());
-    // await console.log("After Update - Find Column:", findColumn(defaultBoard, droppedColumn.id, await fetchData()));
-    // console.log("After update: ",JSON.parse(fetchData()))
 
     isDragging = false
     startPosition = { x: 0, y: 0 }
@@ -156,7 +151,6 @@ function cardJS() {
 
 
   function mouseDown() {
-    this.classList.add('dragover')
     dragging = true
     isDragging = false
     startPosition = { x: 0, y: 0 }
@@ -167,7 +161,6 @@ function cardJS() {
   }
 
   function mouseUp() {
-    this.classList.remove('dragover')
     isDragging = false
     startPosition = { x: 0, y: 0 }
     scrollLeft = 0
@@ -178,33 +171,17 @@ function cardJS() {
 
   function dragDropColumn(e) {
     e.preventDefault()
-    header.scrollIntoView({ behavior: 'smooth', block: 'end' })
-    // const sourceCardId = e.dataTransfer.getData("taskId");
-    // const targetCardId = this.getAttribute("id");
-    // const completed = e.dataTransfer.getData("completed");
-
-
     return false
   }
 
   function dragOverColumn() {
-    this.appendChild(dragSrcEl)
-    const newColumn = document.querySelector('#newColumn')
-    const columns = document.querySelectorAll('.column')
     const theColumn = getColumnWithMostChildNodes(columns)
-    newColumn.style.height = `${calculateSumOfCardHeights(theColumn)+theColumn.querySelectorAll(".card").length*10}px`
+    newColumn.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn.querySelectorAll('.card').length * 5}px`
     columns.forEach(col => {
-      col.style.height = `${newColumn.style.height + 100}px`
+      col.style.height = `${newColumn.style.height + 600}px`
     })
 
 
-    // this.scrollIntoView({behavior:"smooth"})
-    if (this.querySelectorAll('.card').length === theColumn.querySelectorAll('.card').length) {
-
-    } else {
-
-      this.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
     return false
   }
 
@@ -220,7 +197,6 @@ function cardJS() {
     el.addEventListener('mouseup', mouseUp, false)
   }
 
-  const columns = document.querySelectorAll('.column')
   columns.forEach(col => {
     col.addEventListener('dragover', dragOverColumn, false)
     col.addEventListener('drop', dragDropColumn, false)

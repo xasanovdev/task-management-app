@@ -403,7 +403,6 @@ function renderBoard(boardId) {
       }
     })
   }
-
   cardJS()
   console.log(boardData.selectedBoard)
 }
@@ -933,13 +932,13 @@ function generateStatusDropdown(task) {
 function generateColumn(column) {
   const tasksHtml = column.tasks.map((task) => generateTaskCard(task)).join('')
   return `
-    <li class="column relative h-screen h-min-[60px] text-color flex flex-col items-start w-280 gap-5 overflow-visible">
+    <div class="column relative h-full text-color flex flex-col items-start w-280 gap-5 overflow-visible">
       <h3 class="column__header mb-6 text-[#828fa3] flex items-center gap-3">
         <span class="w-4 h-4 bg-primary-color rounded-full"></span>
         <span class="tracking-widest text-sm font-bold">${column.name} (${column.tasks.length})</span>
       </h3>
         ${tasksHtml}
-    </li>
+    </div>
   `
 }
 
@@ -990,9 +989,6 @@ numberOfCreatedBoards.textContent = `All boards (${boardData.boards.length})`
 if (boardData && boardData.boards.length > 0) {
   const initialBoardId = boardData.boards[0].id
   renderBoard(initialBoardId)
-  window.addEventListener('DOMContentLoaded', () => {
-    cardJS()
-  })
 }
 
 function createNewColumnElement() {
@@ -1002,7 +998,7 @@ function createNewColumnElement() {
   // Set class attribute
   divElement.setAttribute(
     'class',
-    'toggle-modal-button new-column w-280 h-full flex rounded-md bg-gradient-to-br from-[#995eb40a] to-[#723b8883] cursor-pointer items-center content-center overflow-visible',
+    'toggle-modal-button w-280 h-fit mt-16 flex rounded-md bg-gradient-primary cursor-pointer items-center content-center overflow-visible p-5 mb-48 bg-gradient-to-br from-[#995eb40a] to-[#723b8883]',
   )
 
   // Set id attribute
