@@ -167,7 +167,14 @@
         <section
           id="playGround"
           class="bg-page-color overflow-scroll w-full h-full flex flex-row flex-1 border-t-2 border-lines-color mb-24"
-        ></section>
+        >
+          <div
+            class="toggle-modal-button w-280 h-fit mt-9 flex rounded-md bg-gradient-primary cursor-pointer items-center content-center overflow-visible p-5 mb-48"
+            id="newColumn" modal-id="edit-board-modal">
+          <span class="text-color text-center text-slate-500 capitalize text-2xl"><span
+            class="text-3xl text-center">+</span> New Column</span>
+          </div>
+        </section>
       </main>
     </div>
 
@@ -447,6 +454,7 @@
     <!-- JAVASCRIPT LINKS -->
 
     <script src="../../js/main.js"></script>
+    <script src="../card/card.js"></script>
     <script src="../../components/header/header.js"></script>
     <script src="../../components/modal/modal.js"></script>
     <script src="../../components/sidebar/sidebar.js"></script>

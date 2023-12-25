@@ -1066,9 +1066,10 @@ const boardData = {
   selectedTask: 0,
 }
 
-const playGround = document.querySelector("#playGround")
+const playGround = document.querySelector('#playGround')
 
-const boardList = document.querySelector(".board-list")
+const boardList = document.querySelector('.board-list')
+
 function renderBoard(boardId) {
   // Check if boardData.boards is an array
   if (!Array.isArray(boardData.boards)) {
@@ -1100,6 +1101,7 @@ function renderBoard(boardId) {
   if (!isBoardRendered) {
     // Assuming playGround is a valid reference
     playGround.innerHTML = generateKanbanBoard(board)
+    playGround.appendChild(createNewColumnElement())
 
     // Update the selected board in boardData
     boardData.selectedBoard = board.id
@@ -1115,6 +1117,9 @@ function renderBoard(boardId) {
   }
 
   console.log(boardData.selectedBoard)
+  window.addEventListener("DOMContentLoaded",()=>{
+    cardJS()
+  })
 }
 
 
@@ -1136,7 +1141,7 @@ function generateTaskCard(task) {
   return `
     <div
       modal-id="${task.id}"
-      class="card duration-200 shadow-lg bg-content-color w-[280px] py-6 px-4 rounded-lg font-bold hover:shadow-md hover:cursor-pointer subpixel-antialiased"
+      class="card toggle-modal-button bg-content-color w-280 h-fit py-6 px-4 rounded-lg font-bold shadow-sh-color shadow-sm hover:cursor-pointer hover:text-primary-color subpixel-antialiased"
       onclick="openTaskModal('${task.id}')"
     >
       <p class="card__title text-color capitalize">${task.title}</p>
@@ -1648,7 +1653,7 @@ function generateStatusDropdown(task) {
 function generateColumn(column) {
   const tasksHtml = column.tasks.map((task) => generateTaskCard(task)).join('')
   return `
-    <li class="column overflow-visible flex flex-col items-start w-[280px] h-fit">
+    <li class="column relative h-fit h-min-[60px] text-color flex flex-col w-280 gap-5">
       <h3 class="column__header mb-6 text-[#828fa3] flex items-center gap-3">
         <span class="w-4 h-4 bg-primary-color rounded-full"></span>
         <span class="tracking-widest text-sm font-bold">${column.name} (${column.tasks.length})</span>
@@ -1718,3 +1723,31 @@ if (boardData && boardData.boards.length > 0) {
   renderBoard(initialBoardId)
 }
 
+function createNewColumnElement() {
+  // Create div element
+  const divElement = document.createElement('div')
+
+  // Set class attribute
+  divElement.setAttribute('class', 'toggle-modal-button w-280 h-fit mt-9 flex rounded-md bg-gradient-primary cursor-pointer items-center content-center overflow-visible p-5 mb-48')
+
+  // Set id attribute
+  divElement.setAttribute('id', 'newColumn')
+
+  // Set modal-id attribute
+  divElement.setAttribute('modal-id', 'edit-board-modal')
+
+  // Create span element
+  const spanElement = document.createElement('span')
+
+  // Set class attribute for span
+  spanElement.setAttribute('class', 'text-color text-center text-slate-500 capitalize text-2xl')
+
+  // Create inner HTML for span
+  spanElement.innerHTML = '<span class="text-3xl text-center">+</span> New Column'
+
+  // Append span element to div element
+  divElement.appendChild(spanElement)
+
+  // Return the generated element
+  return divElement
+}
