@@ -36,8 +36,7 @@ const boardData = {
               ],
             },
           ],
-        },
-        {
+        }, {
           name: 'Doing',
           tasks: [
             {
@@ -382,17 +381,10 @@ function renderBoard(boardId) {
     playGround.innerHTML = generateKanbanBoard(board)
     playGround.appendChild(createNewColumnElement())
 
-    const newColumnButtons = document.querySelectorAll('.new-column')
-
-    newColumnButtons.forEach((newColumnButton) => {
-      newColumnButton.addEventListener('click', (e) => {
-        e.preventDefault()
-        console.log('clicked')
-        openModal('edit-board-modal', boardData.selectedBoard)
-      })
-    })
-
     // Update the selected board in boardData
+    boardData.selectedBoard = board.id
+    boardData.selectedColumn = board.columns[0].id
+    // Highlight the active link in the board list
     const boardLinks = document.querySelectorAll('.board__link')
     boardLinks.forEach((link) => {
       link.classList.remove('active')
@@ -402,8 +394,10 @@ function renderBoard(boardId) {
     })
   }
   cardJS()
-  console.log(boardData.boards[boardData.selectedBoard].columns)
+  console.log(boardData.selectedBoard)
+
 }
+
 
 function generateUniqueId() {
   return Date.now().toString(36)
@@ -439,7 +433,7 @@ function openTaskModal(taskId) {
   const task = findTaskById(taskId)
   let selectedBoard = boardData.selectedBoard
 
-  const statusValues = extractStatusValues(selectedBoard)
+  const statusValues = extractStatusValues(boardData, selectedBoard)
   const dropdownOptions = statusValues.map(generateStatusToDropdown).join('')
 
   // Update the HTML content of the dropdown
@@ -450,7 +444,7 @@ function openTaskModal(taskId) {
   }
 
   // Ensure sBtnText is properly defined here (modify as needed)
-  const sBtnText = document.querySelector('.dBtn-text')
+  // const sBtnText = document.querySelector('.dBtn-text')
 
   // Open the modal with the task data
   if (task) {
@@ -467,22 +461,6 @@ function openTaskModal(taskId) {
     // Setup the dropdown for the task modal
     setupDropdown(taskModal.querySelector('.dropdown-menu'), task)
   }
-}
-
-function generateTaskModal(task, dropdownElement, statusValues) {
-  // ... (existing code)
-
-  // Get the dropdown options
-  const dropdownOptions = statusValues.map(generateStatusToDropdown).join('')
-
-  // Set up the dropdown for the task modal
-  const dropdownMenu = dropdownElement.querySelector('.dropdown-menu')
-  if (dropdownMenu) {
-    dropdownMenu.innerHTML = dropdownOptions
-    setupDropdown(dropdownMenu, task)
-  }
-
-  // ... (existing code)
 }
 
 function deleteTask(taskId) {
@@ -528,9 +506,11 @@ function deleteTask(taskId) {
 function populateEditModal(task) {
   // This is a generic example, you should replace it with your actual logic
   const titleInput = document.getElementById('edit-task-title')
+  const descriptionInput = document.getElementById('edit-task-description')
 
   // Populate the modal inputs with task details
   titleInput.value = task.title
+  descriptionInput.value = task.description
   // ... (populate other fields as needed)
 }
 
@@ -544,7 +524,7 @@ function editTask(taskId) {
   populateEditModal(task)
   closeModal('open-task-modal')
   // Open the edit modal
-  openModal('edit-task-modal',boardData.selectedBoard)
+  openModal('edit-task-modal')
 
   // Handle the "Save Changes" button click
   const saveChangesButton = document.getElementById('save-changes-button')
@@ -562,6 +542,7 @@ function saveChanges(task) {
   task.title = titleInput.value
   task.description = descriptionInput.value
 
+
   // Optionally, trigger a function to update the UI with the modified data
   updateUI()
 
@@ -569,23 +550,10 @@ function saveChanges(task) {
   closeModal('edit-task-modal')
 }
 
-// Function to find a task by ID
-function findTaskById(taskId) {
-  for (const board of boardData.boards) {
-    for (const column of board.columns) {
-      const task = column.tasks.find((task) => task.id === taskId)
-      if (task) {
-        return task
-      }
-    }
-  }
-  return null
-}
-
 // Function to update the UI with the modified data
 function updateUI() {
   // Implement your logic to update the UI with the modified data
-  renderBoard(renderBoard(boardData.selectedBoard))
+  renderBoard(boardData.selectedBoard)
 }
 
 function generateTaskModal(task, dropdownElement, statusValues) {
@@ -599,8 +567,7 @@ function generateTaskModal(task, dropdownElement, statusValues) {
 
   // Generate unique IDs for subtasks and update boardData
   const subtasksWithIds = task.subtasks.map((subtask) => {
-    const uniqueSubtaskId = generateUniqueIdFromTitle(subtask.title)
-    subtask.id = uniqueSubtaskId // Update subtask ID in boardData
+    subtask.id = generateUniqueIdFromTitle(subtask.title) // Update subtask ID in boardData
     return subtask
   })
 
@@ -825,13 +792,11 @@ function findSubtaskById(subtaskId) {
   // For example, you can use boardData to find the subtask
   // Replace this with your actual implementation
 
-  const foundSubtask = boardData.boards
+  return boardData.boards
     .flatMap((board) => board.columns)
     .flatMap((column) => column.tasks)
     .flatMap((task) => task.subtasks)
     .find((subtask) => subtask.id === subtaskId)
-
-  return foundSubtask
 }
 
 function findTaskById(taskId) {
@@ -976,3 +941,14 @@ function createNewColumnElement() {
   // Return the generated element
   return divElement
 }
+
+const newColumnButtons = document.querySelectorAll('.new-column')
+
+newColumnButtons.forEach((newColumnButton) => {
+  newColumnButton.addEventListener('click', (e) => {
+    e.preventDefault()
+    console.log('clicked')
+    openModal('edit-board-modal', boardData.selectedBoard)
+    console.log(boardData)
+  })
+})

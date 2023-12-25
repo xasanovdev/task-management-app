@@ -5,7 +5,6 @@ const modals = document.querySelectorAll('.modal')
 const overlay = document.querySelector('.overlay')
 const createNewBoard = document.querySelector('.createNewBoard')
 const createNewTask = document.querySelector('.createNewTask')
-const dropdownMenu = document.querySelector('.dropdown-menu')
 
 const columnInputsWrapper = document.querySelector('.column-inputs-wrapper')
 const taskInputsWrapper = document.querySelector('.task-inputs-wrapper')
@@ -144,7 +143,7 @@ function generateInput(input) {
 function openModal(modalId, selectedBoard) {
   console.log(selectedBoard)
   const modal = document.getElementById(modalId)
-  console.log(modalId)
+
   // Check if modalInputs and errorMessage are already collected
   if (modalInputs || errorMessage) {
     modalInputs = Array.from(modal.querySelectorAll('.modal-input'))
@@ -152,7 +151,7 @@ function openModal(modalId, selectedBoard) {
   }
 
   // Extract unique status values from the selected board in the boardData object
-  const statusValues = extractStatusValues(selectedBoard)
+  const statusValues = extractStatusValues(boardData, selectedBoard)
 
   // Populate dropdown options dynamically using the generateStatusToDropdown function
   dropdownOptions = generateDropdownOptions(statusValues)
@@ -168,19 +167,16 @@ function openModal(modalId, selectedBoard) {
   overlay.classList.remove('hidden')
   overlay.classList.add('flex')
   modal.style.zIndex = '100'
-
-  if (modalId === 'edit-board-modal') {
-    console.log('saf')
-  }
 }
 
+
 // Function to extract unique status values from the selected board columns in the boardData object
-function extractStatusValues(selectedBoard) {
+function extractStatusValues(boardData, selectedBoard) {
   const uniqueStatusValues = new Set()
 
   const board = boardData.boards.find((board) => board.id === selectedBoard)
-  boardData.selectedBoard = board.id
   console.log(board)
+  boardData.selectedBoard = board?.id
   if (board) {
     board.columns.forEach((column) => {
       uniqueStatusValues.add(column.name) // Add column name to the set
@@ -224,40 +220,6 @@ function addNewBoard(boardName, boardColumns) {
   // Update your UI or trigger any necessary updates
   closeModal('add-new-board')
   renderBoard() // Call renderBoard after adding a new board
-}
-function editBoard(boardId) {
-  // Find the board by ID
-  const board = findBoardById(boardId)
-
-  console.log(board)
-
-  // Populate the edit modal with board details
-  populateEditModal(board)
-  closeModal('open-board-modal')
-  // Open the edit modal
-  openModal('edit-board-modal', boardData.selectedBoard)
-
-  // Handle the "Save Changes" button click
-  const saveChangesButton = document.getElementById('save-changes-button-board')
-  saveChangesButton.addEventListener('click', () => {
-    saveChangesBoard(board)
-  })
-}
-
-function saveChangesBoard(board) {
-  // Get the updated values from the modal inputs
-  const nameInput = document.getElementById('edit-board-name')
-  // Add other inputs as needed
-
-  // Update the board in the data structure
-  board.name = nameInput.value
-  // Update other properties as needed
-
-  // Optionally, trigger a function to update the UI with the modified data
-  updateUI()
-
-  // Close the edit modal
-  closeModal('edit-board-modal')
 }
 
 // Assume you have a function to delete a board by ID
@@ -421,7 +383,7 @@ createNewTask.addEventListener('click', (e) => {
       hasError = true // Set the flag to true if there is an error
     } else {
       modalInput.classList.remove('error')
-      currentErrorMessage?.classList.add('hidden')
+      currentErrorMessage.classList.add('hidden')
     }
   }
 
@@ -434,16 +396,20 @@ createNewTask.addEventListener('click', (e) => {
   console.log(dropdownOptions);
 
   // Check which option has the 'active' class
-  const selectedStatus = dropdownOptions[0]
-  // Use the selected status from the dropdown
+  const selectedStatus = dropdownOptions.find((option) =>
+    option.classList.contains('active'),
+  )
 
   if (!hasError) {
+    // Use the selected status from the dropdown
+    const selectedStatusText = selectedStatus ? selectedStatus.innerText : null
+
     // Call your addNewTask function with the collected data
     addNewTask(
       taskNameInput.value,
       modalInputs[1].value, // Assuming the second input is the task description
       modalInputs.slice(2).map((input) => input.value), // Assuming the rest are subtasks
-      selectedStatus,
+      selectedStatusText,
     )
 
     // Clear modalInputs and errorMessage arrays
@@ -458,34 +424,47 @@ function addNewTask(taskName, taskDescription, taskSubtasks, status) {
   const selectedBoard = boardData.boards.find(
     (board) => board.id === boardData.selectedBoard,
   )
-  if (!selectedBoard) {
+  console.log(selectedBoard)
+  if (selectedBoard) {
+    const selectedColumnIndex = boardData.selectedColumn
+
+    // Check if selectedColumnIndex is a valid number
+    if (Number.isInteger(selectedColumnIndex)) {
+      if (
+        selectedColumnIndex >= 0 &&
+        selectedColumnIndex < selectedBoard.columns.length
+      ) {
+        const selectedColumn = selectedBoard.columns[selectedColumnIndex]
+
+        if (selectedColumn) {
+          const newTask = {
+            id: generateUniqueId(),
+            title: taskName,
+            description: taskDescription,
+            status: status,
+            subtasks: taskSubtasks.map((subtask) => ({
+              title: subtask,
+              isCompleted: false,
+            })),
+          }
+
+          selectedColumn.tasks.push(newTask)
+
+          // Render the updated board after adding the task
+          renderBoard(boardData.selectedBoard)
+        } else {
+          console.error('Selected column not found.', selectedColumnIndex)
+        }
+      } else {
+        console.error('Invalid selected column index.', selectedColumnIndex)
+      }
+    } else {
+      console.error(
+        'Selected column index is not a number.',
+        selectedColumnIndex,
+      )
+    }
+  } else {
     console.error('Selected board not found.', boardData.selectedBoard)
-    return
   }
-  console.log(selectedBoard);
-  const selectedColumn = selectedBoard.columns.find(
-    (column) => column.name === status,
-  )
-  console.log(selectedColumn)
-
-  if (!selectedColumn) {
-    console.error('Selected column not found.', status)
-    return
-  }
-
-  const newTask = {
-    id: generateUniqueId(),
-    title: taskName,
-    description: taskDescription,
-    status: status,
-    subtasks: taskSubtasks.map((subtask) => ({
-      title: subtask,
-      isCompleted: false,
-    })),
-  }
-
-  selectedColumn.tasks.push(newTask)
-
-  // Render the updated board after adding the task
-  renderBoard()
 }
