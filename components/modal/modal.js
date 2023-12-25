@@ -388,7 +388,12 @@ createNewTask.addEventListener('click', (e) => {
   }
 
   // Capture the selected status from dropdown options with class '.dBtn-text'
-  const dropdownOptions = Array.from(document.querySelectorAll('.dBtn-text'))
+  console.log(boardData.boards[boardData.selectedBoard])
+  const dropdownOptions = boardData.boards[boardData.selectedBoard].columns.map(
+    (column) => column.name,
+  )
+
+  console.log(dropdownOptions);
 
   // Check which option has the 'active' class
   const selectedStatus = dropdownOptions.find((option) =>
