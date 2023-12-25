@@ -10,6 +10,26 @@
   transform: rotate(-180deg) scale(1.3);
   /* transition: all 0.3s ease; */
 }
+
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #635fc7 #ffffff;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #35336b;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #635fc7;
+  border-radius: 10px;
+}
+
 /* SIDEBAR */
 .sidebar {
   transition: all 0.3s ease;
@@ -79,6 +99,6 @@
 /* .sidebar-toggler{
 
 } */
-#playGround{
+#playGround {
   margin-bottom: 100px;
 }
