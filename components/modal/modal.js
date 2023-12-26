@@ -15,7 +15,6 @@ const addNewTaskButton = document.querySelector('.addNewTaskButton')
 let modalInputs = null
 let dropdownOptions = null
 let errorMessage = null
-let statusColumn = null
 
 // Function to find the column containing a task
 function findColumnContainingTask(task) {
@@ -151,14 +150,10 @@ function openModal(modalId) {
   }
 
   // Extract unique status values from the selected board in the boardData object
-  const statusValues = extractStatusValues()
-
-  console.log(statusValues)
+  const statusValues = extractStatusValues(boardData, boardData.selectedBoard)
 
   // Populate dropdown options dynamically using the generateStatusToDropdown function
   dropdownOptions = generateDropdownOptions(statusValues)
-
-  console.log(dropdownOptions)
 
   // Update the HTML content of the dropdown
   const dropdownElement = modal?.querySelector('.dropdown-options')
@@ -202,15 +197,18 @@ function openModal(modalId) {
   overlay.classList.remove('hidden')
   overlay.classList.add('flex')
   modal.style.zIndex = '100'
+  console.log(boardData)
   renderBoard(boardData.selectedBoard)
 }
 
 // Function to extract unique status values from the selected board columns in the boardData object
-function extractStatusValues() {
+function extractStatusValues(boardData, selectedBoard) {
   const uniqueStatusValues = new Set()
-  const board = boardData.boards.find(
-    (board) => board.id === boardData.selectedBoard,
-  )
+
+  console.log(selectedBoard)
+
+  const board = boardData.boards[selectedBoard]
+  console.log(board)
   if (board) {
     board.columns.forEach((column) => {
       uniqueStatusValues.add(column.name) // Add column name to the set
@@ -374,7 +372,6 @@ const closeModal = (modalId) => {
   // Reset modalInputs and errorMessage
   modalInputs = null
   errorMessage = null
-  statusColumn = null
 }
 
 toggleModalButtons.forEach((button) => {
@@ -470,7 +467,7 @@ createNewTask.addEventListener('click', (e) => {
 
   if (!hasError) {
     // Use the selected status from the dropdown
-    const selectedStatusText = statusColumn
+    const selectedStatusText = dropdownOptions[0]
 
     // Call your addNewTask function with the collected data
     addNewTask(
@@ -489,6 +486,7 @@ createNewTask.addEventListener('click', (e) => {
 })
 
 function addNewTask(taskName, taskDescription, taskSubtasks, status) {
+  
   const newTask = {
     id: generateUniqueId(),
     title: taskName,

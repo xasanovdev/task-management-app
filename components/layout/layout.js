@@ -705,7 +705,6 @@ function updateTaskStatus(task, newStatus) {
           `Updating task status from ${taskToUpdate.status} to ${newStatus}`,
         )
         taskToUpdate.status = newStatus
-
       }
     }
   }
@@ -857,7 +856,7 @@ function generateSubtaskItem(subtask) {
     <div class="chechbox-content flex items-center text-color p-3 gap-4 cursor-pointer relative hover:bg-[635fc740] hover:transition duration-200 active:ease-in" onclick="toggleSubtaskCompleted('${
       subtask.id
     }')">
-      <i class="icon-tick checkbox-icon left-3.5 absolute text-white scale-1 duration-150"></i>
+      <i class="icon-tick checkbox-icon absolute top-4 text-white left-4 scale-1 duration-150"></i>
       <input
         type="checkbox"
         id="${subtask.id}"
@@ -878,7 +877,7 @@ function generateColumn(column) {
     <div class="column relative h-full text-color flex flex-col items-start w-280 gap-5 overflow-visible">
       <h3 class="column__header text-[#828fa3] flex items-center gap-3">
         <span class="w-4 h-4 bg-[${generateRandomColor()}] rounded-full"></span>
-        <span class="tracking-widest text-sm font-bold">${column.name} (${
+        <span class="tracking-widest text-sm font-bold column-name">${column.name} (${
           column.tasks.length
         })</span>
       </h3>
