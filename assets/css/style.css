@@ -41,6 +41,10 @@ body.active {
 .card {
   border: 2px solid transparent;
 }
+.card:hover .card__title {
+  color: #635fc7;
+  transition: 0.2s ease-in-out;
+}
 
 .dragover {
   border: 2px solid #635fc7;
