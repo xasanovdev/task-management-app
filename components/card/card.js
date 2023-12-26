@@ -128,6 +128,12 @@ function cardJS() {
     })
     dragging = false
     header.scrollIntoView({ behavior: 'smooth', block: 'end' })
+
+    isDragging = false
+    startPosition = { x: 0, y: 0 }
+    scrollLeft = 0
+    scrollTop = 0
+
     makeMouseScrollable(playGround)
 
     const newColumn = document.querySelector('#newColumn')
