@@ -49,6 +49,7 @@ addNewTaskButton.addEventListener('click', (e) => {
   e.preventDefault()
   addNewToInputs(taskInputsWrapper) // Add an initial empty task input
 })
+
 function deleteInput(button) {
   const inputWrapper = button.closest('.relative')
   const inputType = inputWrapper.classList.contains('column-input')
@@ -158,9 +159,24 @@ function openModal(modalId) {
   // Update the HTML content of the dropdown
   const dropdownElement = modal?.querySelector('.dropdown-options')
 
+  console.log(dropdownOptions.join(''))
   if (dropdownElement) {
     dropdownElement.innerHTML = dropdownOptions.join('')
+    document.querySelectorAll('.dropdown-btn').forEach(el => {
+      el.addEventListener('click', () => {
+        el.parentNode.querySelector('.dropdown-options').classList.toggle('hidden')
+      })
+    })
+    document.querySelectorAll(".dropdown-option").forEach(el=>{
+    const dropdownOptionsElement = el.closest(".dropdown-options")
+      const temp = el
+      const index = Array.from(document.querySelectorAll(".dropdown-option")).indexOf(el)
+      dropdownOptionsElement.firstChild = el
+
+
+    })
   }
+
   modal.classList.remove('hidden')
   blocker.classList.add('active')
   overlay.classList.remove('hidden')
@@ -202,6 +218,7 @@ function generateDropdownOptions(statusValues) {
   `,
   )
 }
+
 function generateUniqueId() {
   // Generate a random number and convert it to a hexadecimal string
   const randomPart = Math.random().toString(16).substring(2)
@@ -434,7 +451,7 @@ createNewTask.addEventListener('click', (e) => {
 })
 
 function addNewTask(taskName, taskDescription, taskSubtasks, status) {
-  
+
   const newTask = {
     id: generateUniqueId(),
     title: taskName,
@@ -447,6 +464,8 @@ function addNewTask(taskName, taskDescription, taskSubtasks, status) {
   }
 
   boardData.selectedColumn.tasks.push(newTask)
+
+  document.querySelectorAll('.column')[select]
 
   renderBoard(boardData.selectedBoard)
 }
