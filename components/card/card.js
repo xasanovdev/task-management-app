@@ -123,13 +123,23 @@ function cardJS() {
   }
 
   function dragDrop() {
-    this.classList.remove('dragover')
+    document.querySelectorAll('.dragover').forEach(el => {
+      el.classList.remove('dragover')
+    })
     dragging = false
     header.scrollIntoView({ behavior: 'smooth', block: 'end' })
+
+    isDragging = false
+    startPosition = { x: 0, y: 0 }
+    scrollLeft = 0
+    scrollTop = 0
+
     makeMouseScrollable(playGround)
 
     const newColumn = document.querySelector('#newColumn')
     newColumn.style.height = `${findColumnWithLargestHeight().scrollHeight - 34}px`
+
+    saveDOM()
   }
 
   function dragEnd() {
@@ -182,7 +192,7 @@ function cardJS() {
 
     if (this.querySelectorAll('.card').length === 0) {
       this.appendChild(dragSrcEl)
-      dragSrcEl.classList.add("dragover")
+      dragSrcEl.classList.add('dragover')
     }
 
     return false
