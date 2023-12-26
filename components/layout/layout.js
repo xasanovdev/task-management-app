@@ -1,4 +1,4 @@
-const boardData = {
+const Data = {
   boards: [
     {
       id: '1',
@@ -108,7 +108,7 @@ const boardData = {
               title:
                 'Research pricing points of various competitors and trial different business models',
               description:
-                "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
+                'We know what we\'re planning to build for version one. Now we need to finalise the first pricing model we\'ll use. Keep iterating the subtasks until we have a coherent proposition.',
               status: 'Doing',
               subtasks: [
                 {
@@ -161,7 +161,7 @@ const boardData = {
               id: 'd408b2f5-1238-4ebf-a159-4ef1d2dafa3b',
               title: 'Review results of usability tests and iterate',
               description:
-                "Keep iterating through the subtasks until we're clear on the core concepts for the app.",
+                'Keep iterating through the subtasks until we\'re clear on the core concepts for the app.',
               status: 'Done',
               subtasks: [
                 {
@@ -311,7 +311,7 @@ const boardData = {
               id: '260d9248-4f73-459f-93e4-10e975fc9929',
               title: 'Review early feedback and plan next steps for roadmap',
               description:
-                "Beyond the initial launch, we're keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.",
+                'Beyond the initial launch, we\'re keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.',
               status: '',
               subtasks: [
                 { title: 'Interview 10 customers', isCompleted: false },
@@ -337,7 +337,11 @@ const boardData = {
   selectedTask: 0,
 }
 
-set
+setData(Data)
+
+const boardData = fetchData()
+
+console.log(boardData)
 
 const playGround = document.querySelector('#playGround')
 
@@ -426,8 +430,8 @@ function generateTaskCard(task) {
     <span class="hidden subtasks-json">${JSON.stringify(task.subtasks)}</span>
       <p class="card__title text-color capitalize">${task.title}</p>
       <p class="card__status text-slate-500">${
-        task.subtasks.filter((subtask) => !subtask.isCompleted).length
-      } of ${task.subtasks.length} substasks</p>
+    task.subtasks.filter((subtask) => !subtask.isCompleted).length
+  } of ${task.subtasks.length} substasks</p>
     </div>
   `
 }
@@ -609,11 +613,11 @@ function generateTaskModal(task, dropdownElement, statusValues) {
   <div class="h-full">
     <div class="flex items-center gap-4 justify-between mb-6">
       <button class="edit-task rounded-full w-full text-center py-4 font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 outline-none text-primary-color dark:bg-white bg-[#635fc71a] hover:bg-[#635FC740]" onclick="editTask('${
-        task.id
-      }')">Edit Task</button>
+    task.id
+  }')">Edit Task</button>
       <button class="delete-task font-bold text-white bg-danger-color hover:opacity-80 duration-100 rounded-full w-full p-4" onclick="deleteTask('${
-        task.id
-      }')">Delete Task</button>
+    task.id
+  }')">Delete Task</button>
     </div>
 
     <div>
@@ -630,8 +634,8 @@ function generateTaskModal(task, dropdownElement, statusValues) {
         <div class="dropdown-menu relative w-full">
           <div class="dropdown-btn status min-w-full w-full justify-between flex items-center px-4 py-2 rounded border focus:outline-none active:border-[#635FC7] group">
             <span class="dBtn-text m-0 text-gray-color cursor-pointer transition duration-400 ease-in-out text-[13px] leading-6">${
-              task.status
-            }</span>
+    task.status
+  }</span>
             <span class="dropdown-sign">
               <svg xmlns="http://www.w3.org/2000/svg" width="11" height="8" viewBox="0 0 11 8" fill="none">
                 <path d="M0.79834 1.54858L5.49682 6.24707L10.1953 1.54858" stroke="#635FC7" stroke-width="2"/>
@@ -829,8 +833,8 @@ function generateSubtaskItem(subtask) {
   // Generate HTML for each subtask
   return `
     <div class="flex items-center p-3 gap-4 cursor-pointer relative hover:bg-[635fc740] hover:transition duration-200 active:ease-in" onclick="toggleSubtaskCompleted('${
-      subtask.id
-    }')">
+    subtask.id
+  }')">
       <i class="icon-tick checkbox-icon absolute top-4 text-white left-4 scale-1 duration-150"></i>
       <input
         type="checkbox"
@@ -888,20 +892,22 @@ function generateKanbanBoard(board) {
     return '' // Return an empty string or handle the error appropriately
   }
 
-  playGround.setAttribute("board-id",`${board.id}`)
+  playGround.setAttribute('board-id', `${board.id}`)
 
 
   return board.columns.map((column) => generateColumn(column)).join('')
 }
+
+
+
 
 boardList.addEventListener('click', (event) => {
   event.preventDefault()
   const targetLink = event.target.closest('.board__link')
   if (targetLink) {
     const boardId = targetLink.getAttribute('data-board-id')
-    const currentBoard = document.querySelector("#playGround").getAttribute("board-id")
-    replaceColumnsInSelectedBoardByIdInPlace(boardData,currentBoard,generateColumnDataFromDOM())
-   renderBoard(boardId)
+    saveDOM()
+    renderBoard(boardId)
   }
 })
 
@@ -963,41 +969,33 @@ newColumnButtons.forEach((newColumnButton) => {
 })
 
 
-
-
-
-
-
-
-
-
 function generateColumnDataFromDOM() {
-  const columns = [];
+  const columns = []
 
   // Assuming your columns are contained in a container with the class "column-container"
-  const columnContainer = document.querySelector('#playGround');
+  const columnContainer = document.querySelector('#playGround')
 
   // Iterate through each column in the container
   columnContainer.querySelectorAll('.column').forEach((columnElement, columnIndex) => {
     const column = {
       name: columnElement.querySelector('.column-name').textContent,
       tasks: [],
-    };
+    }
 
     // Iterate through each task in the column
     columnElement.querySelectorAll('.card').forEach((taskElement, taskIndex) => {
       const task = {
-        id: taskElement.getAttribute("id"),
+        id: taskElement.getAttribute('id'),
         title: taskElement.querySelector('.card__title').textContent,
-        description: taskElement.querySelector(".task-description").textContent,
-        status: taskElement.getAttribute("status"), // Use the column name as the initial task status
-        subtasks: JSON.parse(taskElement.querySelector(".subtasks-json").textContent),
-      };
-      column.tasks.push(task);
-    });
+        description: taskElement.querySelector('.task-description').textContent,
+        status: taskElement.getAttribute('status'), // Use the column name as the initial task status
+        subtasks: JSON.parse(taskElement.querySelector('.subtasks-json').textContent),
+      }
+      column.tasks.push(task)
+    })
 
-    columns.push(column);
-  });
+    columns.push(column)
+  })
 
   return columns
 
@@ -1007,14 +1005,14 @@ console.log(generateColumnDataFromDOM())
 
 
 function replaceColumnsInSelectedBoardByIdInPlace(boardData, boardId, newColumns) {
-  const foundBoard = boardData.boards.find(board => board.id === boardId);
+  const foundBoard = boardData.boards.find(board => board.id === boardId)
 
   if (foundBoard) {
-    const selectedBoardIndex = boardData.boards.indexOf(foundBoard);
-    boardData.boards[selectedBoardIndex].columns = newColumns;
+    const selectedBoardIndex = boardData.boards.indexOf(foundBoard)
+    boardData.boards[selectedBoardIndex].columns = newColumns
     console.log(boardData.boards[selectedBoardIndex].columns)
   } else {
-    console.error('Board not found.');
+    console.error('Board not found.')
   }
 }
 
@@ -1026,20 +1024,29 @@ function replaceColumnsInSelectedBoardByIdInPlace(boardData, boardId, newColumns
 
 function fetchData() {
   try {
-    const jsonData = localStorage.getItem("kanban");
-    return jsonData ? JSON.parse(jsonData) : null;
+    const jsonData = localStorage.getItem('kanban')
+    return jsonData ? JSON.parse(jsonData) : null
   } catch (error) {
-    console.error('Error fetching data from localStorage:', error);
-    return null;
+    console.error('Error fetching data from localStorage:', error)
+    return null
   }
 }
 
 function setData(data) {
   try {
-    const jsonData = JSON.stringify(data);
-    localStorage.setItem("kanban", jsonData);
-    console.log('Data successfully set in localStorage.');
+    const jsonData = JSON.stringify(data)
+    localStorage.setItem('kanban', jsonData)
+    console.log('Data successfully set in localStorage.')
   } catch (error) {
-    console.error('Error setting data in localStorage:', error);
+    console.error('Error setting data in localStorage:', error)
   }
+}
+
+
+
+
+function saveDOM() {
+  const currentBoard = document.querySelector('#playGround').getAttribute('board-id')
+  replaceColumnsInSelectedBoardByIdInPlace(boardData, currentBoard, generateColumnDataFromDOM())
+  setData(boardData)
 }

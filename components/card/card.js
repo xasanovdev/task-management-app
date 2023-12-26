@@ -132,6 +132,8 @@ function cardJS() {
 
     const newColumn = document.querySelector('#newColumn')
     newColumn.style.height = `${findColumnWithLargestHeight().scrollHeight - 34}px`
+
+    saveDOM()
   }
 
   function dragEnd() {
