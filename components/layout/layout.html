@@ -89,15 +89,19 @@
             <!-- ADD NEW TASK BUTTON -->
             <button
               modal-id="add-task-modal"
-              class="toggle-modal-button btn w-full rounded-full text-center font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[15px] focus:outline-none hover:bg-primary-light-color bg-primary-color text-white md:mr-6 p-[10px] md:py-4 px-6"
+              class="toggle-modal-button flex items-center whitespace-nowrap btn w-full rounded-full text-center font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[15px] focus:outline-none hover:bg-primary-light-color bg-primary-color text-white p-[10px] md:py-4 px-6"
               role="button"
             >
-              +
+              <span>+</span>
               <span class="hidden md:inline-block">Add New Task</span>
             </button>
             <!-- TRIPLE DOTS -->
-
-            <i class="icon-menu cursor-pointer text-color"></i>
+            <button
+              modal-id="delete-board-modal"
+              class="delete-board toggle-modal-button font-bold text-white bg-danger-color hover:opacity-80 duration-100 rounded-full w-full p-4"
+            >
+              Delete Board
+            </button>
           </div>
         </div>
       </header>
@@ -374,9 +378,9 @@
             </button>
             <button
               type="submit"
-              class="createNewTask toggle-modal-button btn w-full rounded-full text-center font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[15px] focus:outline-none hover:bg-primary-light-color bg-primary-color text-white md:mr-6 p-[10px] md:py-4 px-4"
+              class="createNewTask toggle-modal-button btn w-full rounded-full text-center font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] focus:outline-none hover:bg-primary-light-color bg-[#635fc7] text-white p-[10px] md:py-4 px-4"
             >
-              Create New Taskasfsa
+              Create New Task
             </button>
           </div>
         </div>
@@ -431,84 +435,50 @@
             </div>
 
             <button
-              class="addNewTaskButton btn rounded-full w-full text-center py-2 font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 outline-none text-primary-color dark:bg-white bg-[#635fc71a] hover:bg-[#635FC740]"
-            >
-              + Add New Column
-            </button>
-            <button
               type="submit"
               id="save-changes-button"
-              class="createNewTask btn mt-6 rounded-full w-full text-center py-2 font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 focus:outline-none bg-primary-color text-white hover:bg-primary-light-color"
+              class="createNewTask toggle-modal-button btn w-full rounded-full text-center font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] focus:outline-none hover:bg-primary-light-color bg-[#635fc7] text-white p-[10px] md:py-4 px-4"
             >
               Save changes
             </button>
           </div>
         </div>
       </div>
-      <!-- Edit Board modal -->
 
       <div
         class="relative modal hidden max-w-[480px] max-h-[85vh] overflow-y-auto w-full mx-auto z-20 bg-content-color p-6 sm:p-8"
-        id="edit-board-modal"
+        id="delete-board-modal"
       >
         <div class="h-full">
           <i
             class="icon-close close-modal absolute top-6 right-6 sm:top-8 sm:right-8 cursor-pointer text-color hover:text-danger-color duration-150 active:text-danger-light-color"
           ></i>
           <div class="">
-            <h3 class="text-color text-[18px] font-bold">Edit Task</h3>
+            <h3 class="text-[18px] text-danger-color font-bold">
+              Delete this board?
+            </h3>
           </div>
+          <p class="text-[#828fa3] mt-6 font-medium text-base leading-6">
+            Are you sure you want to delete the ‘Platform Launch’ board? This
+            action will remove all columns and tasks and cannot be reversed.
+          </p>
           <div
-            class="relative form-label flex flex-col gap-2 text-gray-color font-plus-jakarta-sans font-bold text-[12px] leading-5"
+            class="flex items-center mt-6 justify-center w-full gap-4 flex-col md:flex-row"
           >
-            <div
-              class="task-inputs-wrapper mt-6 flex items-center flex-col gap-2 w-full"
-            >
-              <div
-                class="relative w-full flex flex-col gap-2 text-gray-color font-plus-jakarta-sans font-bold text-[12px] leading-5"
-              >
-                <h3 class="text-left w-full">Title</h3>
-                <input
-                  id="edit-task-title"
-                  class="requiredput modal-input block bg-transparent w-full px-4 py-2 rounded text-color outline-none cursor-pointer font-medium text-[13px] leading-[23px] border border-input-color focus:border-primary-color active:transition duration-200 active:ease-in"
-                  type="text"
-                  placeholder="e.g. Take coffee break"
-                />
-                <span
-                  class="input-span hidden absolute top-[55%] right-4 text-[#ea5555] font-medium leading-[23px] not-italic text-[13px]"
-                  >Can’t be empty</span
-                >
-              </div>
-              <div
-                for="textarea"
-                class="relative w-full mt-6 text-gray-color flex flex-col gap-2 not-italic text-[12px] font-bold leading-normal"
-              >
-                <h3 class="text-left w-full">Description</h3>
-                <textarea
-                  id="edit-task-description"
-                  name="textarea"
-                  class="block modal-input bg-transparent w-full text-color resize-none pl-4 pr-[25px] font-medium leading-[23px] pb-[57px] pt-2 rounded right-1 border border-input-color focus:border-primary-color outline-none active:transition ease-in duration-200"
-                  placeholder="e.g. It’s always good to take a break. This 15-minute break will recharge the batteries a little."
-                ></textarea>
-              </div>
-              <!-- Other fields go here -->
-            </div>
-
             <button
-              class="addNewTaskButton btn rounded-full w-full text-center py-2 font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 outline-none text-primary-color dark:bg-white bg-[#635fc71a] hover:bg-[#635FC740]"
+              class="btn delete-button rounded-full w-full text-center py-2 font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 focus:outline-none bg-danger-color text-white hover:bg-[#FF9898]"
             >
-              + Add New Column
+              Delete
             </button>
             <button
-              type="submit"
-              id="save-changes-button"
-              class="createNewTask btn mt-6 rounded-full w-full text-center py-2 font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 focus:outline-none bg-primary-color text-white hover:bg-primary-light-color"
+              class="btn cancel rounded-full w-full text-center py-2 font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 outline-none text-primary-color bg-btn-light-color hover:bg-btn-hover-color"
             >
-              Save changes
+              Cancel
             </button>
           </div>
         </div>
       </div>
+
 
       <div
         class="relative modal hidden max-w-[480px] max-h-[85vh] overflow-y-auto w-full mx-auto z-20 bg-content-color p-6 sm:p-8"

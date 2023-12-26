@@ -171,7 +171,7 @@ function openModal(modalId) {
     const selectBtn = optionMenu.querySelector('.dropdown-btn')
     const options = optionMenu.querySelectorAll('.dropdown-option')
     const sBtnText = optionMenu.querySelector('.dBtn-text')
-    console.log(options);
+    console.log(options)
     selectBtn.addEventListener('click', () => {
       optionMenu.classList.toggle('active')
     })
@@ -267,11 +267,32 @@ function addNewBoard(boardName, boardColumns) {
   closeModal('add-new-board')
   renderBoard(boardData.selectedBoard) // Call renderBoard after adding a new board
 }
+const cancelButton = document.querySelector('.cancel')
+
+cancelButton.addEventListener('click', (e) => {
+  e.preventDefault()
+  closeModal('delete-board-modal')
+})
+
+const deleteBoardOpen = document.querySelector('.delete-board')
+const deleteBoardButton = document.querySelector('.delete-button')
+// deleteBoardOpen.addEventListener('click', (e) => {
+//   e.preventDefault()
+//   deleteBoard(boardData.selectedBoard)
+//   closeModal('delete-board-modal')
+// })
+
+deleteBoardButton.addEventListener('click', (e) => {
+  e.preventDefault()
+  deleteBoard(boardData.selectedBoard)
+  closeModal('delete-board-modal')
+})
 
 // Assume you have a function to delete a board by ID
 function deleteBoard(boardId) {
   // Implement your logic to delete the board by ID
   // For example:
+  console.log(boardId)
   const indexToDelete = boardData.boards.findIndex(
     (board) => board.id === boardId,
   )
@@ -279,7 +300,7 @@ function deleteBoard(boardId) {
     boardData.boards.splice(indexToDelete, 1)
     // You might also want to handle other related data structures or UI updates here
   }
-
+  console.log(boardData.boards)
   // Update your UI or trigger any necessary updates
   renderBoard(boardData.selectedBoard) // Call renderBoard after deleting a board
 }
