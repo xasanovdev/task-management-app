@@ -109,7 +109,7 @@ const Data = {
               title:
                 'Research pricing points of various competitors and trial different business models',
               description:
-                'We know what we\'re planning to build for version one. Now we need to finalise the first pricing model we\'ll use. Keep iterating the subtasks until we have a coherent proposition.',
+                "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
               status: 'Doing',
               subtasks: [
                 {
@@ -162,7 +162,7 @@ const Data = {
               id: 'd408b2f5-1238-4ebf-a159-4ef1d2dafa3b',
               title: 'Review results of usability tests and iterate',
               description:
-                'Keep iterating through the subtasks until we\'re clear on the core concepts for the app.',
+                "Keep iterating through the subtasks until we're clear on the core concepts for the app.",
               status: 'Done',
               subtasks: [
                 {
@@ -312,7 +312,7 @@ const Data = {
               id: '260d9248-4f73-459f-93e4-10e975fc9929',
               title: 'Review early feedback and plan next steps for roadmap',
               description:
-                'Beyond the initial launch, we\'re keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.',
+                "Beyond the initial launch, we're keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.",
               status: '',
               subtasks: [
                 { title: 'Interview 10 customers', isCompleted: false },
@@ -340,6 +340,14 @@ const Data = {
 
 setData(Data)
 
+const currentBoard = document.querySelector('.currentBoard')
+
+function getBoardName(boardId) {
+  const selectedBoard = Data.boards.find((board) => board.id === boardId)
+
+  currentBoard.textContent = selectedBoard?.name
+}
+
 const boardData = fetchData()
 
 console.log(boardData)
@@ -349,7 +357,12 @@ const playGround = document.querySelector('#playGround')
 const boardList = document.querySelector('.board-list')
 
 function renderBoard(boardId) {
+  const numberOfCreatedBoards = document.querySelector('.numberOfCreatedBoards')
+  numberOfCreatedBoards.textContent = `All boards (${boardData.boards.length})`
+
   // Check if boardData.boards is an array
+  getBoardName(boardId)
+
   if (!Array.isArray(boardData.boards)) {
     console.error('Invalid boardData.boards:', boardData.boards)
     return
@@ -437,8 +450,8 @@ function generateTaskCard(task) {
     <span class="hidden subtasks-json">${JSON.stringify(task.subtasks)}</span>
       <p class="card__title text-color capitalize">${task.title}</p>
       <p class="card__status text-slate-500">${
-    task.subtasks.filter((subtask) => !subtask.isCompleted).length
-  } of ${task.subtasks.length} substasks</p>
+        task.subtasks.filter((subtask) => !subtask.isCompleted).length
+      } of ${task.subtasks.length} substasks</p>
     </div>
   `
 }
@@ -621,11 +634,11 @@ function generateTaskModal(task, dropdownElement, statusValues) {
   <div class="h-full">
     <div class="flex items-center gap-4 justify-between mb-6">
       <button class="edit-task rounded-full w-full text-center py-4 font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 outline-none text-primary-color dark:bg-white bg-[#635fc71a] hover:bg-[#635FC740]" onclick="editTask('${
-    task.id
-  }')">Edit Task</button>
+        task.id
+      }')">Edit Task</button>
       <button class="delete-task font-bold text-white bg-danger-color hover:opacity-80 duration-100 rounded-full w-full p-4" onclick="deleteTask('${
-    task.id
-  }')">Delete Task</button>
+        task.id
+      }')">Delete Task</button>
     </div>
 
     <div>
@@ -642,8 +655,8 @@ function generateTaskModal(task, dropdownElement, statusValues) {
         <div class="dropdown-menu relative w-full">
           <div class="dropdown-btn status min-w-full w-full justify-between flex items-center px-4 py-2 rounded border focus:outline-none active:border-[#635FC7] group">
             <span class="dBtn-text m-0 text-gray-color cursor-pointer transition duration-400 ease-in-out text-[13px] leading-6">${
-    task.status
-  }</span>
+              task.status
+            }</span>
             <span class="dropdown-sign">
               <svg xmlns="http://www.w3.org/2000/svg" width="11" height="8" viewBox="0 0 11 8" fill="none">
                 <path d="M0.79834 1.54858L5.49682 6.24707L10.1953 1.54858" stroke="#635FC7" stroke-width="2"/>
@@ -902,12 +915,8 @@ function generateKanbanBoard(board) {
 
   playGround.setAttribute('board-id', `${board.id}`)
 
-
   return board.columns.map((column) => generateColumn(column)).join('')
 }
-
-
-
 
 boardList.addEventListener('click', (event) => {
   event.preventDefault()
@@ -920,9 +929,6 @@ boardList.addEventListener('click', (event) => {
 })
 
 boardList.innerHTML = generateKanbanBoardNames(boardData)
-
-const numberOfCreatedBoards = document.querySelector('.numberOfCreatedBoards')
-numberOfCreatedBoards.textContent = `All boards (${boardData.boards.length})`
 
 if (boardData && boardData.boards.length > 0) {
   const initialBoardId = boardData.boards[0].id
@@ -976,7 +982,6 @@ newColumnButtons.forEach((newColumnButton) => {
   })
 })
 
-
 function generateColumnDataFromDOM() {
   const columns = []
 
@@ -984,36 +989,45 @@ function generateColumnDataFromDOM() {
   const columnContainer = document.querySelector('#playGround')
 
   // Iterate through each column in the container
-  columnContainer.querySelectorAll('.column').forEach((columnElement, columnIndex) => {
-    const column = {
-      name: columnElement.querySelector('.column-name').textContent,
-      tasks: [],
-    }
-
-    // Iterate through each task in the column
-    columnElement.querySelectorAll('.card').forEach((taskElement, taskIndex) => {
-      const task = {
-        id: taskElement.getAttribute('id'),
-        title: taskElement.querySelector('.card__title').textContent,
-        description: taskElement.querySelector('.task-description').textContent,
-        status: taskElement.getAttribute('status'), // Use the column name as the initial task status
-        subtasks: JSON.parse(taskElement.querySelector('.subtasks-json').textContent),
+  columnContainer
+    .querySelectorAll('.column')
+    .forEach((columnElement, columnIndex) => {
+      const column = {
+        name: columnElement.querySelector('.column-name').textContent,
+        tasks: [],
       }
-      column.tasks.push(task)
+
+      // Iterate through each task in the column
+      columnElement
+        .querySelectorAll('.card')
+        .forEach((taskElement, taskIndex) => {
+          const task = {
+            id: taskElement.getAttribute('id'),
+            title: taskElement.querySelector('.card__title').textContent,
+            description:
+              taskElement.querySelector('.task-description').textContent,
+            status: taskElement.getAttribute('status'), // Use the column name as the initial task status
+            subtasks: JSON.parse(
+              taskElement.querySelector('.subtasks-json').textContent,
+            ),
+          }
+          column.tasks.push(task)
+        })
+
+      columns.push(column)
     })
 
-    columns.push(column)
-  })
-
   return columns
-
 }
 
 console.log(generateColumnDataFromDOM())
 
-
-function replaceColumnsInSelectedBoardByIdInPlace(boardData, boardId, newColumns) {
-  const foundBoard = boardData.boards.find(board => board.id === boardId)
+function replaceColumnsInSelectedBoardByIdInPlace(
+  boardData,
+  boardId,
+  newColumns,
+) {
+  const foundBoard = boardData.boards.find((board) => board.id === boardId)
 
   if (foundBoard) {
     const selectedBoardIndex = boardData.boards.indexOf(foundBoard)
@@ -1023,10 +1037,6 @@ function replaceColumnsInSelectedBoardByIdInPlace(boardData, boardId, newColumns
     console.error('Board not found.')
   }
 }
-
-
-
-
 
 // LOCAL STORAGE
 
@@ -1050,11 +1060,14 @@ function setData(data) {
   }
 }
 
-
-
-
 function saveDOM() {
-  const currentBoard = document.querySelector('#playGround').getAttribute('board-id')
-  replaceColumnsInSelectedBoardByIdInPlace(boardData, currentBoard, generateColumnDataFromDOM())
+  const currentBoard = document
+    .querySelector('#playGround')
+    .getAttribute('board-id')
+  replaceColumnsInSelectedBoardByIdInPlace(
+    boardData,
+    currentBoard,
+    generateColumnDataFromDOM(),
+  )
   setData(boardData)
 }
