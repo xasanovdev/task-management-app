@@ -36,7 +36,8 @@ const boardData = {
               ],
             },
           ],
-        }, {
+        },
+        {
           name: 'Doing',
           tasks: [
             {
@@ -395,9 +396,7 @@ function renderBoard(boardId) {
   }
   cardJS()
   console.log(boardData.selectedBoard)
-
 }
-
 
 function generateUniqueId() {
   return Date.now().toString(36)
@@ -411,6 +410,14 @@ function generateStatusToDropdown(status) {
     </span>
   </li>
   `
+}
+function generateRandomColor() {
+  const letters = '0123456789ABCDEF'
+  let color = '#'
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)]
+  }
+  return color
 }
 
 function generateTaskCard(task) {
@@ -436,6 +443,8 @@ function openTaskModal(taskId) {
   const statusValues = extractStatusValues(boardData, selectedBoard)
   const dropdownOptions = statusValues.map(generateStatusToDropdown).join('')
 
+  console.log(statusValues)
+
   // Update the HTML content of the dropdown
   const dropdownElement = document?.querySelector('.dropdown-options')
 
@@ -443,6 +452,7 @@ function openTaskModal(taskId) {
     dropdownElement.innerHTML = dropdownOptions
   }
 
+  console.log(task, dropdownElement)
   // Ensure sBtnText is properly defined here (modify as needed)
   // const sBtnText = document.querySelector('.dBtn-text')
 
@@ -487,6 +497,7 @@ function deleteTask(taskId) {
           const boardIndex = boardData.boards.indexOf(board)
           boardData.boards.splice(boardIndex, 1)
         }
+        closeModal('open-task-modal')
 
         // Assuming you have a function to update the UI after deletion
         renderBoard(renderBoard.selectedBoard)
@@ -495,8 +506,6 @@ function deleteTask(taskId) {
         return
       }
     }
-
-    closeModal('open-modal-button')
   }
 
   // Log a message if the task is not found (for debugging purposes)
@@ -541,7 +550,6 @@ function saveChanges(task) {
   // Update the task in the data structure
   task.title = titleInput.value
   task.description = descriptionInput.value
-
 
   // Optionally, trigger a function to update the UI with the modified data
   updateUI()
@@ -824,7 +832,7 @@ function generateUniqueIdFromTitle(title) {
 function generateSubtaskItem(subtask) {
   // Generate HTML for each subtask
   return `
-    <div class="flex items-center p-3 gap-4 cursor-pointer relative hover:bg-[635fc740] hover:transition duration-200 active:ease-in" onclick="toggleSubtaskCompleted('${
+    <div class="chechbox-content flex items-center text-color p-3 gap-4 cursor-pointer relative hover:bg-[635fc740] hover:transition duration-200 active:ease-in" onclick="toggleSubtaskCompleted('${
       subtask.id
     }')">
       <i class="icon-tick checkbox-icon absolute top-4 text-white left-4 scale-1 duration-150"></i>
@@ -842,14 +850,15 @@ function generateSubtaskItem(subtask) {
   `
 }
 
-
 function generateColumn(column) {
   const tasksHtml = column.tasks.map((task) => generateTaskCard(task)).join('')
   return `
     <div class="column relative h-full text-color flex flex-col items-start w-280 gap-5 overflow-visible">
       <h3 class="column__header mb-6 text-[#828fa3] flex items-center gap-3">
-        <span class="w-4 h-4 bg-primary-color rounded-full"></span>
-        <span class="tracking-widest text-sm font-bold">${column.name} (${column.tasks.length})</span>
+        <span class="w-4 h-4 bg-[${generateRandomColor()}] rounded-full"></span>
+        <span class="tracking-widest text-sm font-bold">${column.name} (${
+          column.tasks.length
+        })</span>
       </h3>
         ${tasksHtml}
     </div>
@@ -891,7 +900,7 @@ boardList.addEventListener('click', (event) => {
   const targetLink = event.target.closest('.board__link')
   if (targetLink) {
     const boardId = targetLink.getAttribute('data-board-id')
-    console.log(boardData.boards);
+    console.log(boardData.boards)
     renderBoard(boardId)
   }
 })
