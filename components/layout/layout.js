@@ -1,4 +1,4 @@
-const boardData = {
+const Data = {
   boards: [
     {
       id: '1',
@@ -337,43 +337,88 @@ const boardData = {
   selectedColumn: 0,
   selectedTask: 0,
 }
-const boardList = document.getElementById('boardList')
-const playGround = document.getElementById('playGround')
 
-let isDragging = false
-let startPosition = { x: 0, y: 0 }
-let scrollLeft = 0
-let scrollTop = 0
+setData(Data)
 
-playGround.addEventListener('mousedown', (e) => {
-  isDragging = true
-  startPosition = {
-    x: e.clientX,
-    y: e.clientY,
+const currentBoard = document.querySelector('.currentBoard')
+
+function getBoardName(boardId) {
+  const selectedBoard = Data.boards.find((board) => board.id === boardId)
+
+  currentBoard.textContent = selectedBoard?.name
+}
+
+const boardData = fetchData()
+
+console.log(boardData)
+
+const playGround = document.querySelector('#playGround')
+
+const boardList = document.querySelector('.board-list')
+
+function renderBoard(boardId) {
+  const numberOfCreatedBoards = document.querySelector('.numberOfCreatedBoards')
+  numberOfCreatedBoards.textContent = `All boards (${boardData.boards.length})`
+
+  // Check if boardData.boards is an array
+  getBoardName(boardId)
+
+  if (!Array.isArray(boardData.boards)) {
+    console.error('Invalid boardData.boards:', boardData.boards)
+    return
   }
-  scrollLeft = playGround.scrollLeft
-  scrollTop = playGround.scrollTop
-})
 
-document.addEventListener('mouseup', () => {
-  if (isDragging) {
-    isDragging = false
+  // If no boardId is provided, default to the first board in the array
+  if (!boardId && boardData.boards.length > 0) {
+    boardId = boardData.boards[0].id
   }
-})
+  // Find the board by ID
+  const board = boardData.boards.find((board) => board.id === boardId)
 
-document.addEventListener('mousemove', (e) => {
-  if (isDragging) {
-    const deltaX = e.clientX - startPosition.x
-    const deltaY = e.clientY - startPosition.y
+  boardData.selectedBoard = boardId
 
-    playGround.scrollLeft = scrollLeft - deltaX
-    playGround.scrollTop = scrollTop - deltaY
+  // Check if the board is found
+  if (!board) {
+    console.error(`Board with id ${boardId} not found.`)
+    return
   }
-})
+
+  // Check if board.id is defined and not null
+  if (board.id === undefined || board.id === null) {
+    console.error('Invalid board ID:', board.id)
+    return
+  }
+
+  const isBoardRendered = document.getElementById(board.id) !== null
+
+  // Update the board list (assuming boardList is a valid reference)
+  boardList.innerHTML = generateKanbanBoardNames(boardData)
+
+  // Render the selected board only if it's not already rendered
+  if (!isBoardRendered) {
+    // Assuming playGround is a valid reference
+    playGround.innerHTML = generateKanbanBoard(board)
+    playGround.appendChild(createNewColumnElement())
+
+    // Update the selected board in boardData
+    boardData.selectedBoard = board.id
+    boardData.selectedColumn = board.columns[0]
+    // Highlight the active link in the board list
+    const boardLinks = document.querySelectorAll('.board__link')
+    boardLinks.forEach((link) => {
+      link.classList.remove('active')
+      if (link.getAttribute('data-board-id') === board.id) {
+        link.classList.add('active')
+      }
+    })
+  }
+  cardJS()
+}
 
 function generateUniqueId() {
   return Date.now().toString(36)
 }
+
 function generateStatusToDropdown(status) {
   return `
   <li class="dropdown-option cursor-pointer p-3 hover:bg-content-color duration-200">
@@ -383,13 +428,26 @@ function generateStatusToDropdown(status) {
   </li>
   `
 }
+function generateRandomColor() {
+  const letters = '0123456789ABCDEF'
+  let color = '#'
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)]
+  }
+  return color
+}
+
 function generateTaskCard(task) {
   return `
     <div
+      id="${task.id}"
       modal-id="${task.id}"
-      class="card duration-200 shadow-lg bg-content-color w-[280px] py-6 px-4 rounded-lg font-bold hover:shadow-md hover:cursor-pointer subpixel-antialiased"
+      status="${task.status}"
+      class="card select-none toggle-modal-button bg-content-color w-280 h-fit py-6 px-4 rounded-lg font-bold shadow-sh-color shadow-sm hover:cursor-pointer hover:text-primary-color subpixel-antialiased"
       onclick="openTaskModal('${task.id}')"
     >
+    <span class="hidden task-description">${task.description}</span>
+    <span class="hidden subtasks-json">${JSON.stringify(task.subtasks)}</span>
       <p class="card__title text-color capitalize">${task.title}</p>
       <p class="card__status text-slate-500">${
         task.subtasks.filter((subtask) => !subtask.isCompleted).length
@@ -398,26 +456,136 @@ function generateTaskCard(task) {
   `
 }
 
-// Function to open the task modal
 function openTaskModal(taskId) {
   // Find the task with the given ID from boardData
   const task = findTaskById(taskId)
+  let selectedBoard = boardData.selectedBoard
 
-  console.log(task)
+  const statusValues = extractStatusValues(boardData, selectedBoard)
+  const dropdownOptions = statusValues.map(generateStatusToDropdown).join('')
+
+  console.log(statusValues)
+
+  // Update the HTML content of the dropdown
+  const dropdownElement = document?.querySelector('.dropdown-options')
+
+  if (dropdownElement) {
+    dropdownElement.innerHTML = dropdownOptions
+  }
+
+  console.log(task, dropdownElement)
+  // Ensure sBtnText is properly defined here (modify as needed)
+  // const sBtnText = document.querySelector('.dBtn-text')
+
   // Open the modal with the task data
   if (task) {
     // Generate the modal HTML
-    const modalHtml = generateTaskModal(task)
+    const modalHtml = generateTaskModal(task, dropdownElement, statusValues)
 
     // Open the modal with the generated HTML
     openModal('open-task-modal', boardData.selectedBoard)
+
     // Update the HTML content of the task modal
     const taskModal = document.getElementById('open-task-modal')
     taskModal.innerHTML = modalHtml
+
+    // Set up the dropdown for the task modal
+    setupDropdown(taskModal.querySelector('.dropdown-menu'), task)
   }
 }
 
-function generateTaskModal(task) {
+function deleteTask(taskId) {
+  console.log(taskId)
+  // Find the board and column that contain the task
+  for (const board of boardData.boards) {
+    console.log(board)
+    for (const column of board.columns) {
+      console.log(column)
+      const taskIndex = column.tasks.findIndex((task) => task.id === taskId)
+      console.log(taskIndex)
+      if (taskIndex !== -1) {
+        // Remove the task from the column
+        column.tasks.splice(taskIndex, 1)
+
+        // If the column becomes empty, remove the column
+        if (column.tasks.length === 0) {
+          const columnIndex = board.columns.indexOf(column)
+          board.columns.splice(columnIndex, 1)
+        }
+
+        // If the board becomes empty, remove the board
+        if (board.columns.length === 0) {
+          const boardIndex = boardData.boards.indexOf(board)
+          boardData.boards.splice(boardIndex, 1)
+        }
+        closeModal('open-task-modal')
+
+        // Assuming you have a function to update the UI after deletion
+        renderBoard(renderBoard.selectedBoard)
+
+        // Exit the function once the task is deleted
+        return
+      }
+    }
+  }
+
+  // Log a message if the task is not found (for debugging purposes)
+  console.warn(`Task with ID ${taskId} not found.`)
+}
+
+function populateEditModal(task) {
+  // This is a generic example, you should replace it with your actual logic
+  const titleInput = document.getElementById('edit-task-title')
+  const descriptionInput = document.getElementById('edit-task-description')
+
+  // Populate the modal inputs with task details
+  titleInput.value = task.title
+  descriptionInput.value = task.description
+  // ... (populate other fields as needed)
+}
+
+function editTask(taskId) {
+  // Find the task by ID
+  const task = findTaskById(taskId)
+
+  console.log(task)
+
+  // Populate the edit modal with task details
+  populateEditModal(task)
+  closeModal('open-task-modal')
+  // Open the edit modal
+  openModal('edit-task-modal')
+
+  // Handle the "Save Changes" button click
+  const saveChangesButton = document.getElementById('save-changes-button')
+  saveChangesButton.addEventListener('click', () => {
+    saveChanges(task)
+  })
+}
+
+function saveChanges(task) {
+  // Get the updated values from the modal inputs
+  const titleInput = document.getElementById('edit-task-title')
+  const descriptionInput = document.getElementById('edit-task-description')
+
+  // Update the task in the data structure
+  task.title = titleInput.value
+  task.description = descriptionInput.value
+
+  // Optionally, trigger a function to update the UI with the modified data
+  updateUI()
+
+  // Close the edit modal
+  closeModal('edit-task-modal')
+}
+
+// Function to update the UI with the modified data
+function updateUI() {
+  // Implement your logic to update the UI with the modified data
+  renderBoard(boardData.selectedBoard)
+}
+
+function generateTaskModal(task, dropdownElement, statusValues) {
   // Extract task details
   const taskName = task.title
   const taskDescription = task.description || 'No description available'
@@ -428,8 +596,7 @@ function generateTaskModal(task) {
 
   // Generate unique IDs for subtasks and update boardData
   const subtasksWithIds = task.subtasks.map((subtask) => {
-    const uniqueSubtaskId = generateUniqueIdFromTitle(subtask.title)
-    subtask.id = uniqueSubtaskId // Update subtask ID in boardData
+    subtask.id = generateUniqueIdFromTitle(subtask.title) // Update subtask ID in boardData
     return subtask
   })
 
@@ -464,25 +631,89 @@ function generateTaskModal(task) {
 
   // Modal HTML
   const modalHtml = `
-      <div class="h-full">
-        <i class="icon-close close-modal absolute top-6 right-6 sm:top-8 sm:right-8 cursor-pointer text-color hover:text-danger-color duration-150 active:text-danger-light-color"></i>
-        <div>
-          <h3 class="text-color text-[18px] font-bold">${taskName}</h3>
-        </div>
-        <div class="mt-6 text-[#828FA3] font-bold tracking-wide text-[13px]">${taskDescription}</div>
-        <div class="relative form-label flex flex-col gap-2 text-gray-color font-plus-jakarta-sans font-bold text-[12px] leading-5">
-          <h3>Subtasks (${completedSubtasksCount} of ${subtasksCount})</h3>
-          <div class="subtasks mt-6 flex flex-col bg-page-color">
-            ${subtasksHtml}
+  <div class="h-full">
+    <div class="flex items-center gap-4 justify-between mb-6">
+      <button class="edit-task rounded-full w-full text-center py-4 font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 outline-none text-primary-color dark:bg-white bg-[#635fc71a] hover:bg-[#635FC740]" onclick="editTask('${
+        task.id
+      }')">Edit Task</button>
+      <button class="delete-task font-bold text-white bg-danger-color hover:opacity-80 duration-100 rounded-full w-full p-4" onclick="deleteTask('${
+        task.id
+      }')">Delete Task</button>
+    </div>
+
+    <div>
+      <h3 class="text-color text-[18px] font-bold">${taskName}</h3>
+    </div>
+    <div class="mt-6 text-[#828FA3] font-bold tracking-wide text-[13px]">${taskDescription}</div>
+    <div class="relative form-label flex flex-col gap-2 text-gray-color font-plus-jakarta-sans font-bold text-[12px] leading-5">
+      <h3>Subtasks (${completedSubtasksCount} of ${subtasksCount})</h3>
+      <div class="subtasks mt-6 flex flex-col bg-page-color">
+        ${subtasksHtml}
+      </div>
+
+      <div class="dropdown">
+        <div class="dropdown-menu relative w-full">
+          <div class="dropdown-btn status min-w-full w-full justify-between flex items-center px-4 py-2 rounded border focus:outline-none active:border-[#635FC7] group">
+            <span class="dBtn-text m-0 text-gray-color cursor-pointer transition duration-400 ease-in-out text-[13px] leading-6">${
+              task.status
+            }</span>
+            <span class="dropdown-sign">
+              <svg xmlns="http://www.w3.org/2000/svg" width="11" height="8" viewBox="0 0 11 8" fill="none">
+                <path d="M0.79834 1.54858L5.49682 6.24707L10.1953 1.54858" stroke="#635FC7" stroke-width="2"/>
+              </svg>
+            </span>
           </div>
-          <div class="dropdown">
-            <!-- Dropdown code here -->
-          </div>
+          ${dropdownElement ? dropdownElement.outerHTML : ''}
         </div>
       </div>
-  `
+    </div>
+  </div>
+`
+  // Get the dropdown options
+  const dropdownOptions = statusValues.map(generateStatusToDropdown).join('')
+
+  // Set up the dropdown for the task modal
+  const dropdownMenu = dropdownElement.querySelector('.dropdown-menu')
+  if (dropdownMenu) {
+    dropdownMenu.innerHTML = dropdownOptions
+    setupDropdown(dropdownMenu, task)
+  }
 
   return modalHtml
+}
+
+function updateTaskStatus(task, newStatus) {
+  // Update the task status in boardData
+  const board = boardData.boards.find((board) =>
+    board.columns
+      .flatMap((column) => column.tasks)
+      .some((t) => t.subtasks[0].id === task.subtasks[0].id),
+  )
+
+  if (board) {
+    const column = board.columns.find((column) =>
+      column.tasks.some((t) => t.subtasks[0].id === task.subtasks[0].id),
+    )
+
+    if (column) {
+      const taskToUpdate = column.tasks.find(
+        (t) => t.subtasks[0].id === task.subtasks[0].id,
+      )
+
+      if (taskToUpdate) {
+        console.log(
+          `Updating task status from ${taskToUpdate.status} to ${newStatus}`,
+        )
+        taskToUpdate.status = newStatus
+      }
+    }
+  }
+
+  // Log the current state of the boardData for debugging
+  console.log('Updated boardData:', boardData)
+
+  // Render the updated board
+  renderBoard(boardData.selectedBoard)
 }
 
 function toggleSubtaskCompleted(subtaskId) {
@@ -521,6 +752,9 @@ function toggleSubtaskCompleted(subtaskId) {
 
           boardData.boards[boardIndex].columns[columnIndex].tasks[taskIndex] =
             taskContainingSubtask
+
+          // Update the UI
+          updateSubtaskUI(subtask)
         }
       }
     }
@@ -572,7 +806,7 @@ function findBoardContainingColumn(column) {
 // Update the updateSubtaskUI function
 function updateSubtaskUI(subtask) {
   const checkbox = document.getElementById(subtask.id)
-
+  console.log(subtask)
   // Update the checkbox state
   if (checkbox) {
     checkbox.checked = subtask.isCompleted
@@ -587,26 +821,11 @@ function findSubtaskById(subtaskId) {
   // For example, you can use boardData to find the subtask
   // Replace this with your actual implementation
 
-  const foundSubtask = boardData.boards
+  return boardData.boards
     .flatMap((board) => board.columns)
     .flatMap((column) => column.tasks)
     .flatMap((task) => task.subtasks)
     .find((subtask) => subtask.id === subtaskId)
-
-  return foundSubtask
-}
-
-// Add a function to update the UI based on the subtask state
-function updateSubtaskUI(subtask) {
-  console.log(subtask) // log free
-  const checkbox = document.getElementById(`${subtask.id}`) // log undefined
-
-  // Update the checkbox state
-  if (checkbox) {
-    checkbox.checked = subtask.isCompleted
-  }
-
-  // You can add additional UI updates here as needed
 }
 
 function findTaskById(taskId) {
@@ -634,7 +853,7 @@ function generateUniqueIdFromTitle(title) {
 function generateSubtaskItem(subtask) {
   // Generate HTML for each subtask
   return `
-    <div class="flex items-center p-3 gap-4 cursor-pointer relative hover:bg-[635fc740] hover:transition duration-200 active:ease-in" onclick="toggleSubtaskCompleted('${
+    <div class="chechbox-content flex items-center text-color p-3 gap-4 cursor-pointer relative hover:bg-[635fc740] hover:transition duration-200 active:ease-in" onclick="toggleSubtaskCompleted('${
       subtask.id
     }')">
       <i class="icon-tick checkbox-icon absolute top-4 text-white left-4 scale-1 duration-150"></i>
@@ -655,15 +874,15 @@ function generateSubtaskItem(subtask) {
 function generateColumn(column) {
   const tasksHtml = column.tasks.map((task) => generateTaskCard(task)).join('')
   return `
-    <ul class="column w-[280px] h-full">
-      <h3 class="column__header mb-6 text-[#828fa3] flex items-center gap-3">
-        <span class="w-4 h-4 bg-primary-color rounded-full"></span>
-        <span class="tracking-widest text-sm font-bold">${column.name} (${column.tasks.length})</span>
+    <div class="column relative h-full text-color flex flex-col items-start w-280 gap-5 overflow-visible">
+      <h3 class="column__header text-[#828fa3] flex items-center gap-3">
+        <span class="w-4 h-4 bg-[${generateRandomColor()}] rounded-full"></span>
+        <span class="tracking-widest text-sm font-bold column-name">${column.name} (${
+          column.tasks.length
+        })</span>
       </h3>
-      <div class="flex items-center flex-col gap-5">
         ${tasksHtml}
-      </div>
-    </ul>
+    </div>
   `
 }
 
@@ -683,44 +902,20 @@ function generateKanbanBoardName(board) {
 }
 
 function generateKanbanBoardNames(boardData) {
-  const boardNamesHtml = boardData.boards
+  return boardData.boards
     .map((board) => generateKanbanBoardName(board))
     .join('')
-  return boardNamesHtml
 }
 
 function generateKanbanBoard(board) {
-  const columnsHtml = board.columns
-    .map((column) => generateColumn(column))
-    .join('')
-  return `
-    <ul id="${board.id}" class="kanban-board flex items-center overflow-y-auto p-6 gap-6 h-full" role="list">
-      ${columnsHtml}
-    </ul>
-  `
-}
-
-function renderBoard(boardId) {
-  const board = boardData.boards.find((board) => board.id === boardId)
-  console.log(boardId)
-  const isBoardRendered = document.getElementById(boardId) !== null
-  boardList.innerHTML = generateKanbanBoardNames(boardData)
-
-  if (board && !isBoardRendered) {
-    playGround.innerHTML = generateKanbanBoard(board)
-
-    boardData.selectedBoard = board.id
-
-    const boardLinks = document.querySelectorAll('.board__link')
-    boardLinks.forEach((link) => {
-      link.classList.remove('active')
-      if (link.getAttribute('data-board-id') === boardId) {
-        link.classList.add('active')
-      }
-    })
+  if (!board || !board.columns) {
+    console.error('Invalid board data:', board)
+    return '' // Return an empty string or handle the error appropriately
   }
 
-  console.log(boardData.selectedBoard)
+  playGround.setAttribute('board-id', `${board.id}`)
+
+  return board.columns.map((column) => generateColumn(column)).join('')
 }
 
 boardList.addEventListener('click', (event) => {
@@ -728,46 +923,151 @@ boardList.addEventListener('click', (event) => {
   const targetLink = event.target.closest('.board__link')
   if (targetLink) {
     const boardId = targetLink.getAttribute('data-board-id')
+    console.log(boardData.boards)
     renderBoard(boardId)
   }
 })
 
 boardList.innerHTML = generateKanbanBoardNames(boardData)
 
-const numberOfCreatedBoards = document.querySelector('.numberOfCreatedBoards')
-numberOfCreatedBoards.textContent = `All boards (${boardData.boards.length})`
-
 if (boardData && boardData.boards.length > 0) {
   const initialBoardId = boardData.boards[0].id
   renderBoard(initialBoardId)
 }
 
-const addColumnBtn = document.querySelector('#addColumn')
-const columns = document.querySelectorAll('.column')
+function createNewColumnElement() {
+  // Create div element
+  const divElement = document.createElement('button')
 
-if (columns.length === 0) {
-  const div = document.createElement('div')
-  div.innerHTML = `
-    <div class="flex flex-col gap-8 w-full items-center content-center text-center">
-      <span class="text-center text-4.5 text-[#828FA3] mx-2 md:px-5">
-        This board is empty. Create a new column to get started.
-      </span>
-      <button
-        class="btn rounded-full text-center py-3.5 mx-auto px-4 font-plus-jakarta-sans font-bold text-[15px] leading-5 cursor-pointer transition duration-200 ease-in-out focus:outline-none bg-primary-color text-white hover:bg-primary-light-color"
-        id="addColumn"
-      >
-        + Add New Column
-      </button>
-    </div>
-  `
-  playGround.appendChild(div)
-} else {
-  const div = document.createElement('div')
-  div.innerHTML = `
-    <div
-      id="newColumn"
-      class="w-280 h-280 rounded-md bg-gradient-to-br from-slate-300 to-slate-200"
-    ></div>
-  `
-  playGround.appendChild(div)
+  // Set class attribute
+  divElement.setAttribute(
+    'class',
+    'toggle-modal-button w-280 h-fit mt-10 flex rounded-md bg-gradient-primary cursor-pointer items-center content-center overflow-visible mb-48 bg-gradient-to-br from-[#995eb40a] to-[#723b8883]',
+  )
+
+  // Set id attribute
+  divElement.setAttribute('id', 'newColumn')
+
+  // Set modal-id attribute
+  divElement.setAttribute('modal-id', 'edit-board-modal')
+
+  // Create span element
+  const spanElement = document.createElement('span')
+
+  // Set class attribute for span
+  spanElement.setAttribute(
+    'class',
+    'text-color text-center text-slate-500 capitalize text-2xl',
+  )
+
+  // Create inner HTML for span
+  spanElement.innerHTML =
+    '<span class="text-3xl text-center">+</span> New Column'
+
+  // Append span element to div element
+  divElement.appendChild(spanElement)
+
+  // Return the generated element
+  return divElement
+}
+
+const newColumnButtons = document.querySelectorAll('.new-column')
+
+newColumnButtons.forEach((newColumnButton) => {
+  newColumnButton.addEventListener('click', (e) => {
+    e.preventDefault()
+    console.log('clicked')
+    openModal('edit-board-modal', boardData.selectedBoard)
+    console.log(boardData)
+  })
+})
+
+function generateColumnDataFromDOM() {
+  const columns = []
+
+  // Assuming your columns are contained in a container with the class "column-container"
+  const columnContainer = document.querySelector('#playGround')
+
+  // Iterate through each column in the container
+  columnContainer
+    .querySelectorAll('.column')
+    .forEach((columnElement, columnIndex) => {
+      const column = {
+        name: columnElement.querySelector('.column-name').textContent,
+        tasks: [],
+      }
+
+      // Iterate through each task in the column
+      columnElement
+        .querySelectorAll('.card')
+        .forEach((taskElement, taskIndex) => {
+          const task = {
+            id: taskElement.getAttribute('id'),
+            title: taskElement.querySelector('.card__title').textContent,
+            description:
+              taskElement.querySelector('.task-description').textContent,
+            status: taskElement.getAttribute('status'), // Use the column name as the initial task status
+            subtasks: JSON.parse(
+              taskElement.querySelector('.subtasks-json').textContent,
+            ),
+          }
+          column.tasks.push(task)
+        })
+
+      columns.push(column)
+    })
+
+  return columns
+}
+
+console.log(generateColumnDataFromDOM())
+
+function replaceColumnsInSelectedBoardByIdInPlace(
+  boardData,
+  boardId,
+  newColumns,
+) {
+  const foundBoard = boardData.boards.find((board) => board.id === boardId)
+
+  if (foundBoard) {
+    const selectedBoardIndex = boardData.boards.indexOf(foundBoard)
+    boardData.boards[selectedBoardIndex].columns = newColumns
+    console.log(boardData.boards[selectedBoardIndex].columns)
+  } else {
+    console.error('Board not found.')
+  }
+}
+
+// LOCAL STORAGE
+
+function fetchData() {
+  try {
+    const jsonData = localStorage.getItem('kanban')
+    return jsonData ? JSON.parse(jsonData) : null
+  } catch (error) {
+    console.error('Error fetching data from localStorage:', error)
+    return null
+  }
+}
+
+function setData(data) {
+  try {
+    const jsonData = JSON.stringify(data)
+    localStorage.setItem('kanban', jsonData)
+    console.log('Data successfully set in localStorage.')
+  } catch (error) {
+    console.error('Error setting data in localStorage:', error)
+  }
+}
+
+function saveDOM() {
+  const currentBoard = document
+    .querySelector('#playGround')
+    .getAttribute('board-id')
+  replaceColumnsInSelectedBoardByIdInPlace(
+    boardData,
+    currentBoard,
+    generateColumnDataFromDOM(),
+  )
+  setData(boardData)
 }

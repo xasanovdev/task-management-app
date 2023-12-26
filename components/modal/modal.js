@@ -16,6 +16,30 @@ let modalInputs = null
 let dropdownOptions = null
 let errorMessage = null
 
+// Function to find the column containing a task
+function findColumnContainingTask(task) {
+  for (const board of boardData.boards) {
+    for (const column of board.columns) {
+      if (column.tasks.includes(task)) {
+        return column
+      }
+    }
+  }
+  return null
+}
+
+// Function to find the board containing a task
+function findBoardContainingTask(task) {
+  for (const board of boardData.boards) {
+    for (const column of board.columns) {
+      if (column.tasks.includes(task)) {
+        return board
+      }
+    }
+  }
+  return null
+}
+
 addNewColumnButton.addEventListener('click', (e) => {
   e.preventDefault()
   addNewToInputs(columnInputsWrapper) // Add an initial empty column input
@@ -41,7 +65,7 @@ function deleteInput(button) {
   }
 
   // Optionally, update the board when an input is deleted
-  renderBoard()
+  renderBoard(boardData.selectedBoard)
 }
 
 function deleteInput(inputElement) {
@@ -49,17 +73,7 @@ function deleteInput(inputElement) {
   // Check if inputWrapper has children before accessing them
   if (inputWrapper.children.length > 1) {
     inputElement.remove()
-    modalInputs = []
-    errorMessage = []
-
-    // Re-collect values from all remaining input elements
-    const remainingInputs = inputWrapper.querySelectorAll('.modal-input')
-    remainingInputs.forEach((input) => {
-      modalInputs.push(input.value)
-    })
-
-    renderBoard()
-    console.log(modalInputs)
+    updateModalArrays(inputWrapper)
   } else {
     console.error('Cannot delete the last input element.')
   }
@@ -79,23 +93,29 @@ function addNewToInputs(inputWrapper) {
       deleteInput(newInput)
     })
 
-    // Clear modalInputs array
-    modalInputs = []
-    errorMessage = []
-
-    errorMessage = newInput.querySelector('.input-span')
-
-    // Collect values from all input elements
-    const inputElements = newInput.querySelectorAll('.modal-input')
-    inputElements.forEach((input) => {
-      modalInputs.push(input.value)
-    })
-
-    renderBoard()
-    console.log(modalInputs)
+    updateModalArrays(inputWrapper)
+    renderBoard(boardData.selectedBoard)
   } else {
     console.error('Input wrapper is null or undefined.')
   }
+}
+
+function updateModalArrays(inputWrapper) {
+  // Clear modalInputs and errorMessage arrays
+  modalInputs = []
+  errorMessage = []
+
+  // Find the error messages in the new input
+  const errorMessages = inputWrapper.querySelectorAll('.input-span')
+
+  // Collect values from all input elements
+  const inputElements = inputWrapper.querySelectorAll('.modal-input')
+  inputElements.forEach((input, index) => {
+    modalInputs.push(input.value)
+    errorMessage.push(errorMessages[index]) // Add corresponding error message element
+  })
+
+  console.log(modalInputs)
 }
 
 function generateInput(input) {
@@ -120,7 +140,7 @@ function generateInput(input) {
   `
 }
 
-function openModal(modalId, selectedBoard) {
+function openModal(modalId) {
   const modal = document.getElementById(modalId)
 
   // Check if modalInputs and errorMessage are already collected
@@ -130,7 +150,7 @@ function openModal(modalId, selectedBoard) {
   }
 
   // Extract unique status values from the selected board in the boardData object
-  const statusValues = extractStatusValues(boardData, selectedBoard)
+  const statusValues = extractStatusValues(boardData, boardData.selectedBoard)
 
   // Populate dropdown options dynamically using the generateStatusToDropdown function
   dropdownOptions = generateDropdownOptions(statusValues)
@@ -141,20 +161,54 @@ function openModal(modalId, selectedBoard) {
   if (dropdownElement) {
     dropdownElement.innerHTML = dropdownOptions.join('')
   }
+  if (modalId === 'add-task-modal') {
+    const optionMenu = document.querySelector('.dropdown-menu')
+    const selectBtn = optionMenu.querySelector('.dropdown-btn')
+    const options = optionMenu.querySelectorAll('.dropdown-option')
+    const sBtnText = optionMenu.querySelector('.dBtn-text')
+    console.log(options)
+    selectBtn.addEventListener('click', () => {
+      optionMenu.classList.toggle('active')
+    })
+
+    options.forEach((option) => {
+      option.addEventListener('click', () => {
+        const selectedOption = option.querySelector('.option-text').innerText
+        sBtnText.innerText = selectedOption
+        statusColumn = selectedOption
+        optionMenu.classList.remove('active')
+        console.log(selectedOption)
+      })
+    })
+
+    // Add a click event listener to close the dropdown-menu when clicking outside
+    document.addEventListener('click', function (event) {
+      if (
+        !selectBtn.contains(event.target) &&
+        !optionMenu.contains(event.target)
+      ) {
+        optionMenu.classList.remove('active')
+      }
+    })
+  }
+
   modal.classList.remove('hidden')
   blocker.classList.add('active')
   overlay.classList.remove('hidden')
   overlay.classList.add('flex')
   modal.style.zIndex = '100'
+  console.log(boardData)
+  renderBoard(boardData.selectedBoard)
 }
 
 // Function to extract unique status values from the selected board columns in the boardData object
 function extractStatusValues(boardData, selectedBoard) {
   const uniqueStatusValues = new Set()
 
-  const board = boardData.boards.find((board) => board.id === selectedBoard)
+  console.log(selectedBoard)
+
+  const board = boardData.boards[selectedBoard]
   console.log(board)
-  boardData.selectedBoard = board.id
   if (board) {
     board.columns.forEach((column) => {
       uniqueStatusValues.add(column.name) // Add column name to the set
@@ -179,6 +233,18 @@ function generateDropdownOptions(statusValues) {
   `,
   )
 }
+function generateUniqueId() {
+  // Generate a random number and convert it to a hexadecimal string
+  const randomPart = Math.random().toString(16).substring(2)
+
+  // Get the current timestamp and convert it to a hexadecimal string
+  const timestampPart = new Date().getTime().toString(16)
+
+  // Combine the random and timestamp parts to create a unique ID
+  const uniqueId = `${timestampPart}-${randomPart}`
+
+  return uniqueId
+}
 
 function addNewBoard(boardName, boardColumns) {
   // Create a new board object with dynamic columns
@@ -191,15 +257,54 @@ function addNewBoard(boardName, boardColumns) {
     })),
   }
 
-  console.log(newBoard)
-  console.log(boardData)
   // Add the new board to your application or perform any necessary actions
   // For example, you might have an array of boards:
   boardData.boards.push(newBoard)
 
   // Update your UI or trigger any necessary updates
-  renderBoard()
+  closeModal('add-new-board')
+  renderBoard(boardData.selectedBoard) // Call renderBoard after adding a new board
 }
+const cancelButton = document.querySelector('.cancel')
+
+cancelButton.addEventListener('click', (e) => {
+  e.preventDefault()
+  closeModal('delete-board-modal')
+})
+
+const deleteBoardOpen = document.querySelector('.delete-board')
+const deleteBoardButton = document.querySelector('.delete-button')
+// deleteBoardOpen.addEventListener('click', (e) => {
+//   e.preventDefault()
+//   deleteBoard(boardData.selectedBoard)
+//   closeModal('delete-board-modal')
+// })
+
+deleteBoardButton.addEventListener('click', (e) => {
+  e.preventDefault()
+  deleteBoard(boardData.selectedBoard)
+  closeModal('delete-board-modal')
+})
+
+// Assume you have a function to delete a board by ID
+function deleteBoard(boardId) {
+  // Implement your logic to delete the board by ID
+  // For example:
+  console.log(boardId)
+  const indexToDelete = boardData.boards.findIndex(
+    (board) => board.id === boardId,
+  )
+  if (indexToDelete !== -1) {
+    boardData.boards.splice(indexToDelete, 1)
+    // You might also want to handle other related data structures or UI updates here
+  }
+  console.log(boardData.boards)
+  // Update your UI or trigger any necessary updates
+  renderBoard(boardData.selectedBoard) // Call renderBoard after deleting a board
+}
+
+// Example usage when deleting a board (replace 'boardIdToDelete' with the actual ID):
+// deleteBoard('boardIdToDelete');
 
 createNewBoard.addEventListener('click', (e) => {
   e.preventDefault()
@@ -247,7 +352,7 @@ createNewBoard.addEventListener('click', (e) => {
     // Reset modalInputs and errorMessage
     modalInputs = errorMessage = null
 
-    renderBoard()
+    renderBoard(boardData.selectedBoard)
     // Close the modal
     closeModal('add-board-modal')
   }
@@ -256,11 +361,13 @@ createNewBoard.addEventListener('click', (e) => {
 // closeModal function to close modals
 const closeModal = (modalId) => {
   const modal = document.getElementById(modalId)
-  modal.classList.add('hidden')
-  blocker.classList.remove('active')
-  overlay.classList.add('hidden')
-  modal.style.zIndex = '0'
-  overlay.classList.remove('flex')
+  if (modal) {
+    modal.classList.add('hidden')
+    blocker.classList.remove('active')
+    overlay.classList.add('hidden')
+    modal.style.zIndex = '0'
+    overlay.classList.remove('flex')
+  }
 
   // Reset modalInputs and errorMessage
   modalInputs = null
@@ -270,6 +377,7 @@ const closeModal = (modalId) => {
 toggleModalButtons.forEach((button) => {
   button.addEventListener('click', (e) => {
     const modalId = button.getAttribute('modal-id')
+    console.log(modalId)
     openModal(modalId, boardData.selectedBoard)
   })
 })
@@ -307,11 +415,16 @@ let hasError = false
 createNewTask.addEventListener('click', (e) => {
   e.preventDefault()
 
-  modalInputs = Array.from(taskInputsWrapper.querySelectorAll('.modal-input'))
-  errorMessage = Array.from(taskInputsWrapper.querySelectorAll('.input-span'))
+  const modalInputs = Array.from(
+    taskInputsWrapper.querySelectorAll('.modal-input'),
+  )
+  const errorMessage = Array.from(
+    taskInputsWrapper.querySelectorAll('.input-span'),
+  )
 
-  let hasError = false // Declare hasError within the function scope
+  let hasError = false
 
+  // Validate task name input
   const taskNameInput = modalInputs[0]
   const taskNameErrorMessage = errorMessage[0]
 
@@ -324,54 +437,68 @@ createNewTask.addEventListener('click', (e) => {
     taskNameErrorMessage.classList.add('hidden')
   }
 
-  const taskDescriptionInput = modalInputs[1]
-  const taskSubtasksInput = modalInputs.slice(2)
+  // Validate other inputs if needed
+  for (let index = 1; index < modalInputs.length; index++) {
+    const modalInput = modalInputs[index]
+    const currentErrorMessage = errorMessage[index]
+
+    if (modalInput.value === '') {
+      modalInput.classList.add('error')
+      currentErrorMessage?.classList.remove('hidden')
+      hasError = true // Set the flag to true if there is an error
+    } else {
+      modalInput.classList.remove('error')
+      currentErrorMessage?.classList.add('hidden')
+    }
+  }
+
+  // Capture the selected status from dropdown options with class '.dBtn-text'
+  console.log(boardData)
+  const boardIndex = boardData.boards.findIndex(
+    (board) => board.id === boardData.selectedBoard,
+  )
+  console.log(boardIndex)
+
+  const dropdownOptions = boardData.boards[boardIndex].columns.map(
+    (column) => column.name,
+  )
+
+  console.log(dropdownOptions)
 
   if (!hasError) {
     // Use the selected status from the dropdown
-    const selectedStatus = sBtnText.innerText
+    const selectedStatusText = dropdownOptions[0]
 
+    // Call your addNewTask function with the collected data
     addNewTask(
       taskNameInput.value,
-      taskDescriptionInput.value,
-      taskSubtasksInput.map((input) => input.value),
-      selectedStatus,
+      modalInputs[1].value, // Assuming the second input is the task description
+      modalInputs.slice(2).map((input) => input.value), // Assuming the rest are subtasks
+      selectedStatusText,
     )
 
-    modalInputs = errorMessage = null
+    // Clear modalInputs and errorMessage arrays
+    modalInputs.forEach((input) => (input.value = ''))
+    errorMessage.forEach((errorSpan) => errorSpan.classList.add('hidden'))
 
     closeModal('add-task-modal')
   }
 })
+
 function addNewTask(taskName, taskDescription, taskSubtasks, status) {
-  const selectedBoard = boardData.boards.find(
-    (board) => board.id === boardData.selectedBoard,
-  )
-
-  if (selectedBoard) {
-    const selectedColumn = selectedBoard.columns[boardData.selectedColumn]
-
-    if (selectedColumn) {
-      const newTask = {
-        id: generateUniqueId(),
-        title: taskName,
-        description: taskDescription,
-        status: status, // Use the selected status here
-        subtasks: taskSubtasks.map((subtask) => ({
-          title: subtask,
-          isCompleted: false,
-        })),
-      }
-
-      console.log(newTask)
-      selectedColumn.tasks.push(newTask)
-
-      // Update the UI immediately after adding the task
-      renderBoard(boardData.selectedBoard)
-    } else {
-      console.error('Selected column not found.')
-    }
-  } else {
-    console.error('Selected board not found.')
+  
+  const newTask = {
+    id: generateUniqueId(),
+    title: taskName,
+    description: taskDescription,
+    status: status,
+    subtasks: taskSubtasks.map((subtask) => ({
+      title: subtask,
+      isCompleted: false,
+    })),
   }
+
+  boardData.selectedColumn.tasks.push(newTask)
+
+  renderBoard(boardData.selectedBoard)
 }

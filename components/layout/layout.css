@@ -16,6 +16,7 @@
   overflow: hidden;
   transform: translate(0);
   width: max-content;
+  max-height: 90vh;
   z-index: 0;
 }
 .sidebar.active {
@@ -78,3 +79,4 @@
 /* .sidebar-toggler{
 
 } */
+
