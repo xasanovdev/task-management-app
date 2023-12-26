@@ -1,401 +1,96 @@
-const Data = {
-  boards: [
-    {
-      id: '1',
-      name: 'Platform Launch',
-      columns: [
-        {
-          name: 'Todo',
-          tasks: [
-            {
-              id: '13ba62ad-8896-4951-b233-ab7439c0896c',
-              title: 'Build UI for search',
-              description: '',
-              status: 'Todo',
-              subtasks: [{ title: 'Search page', isCompleted: false }],
-            },
-            {
-              id: '165b6b33-c592-4adc-9475-538d038c01d0',
-              title: 'Build settings UI',
-              description: '',
-              status: 'Todo',
-              subtasks: [
-                { title: 'Account page', isCompleted: false },
-                { title: 'Billing page', isCompleted: false },
-              ],
-            },
-            {
-              id: '0065b203-f4de-46c8-ac19-0accc7e85a58',
-              title: 'QA and test all major user journeys',
-              description:
-                'Once we feel version one is ready, we need to rigorously test it both internally and externally to identify any major gaps.',
-              status: 'Todo',
-              subtasks: [
-                { title: 'Internal testing', isCompleted: false },
-                { title: 'External testing', isCompleted: false },
-              ],
-            },
-          ],
-        },
-        {
-          name: 'Doing',
-          tasks: [
-            {
-              id: '69eb5ce8-4720-441e-b7b4-0c1d8a59143d',
-              title: 'Design settings and search pages',
-              description: '',
-              status: 'Doing',
-              subtasks: [
-                { title: 'Settings - Account page', isCompleted: true },
-                { title: 'Settings - Billing page', isCompleted: true },
-                { title: 'Search page', isCompleted: false },
-              ],
-            },
-            {
-              id: '4a934216-0b96-475d-8284-d027e8657df3',
-              title: 'Build UI for onboarding flow',
-              description: '',
-              status: 'Todo',
-              subtasks: [
-                { title: 'Sign up page', isCompleted: true },
-                { title: 'Sign in page', isCompleted: false },
-                { title: 'Welcome page', isCompleted: false },
-              ],
-            },
-            {
-              id: 'd281d4b7-6576-4dfd-a9fb-30ac16bebeab',
-              title: 'Add account management endpoints',
-              description: '',
-              status: 'Doing',
-              subtasks: [
-                { title: 'Upgrade plan', isCompleted: true },
-                { title: 'Cancel plan', isCompleted: true },
-                { title: 'Update payment method', isCompleted: false },
-              ],
-            },
-            {
-              id: 'f0c31e18-fd90-48f1-ac16-5b879a67dc08',
-              title: 'Design onboarding flow',
-              description: '',
-              status: 'Doing',
-              subtasks: [
-                { title: 'Sign up page', isCompleted: true },
-                { title: 'Sign in page', isCompleted: false },
-                { title: 'Welcome page', isCompleted: false },
-              ],
-            },
-            {
-              id: 'a08b169e-f940-45a3-b9d9-ffd8371e4139',
-              title: 'Add search enpoints',
-              description: '',
-              status: 'Doing',
-              subtasks: [
-                { title: 'Add search endpoint', isCompleted: true },
-                { title: 'Define search filters', isCompleted: false },
-              ],
-            },
-            {
-              id: '790c810b-e300-4f7c-9359-f44b73184baa',
-              title: 'Add authentication endpoints',
-              description: '',
-              status: 'Doing',
-              subtasks: [
-                { title: 'Define user model', isCompleted: true },
-                { title: 'Add auth endpoints', isCompleted: false },
-              ],
-            },
-            {
-              id: '8fcf9b2e-0fdb-4cf6-acdf-8969d96af37d',
-              title:
-                'Research pricing points of various competitors and trial different business models',
-              description:
-                "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
-              status: 'Doing',
-              subtasks: [
-                {
-                  title: 'Research competitor pricing and business models',
-                  isCompleted: true,
-                },
-                {
-                  title: 'Outline a business model that works for our solution',
-                  isCompleted: false,
-                },
-                {
-                  title:
-                    'Talk to potential customers about our proposed solution and ask for fair price expectancy',
-                  isCompleted: false,
-                },
-              ],
-            },
-          ],
-        },
-        {
-          name: 'Done',
-          tasks: [
-            {
-              id: 'c1af8e06-e7e8-49c7-9851-f7ea1fdb73b9',
-              title: 'Conduct 5 wireframe tests',
-              description:
-                'Ensure the layout continues to make sense and we have strong buy-in from potential users.',
-              status: 'Done',
-              subtasks: [
-                {
-                  title: 'Complete 5 wireframe prototype tests',
-                  isCompleted: true,
-                },
-              ],
-            },
-            {
-              id: '51c18214-dbd6-4baf-99e8-f94fbdef0814',
-              title: 'Create wireframe prototype',
-              description:
-                'Create a greyscale clickable wireframe prototype to test our asssumptions so far.',
-              status: 'Done',
-              subtasks: [
-                {
-                  title: 'Create clickable wireframe prototype in Balsamiq',
-                  isCompleted: true,
-                },
-              ],
-            },
-            {
-              id: 'd408b2f5-1238-4ebf-a159-4ef1d2dafa3b',
-              title: 'Review results of usability tests and iterate',
-              description:
-                "Keep iterating through the subtasks until we're clear on the core concepts for the app.",
-              status: 'Done',
-              subtasks: [
-                {
-                  title:
-                    'Meet to review notes from previous tests and plan changes',
-                  isCompleted: true,
-                },
-                {
-                  title: 'Make changes to paper prototypes',
-                  isCompleted: true,
-                },
-                { title: 'Conduct 5 usability tests', isCompleted: true },
-              ],
-            },
-            {
-              id: 'b02f04ff-b50e-41a2-bf16-af05e8da83ec',
-              title:
-                'Create paper prototypes and conduct 10 usability tests with potential customers',
-              description: '',
-              status: 'Done',
-              subtasks: [
-                {
-                  title: 'Create paper prototypes for version one',
-                  isCompleted: true,
-                },
-                { title: 'Complete 10 usability tests', isCompleted: true },
-              ],
-            },
-            {
-              id: '05f68021-21ee-4368-9972-7cdd426785c8',
-              title: 'Market discovery',
-              description:
-                'We need to define and refine our core product. Interviews will help us learn common pain points and help us define the strongest MVP.',
-              status: 'Done',
-              subtasks: [
-                {
-                  title: 'Interview 10 prospective customers',
-                  isCompleted: true,
-                },
-              ],
-            },
-            {
-              id: '6fa0ac4e-1f4e-4975-bc78-ecae9e19ce5b',
-              title: 'Competitor analysis',
-              description: '',
-              status: 'Done',
-              subtasks: [
-                {
-                  title: 'Find direct and indirect competitors',
-                  isCompleted: true,
-                },
-                {
-                  title: 'SWOT analysis for each competitor',
-                  isCompleted: true,
-                },
-              ],
-            },
-            {
-              id: '42013358-5841-4fac-9138-6bdff385d643',
-              title: 'Research the market',
-              description:
-                'We need to get a solid overview of the market to ensure we have up-to-date estimates of market size and demand.',
-              status: 'Done',
-              subtasks: [
-                { title: 'Write up research analysis', isCompleted: true },
-                { title: 'Calculate TAM', isCompleted: true },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: '2',
-      name: 'Marketing Plan',
-      columns: [
-        {
-          name: 'Todo',
-          tasks: [
-            {
-              id: '2dbea4db-61c2-44bd-930c-d00e9f43e3fe',
-              title: 'Plan Product Hunt launch',
-              description: '',
-              status: 'Todo',
-              subtasks: [
-                { title: 'Find hunter', isCompleted: false },
-                { title: 'Gather assets', isCompleted: false },
-                { title: 'Draft product page', isCompleted: false },
-                { title: 'Notify customers', isCompleted: false },
-                { title: 'Notify network', isCompleted: false },
-                { title: 'Launch!', isCompleted: false },
-              ],
-            },
-            {
-              id: 'b3e6034a-55b2-443c-8c47-2d83b0a82ec7',
-              title: 'Share on Show HN',
-              description: '',
-              status: '',
-              subtasks: [
-                { title: 'Draft out HN post', isCompleted: false },
-                { title: 'Get feedback and refine', isCompleted: false },
-                { title: 'Publish post', isCompleted: false },
-              ],
-            },
-            {
-              id: '2a1b61bf-0092-483a-b6e8-1a75b73cf185',
-              title: 'Write launch article to publish on multiple channels',
-              description: '',
-              status: '',
-              subtasks: [
-                { title: 'Write article', isCompleted: false },
-                { title: 'Publish on LinkedIn', isCompleted: false },
-                { title: 'Publish on Inndie Hackers', isCompleted: false },
-                { title: 'Publish on Medium', isCompleted: false },
-              ],
-            },
-          ],
-        },
-        { name: 'Doing', tasks: [] },
-        { name: 'Done', tasks: [] },
-      ],
-    },
-    {
-      id: '3',
-      name: 'Roadmap',
-      columns: [
-        {
-          name: 'Now',
-          tasks: [
-            {
-              id: 'ac713791-b937-440a-8caf-0b178fc45720',
-              title: 'Launch version one',
-              description: '',
-              status: '',
-              subtasks: [
-                {
-                  title: 'Launch privately to our waitlist',
-                  isCompleted: false,
-                },
-                {
-                  title: 'Launch publicly on PH, HN, etc.',
-                  isCompleted: false,
-                },
-              ],
-            },
-            {
-              id: '260d9248-4f73-459f-93e4-10e975fc9929',
-              title: 'Review early feedback and plan next steps for roadmap',
-              description:
-                "Beyond the initial launch, we're keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.",
-              status: '',
-              subtasks: [
-                { title: 'Interview 10 customers', isCompleted: false },
-                {
-                  title: 'Review common customer pain points and suggestions',
-                  isCompleted: false,
-                },
-                {
-                  title: 'Outline next steps for our roadmap',
-                  isCompleted: false,
-                },
-              ],
-            },
-          ],
-        },
-        { name: 'Next', tasks: [] },
-        { name: 'Later', tasks: [] },
-      ],
-    },
-  ],
-  selectedBoard: 0,
-  selectedColumn: 0,
-  selectedTask: 0,
+import {boardInitialData} from '../../data/boardData.js'
+
+import {
+  getDataFromLocalStorage,
+  setDataToLocalStorage
+} from "../../services/kanban.service.js";
+import {generateRandomColor} from "../../utils/index.js";
+
+const boardList = document.querySelector('.board-list')
+const currentBoard = document.querySelector('.currentBoard')
+const playGround = document.querySelector('#playGround')
+
+let boardData
+
+
+function fetchData() {
+    const kanbanData = getDataFromLocalStorage()
+
+    if (!kanbanData) {
+      boardData = boardInitialData
+      setDataToLocalStorage(boardData)
+      return
+    }
+
+    boardData = kanbanData
 }
 
-setData(Data)
+document.addEventListener('DOMContentLoaded', () => {
+  fetchData()
 
-const currentBoard = document.querySelector('.currentBoard')
+  boardList.innerHTML = generateBoardNames(boardData)
+
+  if (boardData && boardData.boards.length > 0) {
+    const initialBoardId = boardData.boards[0].id
+    renderBoard(initialBoardId)
+  }
+
+})
+
 
 function getBoardName(boardId) {
-  const selectedBoard = Data.boards.find((board) => board.id === boardId)
+  const selectedBoard = boardData.boards.find((board) => board.id === boardId)
 
   currentBoard.textContent = selectedBoard?.name
 }
 
-const boardData = fetchData()
-
-console.log(boardData)
-
-const playGround = document.querySelector('#playGround')
-
-const boardList = document.querySelector('.board-list')
 
 function renderBoard(boardId) {
   const numberOfCreatedBoards = document.querySelector('.numberOfCreatedBoards')
   numberOfCreatedBoards.textContent = `All boards (${boardData.boards.length})`
 
-  // Check if boardData.boards is an array
+
   getBoardName(boardId)
 
   if (!Array.isArray(boardData.boards)) {
     console.error('Invalid boardData.boards:', boardData.boards)
-    return
+    
+   return
   }
 
   // If no boardId is provided, default to the first board in the array
   if (!boardId && boardData.boards.length > 0) {
     boardId = boardData.boards[0].id
   }
+
   // Find the board by ID
   const board = boardData.boards.find((board) => board.id === boardId)
+  console.log('board')
 
   boardData.selectedBoard = boardId
 
   // Check if the board is found
   if (!board) {
     console.error(`Board with id ${boardId} not found.`)
+    
     return
   }
 
   // Check if board.id is defined and not null
   if (board.id === undefined || board.id === null) {
     console.error('Invalid board ID:', board.id)
-    return
+    
+  return
   }
 
   const isBoardRendered = document.getElementById(board.id) !== null
 
   // Update the board list (assuming boardList is a valid reference)
-  boardList.innerHTML = generateKanbanBoardNames(boardData)
+  boardList.innerHTML = generateBoardNames(boardData)
 
   // Render the selected board only if it's not already rendered
   if (!isBoardRendered) {
+    console.log('hey')
     // Assuming playGround is a valid reference
     playGround.innerHTML = generateKanbanBoard(board)
     playGround.appendChild(createNewColumnElement())
@@ -403,6 +98,7 @@ function renderBoard(boardId) {
     // Update the selected board in boardData
     boardData.selectedBoard = board.id
     boardData.selectedColumn = board.columns[0]
+
     // Highlight the active link in the board list
     const boardLinks = document.querySelectorAll('.board__link')
     boardLinks.forEach((link) => {
@@ -415,9 +111,7 @@ function renderBoard(boardId) {
   cardJS()
 }
 
-function generateUniqueId() {
-  return Date.now().toString(36)
-}
+// Remove All kanban words from functions. They are not needed
 
 function generateStatusToDropdown(status) {
   return `
@@ -427,14 +121,6 @@ function generateStatusToDropdown(status) {
     </span>
   </li>
   `
-}
-function generateRandomColor() {
-  const letters = '0123456789ABCDEF'
-  let color = '#'
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)]
-  }
-  return color
 }
 
 function generateTaskCard(task) {
@@ -474,6 +160,7 @@ function openTaskModal(taskId) {
   }
 
   console.log(task, dropdownElement)
+
   // Ensure sBtnText is properly defined here (modify as needed)
   // const sBtnText = document.querySelector('.dBtn-text')
 
@@ -496,6 +183,7 @@ function openTaskModal(taskId) {
 
 function deleteTask(taskId) {
   console.log(taskId)
+
   // Find the board and column that contain the task
   for (const board of boardData.boards) {
     console.log(board)
@@ -541,6 +229,7 @@ function populateEditModal(task) {
   // Populate the modal inputs with task details
   titleInput.value = task.title
   descriptionInput.value = task.description
+
   // ... (populate other fields as needed)
 }
 
@@ -553,6 +242,7 @@ function editTask(taskId) {
   // Populate the edit modal with task details
   populateEditModal(task)
   closeModal('open-task-modal')
+
   // Open the edit modal
   openModal('edit-task-modal')
 
@@ -579,12 +269,6 @@ function saveChanges(task) {
   closeModal('edit-task-modal')
 }
 
-// Function to update the UI with the modified data
-function updateUI() {
-  // Implement your logic to update the UI with the modified data
-  renderBoard(boardData.selectedBoard)
-}
-
 function generateTaskModal(task, dropdownElement, statusValues) {
   // Extract task details
   const taskName = task.title
@@ -597,7 +281,8 @@ function generateTaskModal(task, dropdownElement, statusValues) {
   // Generate unique IDs for subtasks and update boardData
   const subtasksWithIds = task.subtasks.map((subtask) => {
     subtask.id = generateUniqueIdFromTitle(subtask.title) // Update subtask ID in boardData
-    return subtask
+    
+return subtask
   })
 
   // Update boardData with modified subtasks
@@ -669,6 +354,7 @@ function generateTaskModal(task, dropdownElement, statusValues) {
     </div>
   </div>
 `
+
   // Get the dropdown options
   const dropdownOptions = statusValues.map(generateStatusToDropdown).join('')
 
@@ -778,7 +464,8 @@ function findTaskContainingSubtask(subtask) {
       }
     }
   }
-  return null
+  
+return null
 }
 
 // Function to find the column containing a task
@@ -790,7 +477,8 @@ function findColumnContainingTask(task) {
       }
     }
   }
-  return null
+  
+return null
 }
 
 // Function to find the board containing a column
@@ -800,13 +488,15 @@ function findBoardContainingColumn(column) {
       return board
     }
   }
-  return null
+  
+return null
 }
 
 // Update the updateSubtaskUI function
 function updateSubtaskUI(subtask) {
   const checkbox = document.getElementById(subtask.id)
   console.log(subtask)
+
   // Update the checkbox state
   if (checkbox) {
     checkbox.checked = subtask.isCompleted
@@ -838,7 +528,8 @@ function findTaskById(taskId) {
       }
     }
   }
-  return null // Task not found
+  
+return null // Task not found
 }
 
 function generateUniqueIdFromTitle(title) {
@@ -847,7 +538,8 @@ function generateUniqueIdFromTitle(title) {
   const hash = title
     .split('')
     .reduce((acc, char) => (acc * 31 + char.charCodeAt(0)) | 0, 0)
-  return `subtask-${hash}`
+  
+return `subtask-${hash}`
 }
 
 function generateSubtaskItem(subtask) {
@@ -873,7 +565,8 @@ function generateSubtaskItem(subtask) {
 
 function generateColumn(column) {
   const tasksHtml = column.tasks.map((task) => generateTaskCard(task)).join('')
-  return `
+  
+return `
     <div class="column relative h-full text-color flex flex-col items-start w-280 gap-5 overflow-visible">
       <h3 class="column__header text-[#828fa3] flex items-center gap-3">
         <span class="w-4 h-4 bg-[${generateRandomColor()}] rounded-full"></span>
@@ -901,7 +594,7 @@ function generateKanbanBoardName(board) {
   `
 }
 
-function generateKanbanBoardNames(boardData) {
+function generateBoardNames(boardData) {
   return boardData.boards
     .map((board) => generateKanbanBoardName(board))
     .join('')
@@ -910,7 +603,8 @@ function generateKanbanBoardNames(boardData) {
 function generateKanbanBoard(board) {
   if (!board || !board.columns) {
     console.error('Invalid board data:', board)
-    return '' // Return an empty string or handle the error appropriately
+    
+  return '' // Return an empty string or handle the error appropriately
   }
 
   playGround.setAttribute('board-id', `${board.id}`)
@@ -928,12 +622,7 @@ boardList.addEventListener('click', (event) => {
   }
 })
 
-boardList.innerHTML = generateKanbanBoardNames(boardData)
 
-if (boardData && boardData.boards.length > 0) {
-  const initialBoardId = boardData.boards[0].id
-  renderBoard(initialBoardId)
-}
 
 function createNewColumnElement() {
   // Create div element
@@ -1020,43 +709,22 @@ function generateColumnDataFromDOM() {
   return columns
 }
 
-console.log(generateColumnDataFromDOM())
 
 function replaceColumnsInSelectedBoardByIdInPlace(
   boardData,
   boardId,
   newColumns,
 ) {
-  const foundBoard = boardData.boards.find((board) => board.id === boardId)
+  const foundBoard = boardData.boards.find((board) => board.id === Number(boardId))
+
 
   if (foundBoard) {
     const selectedBoardIndex = boardData.boards.indexOf(foundBoard)
     boardData.boards[selectedBoardIndex].columns = newColumns
-    console.log(boardData.boards[selectedBoardIndex].columns)
+
+    setDataToLocalStorage(boardData)
   } else {
     console.error('Board not found.')
-  }
-}
-
-// LOCAL STORAGE
-
-function fetchData() {
-  try {
-    const jsonData = localStorage.getItem('kanban')
-    return jsonData ? JSON.parse(jsonData) : null
-  } catch (error) {
-    console.error('Error fetching data from localStorage:', error)
-    return null
-  }
-}
-
-function setData(data) {
-  try {
-    const jsonData = JSON.stringify(data)
-    localStorage.setItem('kanban', jsonData)
-    console.log('Data successfully set in localStorage.')
-  } catch (error) {
-    console.error('Error setting data in localStorage:', error)
   }
 }
 
@@ -1064,10 +732,349 @@ function saveDOM() {
   const currentBoard = document
     .querySelector('#playGround')
     .getAttribute('board-id')
+
   replaceColumnsInSelectedBoardByIdInPlace(
     boardData,
     currentBoard,
     generateColumnDataFromDOM(),
   )
-  setData(boardData)
 }
+
+// Todo: refactor naming
+ function cardJS() {
+  let dragging = false
+  let isDragging = false
+  let startPosition = { x: 0, y: 0 }
+  let scrollLeft = 0
+  let scrollTop = 0
+  let last = document.querySelector('.dragover')
+  const header = document.querySelector('header')
+  let draggingColumn
+  let droppedColumn
+  let startedColumn
+  let dragSrcEl
+
+
+  const newColumn = document.querySelector('#newColumn')
+  const columns = document.querySelectorAll('.column')
+  const theColumn = getColumnWithMostChildNodes(columns)
+  newColumn.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn.querySelectorAll('.card').length * 5}px`
+  columns.forEach(col => {
+    col.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn.querySelectorAll('.card').length * 5}px`
+  })
+
+  function isBefore(el1, el2) {
+    let cur
+    if (el2.parentNode === el1.parentNode) {
+      for (cur = el1.previousSibling; cur; cur = cur.previousSibling) {
+        if (cur === el2) return true
+      }
+    }
+    return false
+  }
+
+  makeMouseScrollable(document.querySelector('#playGround'))
+  while (dragging) {
+    isDragging = false
+    startPosition = { x: 0, y: 0 }
+    scrollLeft = 0
+    scrollTop = 0
+    stopMouseScrolling(document.querySelector('#playGround'))
+  }
+  document.querySelector('#playGround').effectAllowed = 'move'
+
+
+  function drag() {
+    dragging = true
+    isDragging = false
+    startPosition = { x: 0, y: 0 }
+    scrollLeft = 0
+    scrollTop = 0
+    stopMouseScrolling(document.querySelector('#playGround'))
+
+    return false
+  }
+
+  function dragStart() {
+    dragging = true
+    // e.dataTransfer.dropEffect = 'move'
+    // e.dataTransfer.setData('text/plain', null)
+    dragSrcEl = this
+    dragSrcEl.opacity = 0.5
+
+    startedColumn = this.closest('.column')
+
+    // e.dataTransfer.setData('taskId', this.id)
+    // e.dataTransfer.setData('completed', this.getAttribute('data-completed'))
+
+    isDragging = false
+    startPosition = { x: 0, y: 0 }
+    scrollLeft = 0
+    scrollTop = 0
+    stopMouseScrolling(document.querySelector('#playGround'))
+    return false
+  }
+
+  function dragOver(e) {
+    e.preventDefault()
+
+    dragging = true
+    draggingColumn = this.closest('.column')
+    e.dataTransfer.dropEffect = 'move'
+    last = document.querySelector('.dragover')
+    if (last === undefined || last === null) {
+      this.classList.add('dragover')
+    } else {
+      last.classList.remove('dragover')
+      this.classList.add('dragover')
+      last = this
+    }
+
+    if (dragSrcEl !== this && !this.contains(dragSrcEl)) {
+      if (isBefore(dragSrcEl, this)) {
+        draggingColumn.insertBefore(dragSrcEl, this)
+      } else {
+        draggingColumn.insertBefore(dragSrcEl, this.nextElementSibling)
+      }
+    }
+
+
+    isDragging = false
+    startPosition = { x: 0, y: 0 }
+    scrollLeft = 0
+    scrollTop = 0
+    stopMouseScrolling(playGround)
+    return false
+  }
+
+  function dragLeave(e) {
+    dragging = true
+    e.preventDefault()
+    if (this.classList.contains('dragover') && this !== last) {
+      this.classList.remove('dragover')
+    }
+
+    isDragging = false
+    startPosition = { x: 0, y: 0 }
+    scrollLeft = 0
+    scrollTop = 0
+    stopMouseScrolling(playGround)
+    return false
+  }
+
+  function dragDrop() {
+    document.querySelectorAll('.dragover').forEach(el => {
+      el.classList.remove('dragover')
+    })
+    dragging = false
+    header.scrollIntoView({ behavior: 'smooth', block: 'end' })
+
+    isDragging = false
+    startPosition = { x: 0, y: 0 }
+    scrollLeft = 0
+    scrollTop = 0
+
+    makeMouseScrollable(playGround)
+
+    const newColumn = document.querySelector('#newColumn')
+    newColumn.style.height = `${findColumnWithLargestHeight().scrollHeight - 34}px`
+
+    saveDOM()
+  }
+
+  function dragEnd() {
+    this.classList.remove('dragover')
+    header.scrollIntoView({ behavior: 'smooth', block: 'end' })
+
+    droppedColumn = this.closest('.column')
+
+    isDragging = false
+    startPosition = { x: 0, y: 0 }
+    scrollLeft = 0
+    scrollTop = 0
+    stopMouseScrolling(playGround)
+    dragging = true
+
+    return false
+  }
+
+
+  function mouseDown() {
+    dragging = true
+    isDragging = false
+    startPosition = { x: 0, y: 0 }
+    scrollLeft = 0
+    scrollTop = 0
+    stopMouseScrolling(playGround)
+    return false
+  }
+
+  function mouseUp() {
+    isDragging = false
+    startPosition = { x: 0, y: 0 }
+    scrollLeft = 0
+    // let scrollTop = 0;
+    stopMouseScrolling(playGround)
+    return false
+  }
+
+  function dragDropColumn(e) {
+    e.preventDefault()
+    return false
+  }
+
+  function dragOverColumn() {
+    const theColumn = getColumnWithMostChildNodes(columns)
+    newColumn.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn.querySelectorAll('.card').length * 5}px`
+    columns.forEach(col => {
+      col.style.height = `${newColumn.style.height + 600}px`
+    })
+
+    if (this.querySelectorAll('.card').length === 0) {
+      this.appendChild(dragSrcEl)
+      dragSrcEl.classList.add('dragover')
+    }
+
+    return false
+  }
+
+  function addEventsDragAndDrop(el) {
+    el.addEventListener('drag', drag, false)
+    el.addEventListener('dragstart', dragStart, false)
+    el.addEventListener('dragover', dragOver, false)
+    el.addEventListener('dragleave', dragLeave, false)
+    el.addEventListener('drop', dragDrop, false)
+    el.addEventListener('dragend', dragEnd, false)
+    el.addEventListener('mousedown', mouseDown, false)
+    el.addEventListener('mouseup', mouseUp, false)
+  }
+
+  columns.forEach(col => {
+    col.addEventListener('dragover', dragOverColumn, false)
+    col.addEventListener('drop', dragDropColumn, false)
+  })
+// make images Draggable <END>
+
+  const cards = document.querySelectorAll('.card')
+  cards.forEach((card) => {
+    card.draggable = true
+    addEventsDragAndDrop(card)
+  })
+
+
+  function makeMouseScrollable(el) {
+    el.addEventListener('mousedown', (e) => {
+      isDragging = true
+      startPosition = {
+        x: e.clientX,
+        y: e.clientY,
+      }
+      scrollLeft = document.querySelector('#playGround').scrollLeft
+      scrollTop = document.querySelector('#playGround').scrollTop
+
+    })
+    el.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false
+      }
+    })
+
+    el.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        const deltaX = e.clientX - startPosition.x
+        const deltaY = e.clientY - startPosition.y
+
+        document.querySelector('#playGround').scrollLeft = scrollLeft - deltaX
+        document.querySelector('#playGround').scrollTop = scrollTop - deltaY
+      }
+    })
+  }
+
+  function stopMouseScrolling(el) {
+    el.removeEventListener('mousedown', (e) => {
+      isDragging = true
+      startPosition = {
+        x: e.clientX,
+        y: e.clientY,
+      }
+      scrollLeft = document.querySelector('#playGround').scrollLeft
+      scrollTop = document.querySelector('#playGround').scrollTop
+
+    })
+    el.removeEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false
+      }
+    })
+
+    el.removeEventListener('mousemove', (e) => {
+      if (isDragging) {
+        const deltaX = e.clientX - startPosition.x
+        const deltaY = e.clientY - startPosition.y
+
+        document.querySelector('#playGround').scrollLeft = scrollLeft - deltaX
+        document.querySelector('#playGround').scrollTop = scrollTop - deltaY
+      }
+    })
+  }
+
+
+  function findColumnWithLargestHeight() {
+    // Get all elements with the class "column"
+    const columns = document.querySelectorAll('.column')
+
+    // Initialize variables to store the maximum height and corresponding element
+    let maxHeight = 0
+    let tallestColumn = null
+
+    // Iterate through each column
+    columns.forEach((column) => {
+      // Get the current column's height
+      const columnHeight = column.scrollHeight
+
+      // Check if the current column is taller than the current maximum
+      if (columnHeight > maxHeight) {
+        // Update the maximum height and corresponding element
+        maxHeight = columnHeight
+        tallestColumn = column
+      }
+    })
+
+    // Return the element with the largest height
+    return tallestColumn
+  }
+
+
+  function getColumnWithMostChildNodes(columns) {
+    let maxColumn
+    let maxChildNodes = 0
+
+    columns.forEach(column => {
+      const numberOfChildNodes = column.querySelectorAll('.card').length
+      if (numberOfChildNodes > maxChildNodes) {
+        maxChildNodes = numberOfChildNodes
+        maxColumn = column
+      }
+    })
+    return maxColumn
+  }
+
+
+  function calculateSumOfCardHeights(column) {
+    // Get all elements with the class "card"
+    const cards = column.querySelectorAll('.card')
+
+    // Initialize variable to store the sum of heights
+    let sumOfHeights = 0
+
+    // Iterate through each card
+    cards.forEach((card) => {
+      // Add the height of the current card to the sum
+      sumOfHeights += card.clientHeight
+    })
+
+    // Return the sum of heights
+    return sumOfHeights
+  }
+}
+
