@@ -705,6 +705,7 @@ function updateTaskStatus(task, newStatus) {
           `Updating task status from ${taskToUpdate.status} to ${newStatus}`,
         )
         taskToUpdate.status = newStatus
+
       }
     }
   }
@@ -856,7 +857,7 @@ function generateSubtaskItem(subtask) {
     <div class="chechbox-content flex items-center text-color p-3 gap-4 cursor-pointer relative hover:bg-[635fc740] hover:transition duration-200 active:ease-in" onclick="toggleSubtaskCompleted('${
       subtask.id
     }')">
-      <i class="icon-tick checkbox-icon absolute top-4 text-white left-4 scale-1 duration-150"></i>
+      <i class="icon-tick checkbox-icon left-3.5 absolute text-white scale-1 duration-150"></i>
       <input
         type="checkbox"
         id="${subtask.id}"

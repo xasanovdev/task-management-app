@@ -15,6 +15,7 @@ const addNewTaskButton = document.querySelector('.addNewTaskButton')
 let modalInputs = null
 let dropdownOptions = null
 let errorMessage = null
+let statusColumn = null
 
 // Function to find the column containing a task
 function findColumnContainingTask(task) {
@@ -150,10 +151,14 @@ function openModal(modalId) {
   }
 
   // Extract unique status values from the selected board in the boardData object
-  const statusValues = extractStatusValues(boardData, boardData.selectedBoard)
+  const statusValues = extractStatusValues()
+
+  console.log(statusValues)
 
   // Populate dropdown options dynamically using the generateStatusToDropdown function
   dropdownOptions = generateDropdownOptions(statusValues)
+
+  console.log(dropdownOptions)
 
   // Update the HTML content of the dropdown
   const dropdownElement = modal?.querySelector('.dropdown-options')
@@ -161,23 +166,51 @@ function openModal(modalId) {
   if (dropdownElement) {
     dropdownElement.innerHTML = dropdownOptions.join('')
   }
+  if (modalId === 'add-task-modal') {
+    const optionMenu = document.querySelector('.dropdown-menu')
+    const selectBtn = optionMenu.querySelector('.dropdown-btn')
+    const options = optionMenu.querySelectorAll('.dropdown-option')
+    const sBtnText = optionMenu.querySelector('.dBtn-text')
+    console.log(options);
+    selectBtn.addEventListener('click', () => {
+      optionMenu.classList.toggle('active')
+    })
+
+    options.forEach((option) => {
+      option.addEventListener('click', () => {
+        const selectedOption = option.querySelector('.option-text').innerText
+        sBtnText.innerText = selectedOption
+        statusColumn = selectedOption
+        optionMenu.classList.remove('active')
+        console.log(selectedOption)
+      })
+    })
+
+    // Add a click event listener to close the dropdown-menu when clicking outside
+    document.addEventListener('click', function (event) {
+      if (
+        !selectBtn.contains(event.target) &&
+        !optionMenu.contains(event.target)
+      ) {
+        optionMenu.classList.remove('active')
+      }
+    })
+  }
+
   modal.classList.remove('hidden')
   blocker.classList.add('active')
   overlay.classList.remove('hidden')
   overlay.classList.add('flex')
   modal.style.zIndex = '100'
-  console.log(boardData)
   renderBoard(boardData.selectedBoard)
 }
 
 // Function to extract unique status values from the selected board columns in the boardData object
-function extractStatusValues(boardData, selectedBoard) {
+function extractStatusValues() {
   const uniqueStatusValues = new Set()
-
-  console.log(selectedBoard)
-
-  const board = boardData.boards[selectedBoard]
-  console.log(board)
+  const board = boardData.boards.find(
+    (board) => board.id === boardData.selectedBoard,
+  )
   if (board) {
     board.columns.forEach((column) => {
       uniqueStatusValues.add(column.name) // Add column name to the set
@@ -320,6 +353,7 @@ const closeModal = (modalId) => {
   // Reset modalInputs and errorMessage
   modalInputs = null
   errorMessage = null
+  statusColumn = null
 }
 
 toggleModalButtons.forEach((button) => {
@@ -415,7 +449,7 @@ createNewTask.addEventListener('click', (e) => {
 
   if (!hasError) {
     // Use the selected status from the dropdown
-    const selectedStatusText = dropdownOptions[0]
+    const selectedStatusText = statusColumn
 
     // Call your addNewTask function with the collected data
     addNewTask(
@@ -434,7 +468,6 @@ createNewTask.addEventListener('click', (e) => {
 })
 
 function addNewTask(taskName, taskDescription, taskSubtasks, status) {
-  
   const newTask = {
     id: generateUniqueId(),
     title: taskName,

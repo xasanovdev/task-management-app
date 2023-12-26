@@ -12,11 +12,7 @@
 }
 
 .checkbox-input:checked + label {
-  color: var(--White, #fff);
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  text-decoration-line: strikethrough;
+  text-decoration: line-through;
   opacity: 50%;
 }
 .checkbox-input:checked + .chechbox-content {
