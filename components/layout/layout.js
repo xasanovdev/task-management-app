@@ -337,6 +337,8 @@ const boardData = {
   selectedTask: 0,
 }
 
+set
+
 const playGround = document.querySelector('#playGround')
 
 const boardList = document.querySelector('.board-list')
@@ -355,7 +357,6 @@ function renderBoard(boardId) {
   // Find the board by ID
   const board = boardData.boards.find((board) => board.id === boardId)
 
-  console.log(board)
   boardData.selectedBoard = boardId
 
   // Check if the board is found
@@ -394,7 +395,6 @@ function renderBoard(boardId) {
     })
   }
   cardJS()
-  console.log(boardData.selectedBoard)
 
 }
 
@@ -416,10 +416,14 @@ function generateStatusToDropdown(status) {
 function generateTaskCard(task) {
   return `
     <div
+      id="${task.id}"
       modal-id="${task.id}"
+      status="${task.status}"
       class="card select-none toggle-modal-button bg-content-color w-280 h-fit py-6 px-4 rounded-lg font-bold shadow-sh-color shadow-sm hover:cursor-pointer hover:text-primary-color subpixel-antialiased"
       onclick="openTaskModal('${task.id}')"
     >
+    <span class="hidden task-description">${task.description}</span>
+    <span class="hidden subtasks-json">${JSON.stringify(task.subtasks)}</span>
       <p class="card__title text-color capitalize">${task.title}</p>
       <p class="card__status text-slate-500">${
         task.subtasks.filter((subtask) => !subtask.isCompleted).length
@@ -847,9 +851,10 @@ function generateColumn(column) {
   const tasksHtml = column.tasks.map((task) => generateTaskCard(task)).join('')
   return `
     <div class="column relative h-full text-color flex flex-col items-start w-280 gap-5 overflow-visible">
-      <h3 class="column__header mb-6 text-[#828fa3] flex items-center gap-3">
+      <h3 class="column__header mb-6 text-[#828fa3] flex items-center gap-1">
         <span class="w-4 h-4 bg-primary-color rounded-full"></span>
-        <span class="tracking-widest text-sm font-bold">${column.name} (${column.tasks.length})</span>
+        <span class="column-name tracking-widest text-sm font-bold">${column.name}</span>
+         <span>(${column.tasks.length})</span>
       </h3>
         ${tasksHtml}
     </div>
@@ -883,6 +888,9 @@ function generateKanbanBoard(board) {
     return '' // Return an empty string or handle the error appropriately
   }
 
+  playGround.setAttribute("board-id",`${board.id}`)
+
+
   return board.columns.map((column) => generateColumn(column)).join('')
 }
 
@@ -891,8 +899,9 @@ boardList.addEventListener('click', (event) => {
   const targetLink = event.target.closest('.board__link')
   if (targetLink) {
     const boardId = targetLink.getAttribute('data-board-id')
-    console.log(boardData.boards);
-    renderBoard(boardId)
+    const currentBoard = document.querySelector("#playGround").getAttribute("board-id")
+    replaceColumnsInSelectedBoardByIdInPlace(boardData,currentBoard,generateColumnDataFromDOM())
+   renderBoard(boardId)
   }
 })
 
@@ -952,3 +961,85 @@ newColumnButtons.forEach((newColumnButton) => {
     console.log(boardData)
   })
 })
+
+
+
+
+
+
+
+
+
+
+function generateColumnDataFromDOM() {
+  const columns = [];
+
+  // Assuming your columns are contained in a container with the class "column-container"
+  const columnContainer = document.querySelector('#playGround');
+
+  // Iterate through each column in the container
+  columnContainer.querySelectorAll('.column').forEach((columnElement, columnIndex) => {
+    const column = {
+      name: columnElement.querySelector('.column-name').textContent,
+      tasks: [],
+    };
+
+    // Iterate through each task in the column
+    columnElement.querySelectorAll('.card').forEach((taskElement, taskIndex) => {
+      const task = {
+        id: taskElement.getAttribute("id"),
+        title: taskElement.querySelector('.card__title').textContent,
+        description: taskElement.querySelector(".task-description").textContent,
+        status: taskElement.getAttribute("status"), // Use the column name as the initial task status
+        subtasks: JSON.parse(taskElement.querySelector(".subtasks-json").textContent),
+      };
+      column.tasks.push(task);
+    });
+
+    columns.push(column);
+  });
+
+  return columns
+
+}
+
+console.log(generateColumnDataFromDOM())
+
+
+function replaceColumnsInSelectedBoardByIdInPlace(boardData, boardId, newColumns) {
+  const foundBoard = boardData.boards.find(board => board.id === boardId);
+
+  if (foundBoard) {
+    const selectedBoardIndex = boardData.boards.indexOf(foundBoard);
+    boardData.boards[selectedBoardIndex].columns = newColumns;
+    console.log(boardData.boards[selectedBoardIndex].columns)
+  } else {
+    console.error('Board not found.');
+  }
+}
+
+
+
+
+
+// LOCAL STORAGE
+
+function fetchData() {
+  try {
+    const jsonData = localStorage.getItem("kanban");
+    return jsonData ? JSON.parse(jsonData) : null;
+  } catch (error) {
+    console.error('Error fetching data from localStorage:', error);
+    return null;
+  }
+}
+
+function setData(data) {
+  try {
+    const jsonData = JSON.stringify(data);
+    localStorage.setItem("kanban", jsonData);
+    console.log('Data successfully set in localStorage.');
+  } catch (error) {
+    console.error('Error setting data in localStorage:', error);
+  }
+}
