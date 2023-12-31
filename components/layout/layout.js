@@ -350,7 +350,6 @@ function getBoardName(boardId) {
 
 const boardData = fetchData()
 
-console.log(boardData)
 
 const playGround = document.querySelector('#playGround')
 
@@ -464,7 +463,6 @@ function openTaskModal(taskId) {
   const statusValues = extractStatusValues(boardData, selectedBoard)
   const dropdownOptions = statusValues.map(generateStatusToDropdown).join('')
 
-  console.log(statusValues)
 
   // Update the HTML content of the dropdown
   const dropdownElement = document?.querySelector('.dropdown-options')
@@ -473,7 +471,6 @@ function openTaskModal(taskId) {
     dropdownElement.innerHTML = dropdownOptions
   }
 
-  console.log(task, dropdownElement)
   // Ensure sBtnText is properly defined here (modify as needed)
   // const sBtnText = document.querySelector('.dBtn-text')
 
@@ -495,14 +492,10 @@ function openTaskModal(taskId) {
 }
 
 function deleteTask(taskId) {
-  console.log(taskId)
   // Find the board and column that contain the task
   for (const board of boardData.boards) {
-    console.log(board)
     for (const column of board.columns) {
-      console.log(column)
       const taskIndex = column.tasks.findIndex((task) => task.id === taskId)
-      console.log(taskIndex)
       if (taskIndex !== -1) {
         // Remove the task from the column
         column.tasks.splice(taskIndex, 1)
@@ -547,8 +540,6 @@ function populateEditModal(task) {
 function editTask(taskId) {
   // Find the task by ID
   const task = findTaskById(taskId)
-
-  console.log(task)
 
   // Populate the edit modal with task details
   populateEditModal(task)
@@ -806,7 +797,6 @@ function findBoardContainingColumn(column) {
 // Update the updateSubtaskUI function
 function updateSubtaskUI(subtask) {
   const checkbox = document.getElementById(subtask.id)
-  console.log(subtask)
   // Update the checkbox state
   if (checkbox) {
     checkbox.checked = subtask.isCompleted
@@ -923,7 +913,6 @@ boardList.addEventListener('click', (event) => {
   const targetLink = event.target.closest('.board__link')
   if (targetLink) {
     const boardId = targetLink.getAttribute('data-board-id')
-    console.log(boardData.boards)
     renderBoard(boardId)
   }
 })
@@ -976,9 +965,7 @@ const newColumnButtons = document.querySelectorAll('.new-column')
 newColumnButtons.forEach((newColumnButton) => {
   newColumnButton.addEventListener('click', (e) => {
     e.preventDefault()
-    console.log('clicked')
     openModal('edit-board-modal', boardData.selectedBoard)
-    console.log(boardData)
   })
 })
 
@@ -1020,7 +1007,6 @@ function generateColumnDataFromDOM() {
   return columns
 }
 
-console.log(generateColumnDataFromDOM())
 
 function replaceColumnsInSelectedBoardByIdInPlace(
   boardData,
@@ -1032,7 +1018,6 @@ function replaceColumnsInSelectedBoardByIdInPlace(
   if (foundBoard) {
     const selectedBoardIndex = boardData.boards.indexOf(foundBoard)
     boardData.boards[selectedBoardIndex].columns = newColumns
-    console.log(boardData.boards[selectedBoardIndex].columns)
   } else {
     console.error('Board not found.')
   }

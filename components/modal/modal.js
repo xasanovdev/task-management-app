@@ -15,6 +15,7 @@ const addNewTaskButton = document.querySelector('.addNewTaskButton')
 let modalInputs = null
 let dropdownOptions = null
 let errorMessage = null
+let selectedStatus = null
 
 // Function to find the column containing a task
 function findColumnContainingTask(task) {
@@ -49,6 +50,7 @@ addNewTaskButton.addEventListener('click', (e) => {
   e.preventDefault()
   addNewToInputs(taskInputsWrapper) // Add an initial empty task input
 })
+
 function deleteInput(button) {
   const inputWrapper = button.closest('.relative')
   const inputType = inputWrapper.classList.contains('column-input')
@@ -166,7 +168,7 @@ function openModal(modalId) {
     const selectBtn = optionMenu.querySelector('.dropdown-btn')
     const options = optionMenu.querySelectorAll('.dropdown-option')
     const sBtnText = optionMenu.querySelector('.dBtn-text')
-    console.log(options)
+    console.log(options[0].textContent)
     selectBtn.addEventListener('click', () => {
       optionMenu.classList.toggle('active')
     })
@@ -176,6 +178,7 @@ function openModal(modalId) {
         const selectedOption = option.querySelector('.option-text').innerText
         sBtnText.innerText = selectedOption
         statusColumn = selectedOption
+        selectedStatus = selectedOption
         optionMenu.classList.remove('active')
         console.log(selectedOption)
       })
@@ -205,9 +208,9 @@ function openModal(modalId) {
 function extractStatusValues(boardData, selectedBoard) {
   const uniqueStatusValues = new Set()
 
-  console.log(selectedBoard)
+  console.log(uniqueStatusValues)
 
-  const board = boardData.boards[selectedBoard]
+  const board = boardData.boards.find((board) => board.id === selectedBoard)
   console.log(board)
   if (board) {
     board.columns.forEach((column) => {
@@ -274,11 +277,6 @@ cancelButton.addEventListener('click', (e) => {
 
 const deleteBoardOpen = document.querySelector('.delete-board')
 const deleteBoardButton = document.querySelector('.delete-button')
-// deleteBoardOpen.addEventListener('click', (e) => {
-//   e.preventDefault()
-//   deleteBoard(boardData.selectedBoard)
-//   closeModal('delete-board-modal')
-// })
 
 deleteBoardButton.addEventListener('click', (e) => {
   e.preventDefault()
@@ -372,6 +370,37 @@ const closeModal = (modalId) => {
   // Reset modalInputs and errorMessage
   modalInputs = null
   errorMessage = null
+  if (modalId === 'add-task-modal') {
+    const optionMenu = document.querySelector('.dropdown-menu')
+    const selectBtn = optionMenu.querySelector('.dropdown-btn')
+    const options = optionMenu.querySelectorAll('.dropdown-option')
+    const sBtnText = optionMenu.querySelector('.dBtn-text')
+    console.log(options)
+    selectBtn.addEventListener('click', () => {
+      optionMenu.classList.toggle('active')
+    })
+
+    options.forEach((option) => {
+      option.addEventListener('click', () => {
+        const selectedOption = option.querySelector('.option-text').innerText
+        sBtnText.innerText = selectedOption
+        statusColumn = selectedOption
+        selectedStatus = selectedOption
+        optionMenu.classList.remove('active')
+        console.log(selectedOption)
+      })
+    })
+
+    // Add a click event listener to close the dropdown-menu when clicking outside
+    document.addEventListener('click', function (event) {
+      if (
+        !selectBtn.contains(event.target) &&
+        !optionMenu.contains(event.target)
+      ) {
+        optionMenu.classList.remove('active')
+      }
+    })
+  }
 }
 
 toggleModalButtons.forEach((button) => {
@@ -467,7 +496,9 @@ createNewTask.addEventListener('click', (e) => {
 
   if (!hasError) {
     // Use the selected status from the dropdown
-    const selectedStatusText = dropdownOptions[0]
+    const selectedStatusText = selectedStatus
+      ? selectedStatus
+      : dropdownOptions[0]
 
     // Call your addNewTask function with the collected data
     addNewTask(
@@ -486,7 +517,6 @@ createNewTask.addEventListener('click', (e) => {
 })
 
 function addNewTask(taskName, taskDescription, taskSubtasks, status) {
-  
   const newTask = {
     id: generateUniqueId(),
     title: taskName,
