@@ -544,6 +544,7 @@ function editTask(taskId) {
   closeModal('open-task-modal')
   // Open the edit modal
   openModal('edit-task-modal')
+  console.log(task);
 
   // Handle the "Save Changes" button click
   const saveChangesButton = document.getElementById('save-changes-button')
@@ -561,18 +562,11 @@ function saveChanges(task) {
   task.title = titleInput.value
   task.description = descriptionInput.value
 
-  // Optionally, trigger a function to update the UI with the modified data
-  updateUI()
-
+  renderBoard(boardData.selectedBoard)
   // Close the edit modal
   closeModal('edit-task-modal')
 }
 
-// Function to update the UI with the modified data
-function updateUI() {
-  // Implement your logic to update the UI with the modified data
-  renderBoard(boardData.selectedBoard)
-}
 
 function generateTaskModal(task, dropdownElement, statusValues) {
   // Extract task details
