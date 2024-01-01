@@ -144,7 +144,7 @@ function generateInput(input) {
 
 function openModal(modalId) {
   const modal = document.getElementById(modalId)
-
+  sidebar.classList.remove('active')
   // Check if modalInputs and errorMessage are already collected
   if (modalInputs || errorMessage) {
     modalInputs = Array.from(modal.querySelectorAll('.modal-input'))
@@ -160,6 +160,7 @@ function openModal(modalId) {
   // Update the HTML content of the dropdown
   const dropdownElement = modal?.querySelector('.dropdown-options')
 
+  console.log(dropdownOptions.join(''))
   if (dropdownElement) {
     dropdownElement.innerHTML = dropdownOptions.join('')
   }
@@ -183,15 +184,13 @@ function openModal(modalId) {
         console.log(selectedOption)
       })
     })
-
-    // Add a click event listener to close the dropdown-menu when clicking outside
-    document.addEventListener('click', function (event) {
-      if (
-        !selectBtn.contains(event.target) &&
-        !optionMenu.contains(event.target)
-      ) {
-        optionMenu.classList.remove('active')
-      }
+    document.querySelectorAll('.dropdown-option').forEach((el) => {
+      const dropdownOptionsElement = el.closest('.dropdown-options')
+      const temp = el
+      const index = Array.from(
+        document.querySelectorAll('.dropdown-option'),
+      ).indexOf(el)
+      dropdownOptionsElement.firstChild = el
     })
   }
 
@@ -236,6 +235,7 @@ function generateDropdownOptions(statusValues) {
   `,
   )
 }
+
 function generateUniqueId() {
   // Generate a random number and convert it to a hexadecimal string
   const randomPart = Math.random().toString(16).substring(2)
@@ -288,7 +288,6 @@ deleteBoardButton.addEventListener('click', (e) => {
 function deleteBoard(boardId) {
   // Implement your logic to delete the board by ID
   // For example:
-  console.log(boardId)
   const indexToDelete = boardData.boards.findIndex(
     (board) => board.id === boardId,
   )
@@ -296,7 +295,7 @@ function deleteBoard(boardId) {
     boardData.boards.splice(indexToDelete, 1)
     // You might also want to handle other related data structures or UI updates here
   }
-  console.log(boardData.boards)
+
   // Update your UI or trigger any necessary updates
   renderBoard(boardData.selectedBoard) // Call renderBoard after deleting a board
 }
@@ -426,6 +425,7 @@ blocker.addEventListener('click', () => {
   overlay.classList.add('hidden')
   overlay.classList.remove('flex')
 })
+const sidebar = document.querySelector('.sidebar')
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
@@ -433,6 +433,8 @@ document.addEventListener('keydown', (e) => {
       modal.classList.add('hidden')
       modal.style.zIndex = '0'
     })
+    sidebar.classList.remove('active')
+    console.log(sidebar)
     blocker.classList.remove('active')
     overlay.classList.add('hidden')
     overlay.classList.remove('flex')
@@ -527,8 +529,17 @@ function addNewTask(taskName, taskDescription, taskSubtasks, status) {
       isCompleted: false,
     })),
   }
+  console.log(boardData.selectedBoard)
+  const board = boardData.boards.find(
+    (board) => board.id === boardData.selectedBoard,
+  )
+  console.log(board)
 
-  boardData.selectedColumn.tasks.push(newTask)
+  board.columns.forEach((column) => {
+    if (column.name === status) {
+      column.tasks.push(newTask)
+    }
+  })
 
   renderBoard(boardData.selectedBoard)
 }

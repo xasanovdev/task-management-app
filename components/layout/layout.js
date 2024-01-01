@@ -343,13 +343,12 @@ setData(Data)
 const currentBoard = document.querySelector('.currentBoard')
 
 function getBoardName(boardId) {
-  const selectedBoard = Data.boards.find((board) => board.id === boardId)
+  const selectedBoard = boardData.boards.find((board) => board.id === boardId)
 
   currentBoard.textContent = selectedBoard?.name
 }
 
 const boardData = fetchData()
-
 
 const playGround = document.querySelector('#playGround')
 
@@ -462,7 +461,6 @@ function openTaskModal(taskId) {
 
   const statusValues = extractStatusValues(boardData, selectedBoard)
   const dropdownOptions = statusValues.map(generateStatusToDropdown).join('')
-
 
   // Update the HTML content of the dropdown
   const dropdownElement = document?.querySelector('.dropdown-options')
@@ -867,9 +865,9 @@ function generateColumn(column) {
     <div class="column relative h-full text-color flex flex-col items-start w-280 gap-5 overflow-visible">
       <h3 class="column__header text-[#828fa3] flex items-center gap-3">
         <span class="w-4 h-4 bg-[${generateRandomColor()}] rounded-full"></span>
-        <span class="tracking-widest text-sm font-bold column-name">${column.name} (${
-          column.tasks.length
-        })</span>
+        <span class="tracking-widest text-sm font-bold column-name">${
+          column.name
+        } (${column.tasks.length})</span>
       </h3>
         ${tasksHtml}
     </div>
@@ -904,7 +902,7 @@ function generateKanbanBoard(board) {
   }
 
   playGround.setAttribute('board-id', `${board.id}`)
-
+  console.log(board)
   return board.columns.map((column) => generateColumn(column)).join('')
 }
 
@@ -1006,7 +1004,6 @@ function generateColumnDataFromDOM() {
 
   return columns
 }
-
 
 function replaceColumnsInSelectedBoardByIdInPlace(
   boardData,
