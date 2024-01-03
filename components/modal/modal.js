@@ -225,6 +225,15 @@ function editBoard(selectedBoardId, newBoardName, newColumnNames) {
     (board) => board.id === selectedBoardId,
   )
 
+  console.log(
+    'selectedBoardId: ',
+    selectedBoardId,
+    'newBoardName: ',
+    newBoardName,
+    'newColumnNames: ',
+    newColumnNames,
+  )
+
   // Check if the board is found
   if (boardIndex !== -1) {
     // Update board name
@@ -246,6 +255,22 @@ function editBoard(selectedBoardId, newBoardName, newColumnNames) {
     ) {
       const newColumn = { name: newColumnNames[index], tasks: [] }
       boardData.boards[boardIndex].columns.push(newColumn)
+    }
+
+    // Check for deleted columns
+    if (existingColumns.length > newColumnNames.length) {
+      const deletedColumns = existingColumns.slice(newColumnNames.length)
+      deletedColumns.forEach((deletedColumn) => {
+        // Your logic to handle deleted columns
+        boardData.boards[boardIndex].columns = boardData.boards[
+          boardIndex
+        ].columns.filter((column) => column !== deletedColumn)
+
+        console.log('Deleted Column:', deletedColumn)
+
+        renderBoard(boardData.selectedBoard)
+        // Here you might want to delete tasks associated with the deleted column, etc.
+      })
     }
   } else {
     console.error('Board not found for editing.')
@@ -345,7 +370,7 @@ function openModal(modalId) {
     renderBoard(boardData.selectedBoard)
   }, 0)
 
-  if(modalId === 'edit-board-modal') {
+  if (modalId === 'edit-board-modal') {
     fillEditBoardModal()
   }
 }
