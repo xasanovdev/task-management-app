@@ -16,6 +16,7 @@ let modalInputs = null
 let dropdownOptions = null
 let errorMessage = null
 let selectedStatus = null
+let modal = null
 
 // Function to find the column containing a task
 function findColumnContainingTask(task) {
@@ -102,6 +103,16 @@ function addNewToInputs(inputWrapper) {
   }
 }
 
+const addNewColumnEditButton = document.querySelector('.addNewColumnEditButton')
+
+addNewColumnEditButton.addEventListener('click', (e) => {
+  e.preventDefault()
+  const columnInputsWrapper = document.querySelector(
+    '.column-inputs-wrapper-edit',
+  ) // Adjust the selector as needed
+  addNewToInputs(columnInputsWrapper)
+})
+
 function updateModalArrays(inputWrapper) {
   // Clear modalInputs and errorMessage arrays
   modalInputs = []
@@ -116,8 +127,6 @@ function updateModalArrays(inputWrapper) {
     modalInputs.push(input.value)
     errorMessage.push(errorMessages[index]) // Add corresponding error message element
   })
-
-  console.log(modalInputs)
 }
 
 function generateInput(input) {
@@ -142,9 +151,146 @@ function generateInput(input) {
   `
 }
 
+const editBoardButton = document.querySelector('.editBoardButton')
+
+editBoardButton.addEventListener('click', (e) => {
+  e.preventDefault()
+
+  // Update modalInputs with the latest values
+  const inputWrappers = document.querySelectorAll('.column-inputs-wrapper-edit')
+  modalInputs = []
+  errorMessage = []
+  let hasError = false
+
+  // Validate each input wrapper
+  inputWrappers.forEach((inputWrapper) => {
+    const inputs = Array.from(inputWrapper.querySelectorAll('.modal-input'))
+    const errors = Array.from(inputWrapper.querySelectorAll('.input-span'))
+
+    // Validate boardName (assuming it is the first input element)
+    const boardNameInput = inputs[0]
+
+    const boardNameErrorMessage = errors[0]
+
+    if (boardNameInput.value === '') {
+      boardNameInput.classList.add('error')
+      boardNameErrorMessage.classList.remove('hidden')
+      hasError = true
+    } else {
+      boardNameInput.classList.remove('error')
+      boardNameErrorMessage.classList.add('hidden')
+    }
+
+    // Validate column names
+    for (let index = 1; index < inputs.length; index++) {
+      const modalInput = inputs[index]
+      const currentErrorMessage = errors[index]
+
+      if (modalInput.value === '') {
+        modalInput.classList.add('error')
+        currentErrorMessage.classList.remove('hidden')
+        hasError = true
+      } else {
+        modalInput.classList.remove('error')
+        currentErrorMessage.classList.add('hidden')
+      }
+    }
+
+    // Collect values from each input wrapper
+    modalInputs.push({
+      boardName: boardNameInput.value,
+      columnNames: inputs.slice(1).map((input) => input.value),
+    })
+  })
+
+  if (!hasError) {
+    // Call the editBoard function with the board names and column names
+    const selectedBoardId = boardData.selectedBoard
+    modalInputs.forEach(({ boardName, columnNames }) => {
+      editBoard(selectedBoardId, boardName, columnNames)
+    })
+
+    // Reset modalInputs and errorMessage
+    modalInputs = errorMessage = null
+
+    renderBoard(boardData.selectedBoard)
+    // Close the modal
+    closeModal('edit-board-modal')
+  }
+})
+
+function editBoard(selectedBoardId, newBoardName, newColumnNames) {
+  // Find the index of the selected board in the boardData array
+  const boardIndex = boardData.boards.findIndex(
+    (board) => board.id === selectedBoardId,
+  )
+
+  // Check if the board is found
+  if (boardIndex !== -1) {
+    // Update board name
+    boardData.boards[boardIndex].name = newBoardName
+
+    // Update existing columns
+    const existingColumns = boardData.boards[boardIndex].columns
+    existingColumns.forEach((column, index) => {
+      if (index < newColumnNames.length) {
+        column.name = newColumnNames[index]
+      }
+    })
+
+    // Add new columns if any
+    for (
+      let index = existingColumns.length;
+      index < newColumnNames.length;
+      index++
+    ) {
+      const newColumn = { name: newColumnNames[index], tasks: [] }
+      boardData.boards[boardIndex].columns.push(newColumn)
+    }
+  } else {
+    console.error('Board not found for editing.')
+  }
+}
+
+// Function to fill the Edit Board modal with selected board data
+function fillEditBoardModal() {
+  const selectedBoard = boardData.boards.find(
+    (board) => board.id === boardData.selectedBoard,
+  )
+
+  if (selectedBoard) {
+    const boardNameInput = document.querySelector(
+      '.column-inputs-wrapper-edit .modal-input',
+    )
+    const columnInputsWrapper = document.querySelector(
+      '.column-inputs-wrapper-edit',
+    )
+
+    // Set board name input
+    boardNameInput.value = selectedBoard.name
+
+    // Remove existing columns
+    const existingColumns = columnInputsWrapper.querySelectorAll('.relative')
+    existingColumns.forEach((column) => column.remove())
+
+    // Add existing columns
+    selectedBoard.columns.forEach((column) => {
+      addNewToInputs(columnInputsWrapper)
+      const newInput = columnInputsWrapper.lastElementChild
+      const inputs = newInput.querySelectorAll('.modal-input')
+      inputs[0].value = column.name
+    })
+  } else {
+    console.error('Selected board not found.')
+  }
+}
+
+fillEditBoardModal()
+
 function openModal(modalId) {
-  const modal = document.getElementById(modalId)
-  sidebar.classList.remove('active')
+  console.log(modalId)
+  modal = document.getElementById(modalId)
+  console.log(modal)
   // Check if modalInputs and errorMessage are already collected
   if (modalInputs || errorMessage) {
     modalInputs = Array.from(modal.querySelectorAll('.modal-input'))
@@ -160,7 +306,6 @@ function openModal(modalId) {
   // Update the HTML content of the dropdown
   const dropdownElement = modal?.querySelector('.dropdown-options')
 
-  console.log(dropdownOptions.join(''))
   if (dropdownElement) {
     dropdownElement.innerHTML = dropdownOptions.join('')
   }
@@ -169,7 +314,6 @@ function openModal(modalId) {
     const selectBtn = optionMenu.querySelector('.dropdown-btn')
     const options = optionMenu.querySelectorAll('.dropdown-option')
     const sBtnText = optionMenu.querySelector('.dBtn-text')
-    console.log(options[0].textContent)
     selectBtn.addEventListener('click', () => {
       optionMenu.classList.toggle('active')
     })
@@ -181,7 +325,6 @@ function openModal(modalId) {
         statusColumn = selectedOption
         selectedStatus = selectedOption
         optionMenu.classList.remove('active')
-        console.log(selectedOption)
       })
     })
     document.querySelectorAll('.dropdown-option').forEach((el) => {
@@ -193,24 +336,23 @@ function openModal(modalId) {
       dropdownOptionsElement.firstChild = el
     })
   }
-
   modal.classList.remove('hidden')
   blocker.classList.add('active')
   overlay.classList.remove('hidden')
   overlay.classList.add('flex')
   modal.style.zIndex = '100'
-  console.log(boardData)
-  renderBoard(boardData.selectedBoard)
+
+  // Delay the call to renderBoard until after the modal is opened
+  setTimeout(() => {
+    renderBoard(boardData.selectedBoard)
+  }, 0)
 }
 
 // Function to extract unique status values from the selected board columns in the boardData object
 function extractStatusValues(boardData, selectedBoard) {
   const uniqueStatusValues = new Set()
 
-  console.log(uniqueStatusValues)
-
   const board = boardData.boards.find((board) => board.id === selectedBoard)
-  console.log(board)
   if (board) {
     board.columns.forEach((column) => {
       uniqueStatusValues.add(column.name) // Add column name to the set
@@ -357,7 +499,7 @@ createNewBoard.addEventListener('click', (e) => {
 
 // closeModal function to close modals
 const closeModal = (modalId) => {
-  const modal = document.getElementById(modalId)
+  modal = document.getElementById(modalId)
   if (modal) {
     modal.classList.add('hidden')
     blocker.classList.remove('active')
@@ -374,7 +516,6 @@ const closeModal = (modalId) => {
     const selectBtn = optionMenu.querySelector('.dropdown-btn')
     const options = optionMenu.querySelectorAll('.dropdown-option')
     const sBtnText = optionMenu.querySelector('.dBtn-text')
-    console.log(options)
     selectBtn.addEventListener('click', () => {
       optionMenu.classList.toggle('active')
     })
@@ -386,7 +527,6 @@ const closeModal = (modalId) => {
         statusColumn = selectedOption
         selectedStatus = selectedOption
         optionMenu.classList.remove('active')
-        console.log(selectedOption)
       })
     })
 
@@ -400,13 +540,14 @@ const closeModal = (modalId) => {
       }
     })
   }
+
+  modal = null
 }
 
 toggleModalButtons.forEach((button) => {
   button.addEventListener('click', (e) => {
     const modalId = button.getAttribute('modal-id')
-    console.log(modalId)
-    openModal(modalId, boardData.selectedBoard)
+    openModal(modalId)
   })
 })
 
@@ -414,6 +555,11 @@ closeModalButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const modalId = button.parentElement.parentElement.id
     closeModal(modalId)
+
+    modal = null
+    modalInputs = null
+    errorMessage = null
+    selectedStatus = null
   })
 })
 
@@ -424,6 +570,10 @@ blocker.addEventListener('click', () => {
   blocker.classList.add('hidden')
   overlay.classList.add('hidden')
   overlay.classList.remove('flex')
+  modal = null
+  modalInputs = null
+  errorMessage = null
+  selectedStatus = null
 })
 const sidebar = document.querySelector('.sidebar')
 
@@ -434,7 +584,6 @@ document.addEventListener('keydown', (e) => {
       modal.style.zIndex = '0'
     })
     sidebar.classList.remove('active')
-    console.log(sidebar)
     blocker.classList.remove('active')
     overlay.classList.add('hidden')
     overlay.classList.remove('flex')
@@ -484,17 +633,13 @@ createNewTask.addEventListener('click', (e) => {
   }
 
   // Capture the selected status from dropdown options with class '.dBtn-text'
-  console.log(boardData)
   const boardIndex = boardData.boards.findIndex(
     (board) => board.id === boardData.selectedBoard,
   )
-  console.log(boardIndex)
 
   const dropdownOptions = boardData.boards[boardIndex].columns.map(
     (column) => column.name,
   )
-
-  console.log(dropdownOptions)
 
   if (!hasError) {
     // Use the selected status from the dropdown
@@ -529,11 +674,9 @@ function addNewTask(taskName, taskDescription, taskSubtasks, status) {
       isCompleted: false,
     })),
   }
-  console.log(boardData.selectedBoard)
   const board = boardData.boards.find(
     (board) => board.id === boardData.selectedBoard,
   )
-  console.log(board)
 
   board.columns.forEach((column) => {
     if (column.name === status) {
