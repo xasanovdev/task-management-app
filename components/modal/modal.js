@@ -285,8 +285,6 @@ function fillEditBoardModal() {
   }
 }
 
-fillEditBoardModal()
-
 function openModal(modalId) {
   console.log(modalId)
   modal = document.getElementById(modalId)
@@ -346,6 +344,10 @@ function openModal(modalId) {
   setTimeout(() => {
     renderBoard(boardData.selectedBoard)
   }, 0)
+
+  if(modalId === 'edit-board-modal') {
+    fillEditBoardModal()
+  }
 }
 
 // Function to extract unique status values from the selected board columns in the boardData object
