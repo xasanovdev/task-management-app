@@ -1005,7 +1005,7 @@ function generateColumnDataFromDOM() {
   return columns
 }
 
-function generateBoardDaraFromDOM(){
+function generateBoardDataFromDOM(){
   const boards = []
 
   const boardElements = document.querySelectorAll("#boardList li")

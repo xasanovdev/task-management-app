@@ -522,6 +522,7 @@ createNewBoard.addEventListener('click', (e) => {
     // Close the modal
     closeModal('add-board-modal')
   }
+  saveDOM()
 })
 
 // closeModal function to close modals
