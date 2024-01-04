@@ -61,6 +61,9 @@ function cardJS() {
 
     startedColumn = this.closest('.column')
 
+
+
+    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
     // e.dataTransfer.setData('taskId', this.id)
     // e.dataTransfer.setData('completed', this.getAttribute('data-completed'))
 
@@ -99,6 +102,7 @@ function cardJS() {
     }
 
 
+
     isDragging = false
     startPosition = { x: 0, y: 0 }
     scrollLeft = 0
@@ -113,6 +117,8 @@ function cardJS() {
     if (this.classList.contains('dragover') && this !== last) {
       this.classList.remove('dragover')
     }
+
+    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
 
     isDragging = false
     startPosition = { x: 0, y: 0 }
@@ -139,6 +145,8 @@ function cardJS() {
     const newColumn = document.querySelector('#newColumn')
     newColumn.style.height = `${findColumnWithLargestHeight().scrollHeight - 34}px`
 
+
+    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
     saveDOM()
   }
 
@@ -148,6 +156,7 @@ function cardJS() {
 
     droppedColumn = this.closest('.column')
 
+    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
     isDragging = false
     startPosition = { x: 0, y: 0 }
     scrollLeft = 0
