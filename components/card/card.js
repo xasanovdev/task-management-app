@@ -61,6 +61,8 @@ function cardJS() {
 
     startedColumn = this.closest('.column')
 
+
+    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
     // e.dataTransfer.setData('taskId', this.id)
     // e.dataTransfer.setData('completed', this.getAttribute('data-completed'))
 
@@ -114,6 +116,9 @@ function cardJS() {
       this.classList.remove('dragover')
     }
 
+
+    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
+
     isDragging = false
     startPosition = { x: 0, y: 0 }
     scrollLeft = 0
@@ -134,6 +139,9 @@ function cardJS() {
     scrollLeft = 0
     scrollTop = 0
 
+
+    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
+
     makeMouseScrollable(playGround)
 
     const newColumn = document.querySelector('#newColumn')
@@ -147,6 +155,9 @@ function cardJS() {
     header.scrollIntoView({ behavior: 'smooth', block: 'end' })
 
     droppedColumn = this.closest('.column')
+
+
+    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
 
     isDragging = false
     startPosition = { x: 0, y: 0 }

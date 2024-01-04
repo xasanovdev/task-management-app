@@ -338,8 +338,6 @@ const Data = {
   selectedTask: 0,
 }
 
-setData(Data)
-
 const currentBoard = document.querySelector('.currentBoard')
 
 function getBoardName(boardId) {
@@ -348,7 +346,7 @@ function getBoardName(boardId) {
   currentBoard.textContent = selectedBoard?.name
 }
 
-const boardData = fetchData()
+const boardData = fetchData() || Data
 
 const playGround = document.querySelector('#playGround')
 
@@ -426,7 +424,9 @@ function renderBoard(boardId) {
       }
     })
   }
+  localStorage.clear()
   cardJS()
+  saveDOM()
 }
 
 function generateUniqueId() {
@@ -709,6 +709,7 @@ function updateTaskStatus(task, newStatus) {
   // Log the current state of the boardData for debugging
   console.log('Updated boardData:', boardData)
 
+  saveDOM()
   // Render the updated board
 }
 
@@ -759,8 +760,9 @@ function toggleSubtaskCompleted(subtaskId) {
   // Update the UI to reflect the new state
   updateSubtaskUI(subtask)
 
+
   // Render the board to reflect the changes
-  renderBoard(boardData.selectedBoard)
+  renderBoard(fetchData().selectedBoard)
 }
 
 // Function to find the task containing a subtask
@@ -806,7 +808,6 @@ function updateSubtaskUI(subtask) {
   if (checkbox) {
     checkbox.checked = subtask.isCompleted
   }
-
   // You can add additional UI updates here as needed
 }
 
@@ -869,12 +870,14 @@ function generateSubtaskItem(subtask) {
 function generateColumn(column) {
   const tasksHtml = column.tasks.map((task) => generateTaskCard(task)).join('')
   return `
-    <div class="column w-[280px] relative h-full text-color flex flex-col items-start gap-5">
+    <div class="column relative h-full text-color flex flex-col items-start w-280 gap-5 overflow-visible">
       <h3 class="column__header text-[#828fa3] flex items-center gap-3">
         <span class="w-4 h-4 bg-[${generateRandomColor()}] rounded-full"></span>
         <span class="tracking-widest text-sm font-bold column-name">${
-          column.name
-        } (${column.tasks.length})</span>
+    column.name
+  } 
+        </span>
+        <span class="tasksNumber text-sm font-bold">(${column.tasks.length})</span>
       </h3>
         ${tasksHtml}
     </div>
@@ -1019,23 +1022,27 @@ function replaceColumnsInSelectedBoardByIdInPlace(
 
 // LOCAL STORAGE
 
-function fetchData() {
+function setData(data) {
   try {
-    const jsonData = localStorage.getItem('kanban')
-    return jsonData ? JSON.parse(jsonData) : null
+    const serializedData = JSON.stringify(data)
+    localStorage.setItem('kanban', serializedData)
   } catch (error) {
-    console.error('Error fetching data from localStorage:', error)
-    return null
+    console.error('Error saving data to local storage:', error)
   }
 }
 
-function setData(data) {
+// Function to fetch data from local storage
+function fetchData() {
   try {
-    const jsonData = JSON.stringify(data)
-    localStorage.setItem('kanban', jsonData)
-    console.log('Data successfully set in localStorage.')
+    const serializedData = localStorage.getItem('kanban')
+    if (serializedData === null) {
+      return null
+    }
+
+    return JSON.parse(serializedData)
   } catch (error) {
-    console.error('Error setting data in localStorage:', error)
+    console.error('Error fetching data from local storage:', error)
+    return null
   }
 }
 
