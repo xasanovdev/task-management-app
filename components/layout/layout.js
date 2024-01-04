@@ -350,6 +350,36 @@ const playGround = document.querySelector('#playGround')
 
 const boardList = document.querySelector('.board-list')
 
+function makeMouseScrollable(el) {
+  el.addEventListener('mousedown', (e) => {
+    isDragging = true
+    startPosition = {
+      x: e.clientX,
+      y: e.clientY,
+    }
+    scrollLeft = document.querySelector('#playGround').scrollLeft
+    scrollTop = document.querySelector('#playGround').scrollTop
+
+  })
+  el.addEventListener('mouseup', () => {
+    if (isDragging) {
+      isDragging = false
+    }
+  })
+
+  el.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      const deltaX = e.clientX - startPosition.x
+      const deltaY = e.clientY - startPosition.y
+
+      document.querySelector('#playGround').scrollLeft = scrollLeft - deltaX
+      document.querySelector('#playGround').scrollTop = scrollTop - deltaY
+    }
+  })
+}
+
+// makeMouseScrollable(playGround)
+
 function renderBoard(boardId) {
   saveDOM()
   const numberOfCreatedBoards = document.querySelector('.numberOfCreatedBoards')

@@ -30,14 +30,13 @@ function cardJS() {
     return false
   }
 
-  makeMouseScrollable(document.querySelector('#playGround'))
-  while (dragging) {
-    isDragging = false
-    startPosition = { x: 0, y: 0 }
-    scrollLeft = 0
-    scrollTop = 0
-    stopMouseScrolling(document.querySelector('#playGround'))
-  }
+  // while (dragging) {
+  //   isDragging = false
+  //   startPosition = { x: 0, y: 0 }
+  //   scrollLeft = 0
+  //   scrollTop = 0
+  //   stopMouseScrolling(document.querySelector('#playGround'))
+  // }
   document.querySelector('#playGround').effectAllowed = 'move'
 
 
@@ -62,8 +61,7 @@ function cardJS() {
     startedColumn = this.closest('.column')
 
 
-
-    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
+    this.closest('.column').querySelector('.tasksNumber').innerHTML = `(${this.closest('.column').querySelectorAll('.card').length})`
     // e.dataTransfer.setData('taskId', this.id)
     // e.dataTransfer.setData('completed', this.getAttribute('data-completed'))
 
@@ -73,9 +71,6 @@ function cardJS() {
     scrollTop = 0
     stopMouseScrolling(document.querySelector('#playGround'))
     return false
-  }
-
-  function dragEnter(e) {
   }
 
   function dragOver(e) {
@@ -102,7 +97,6 @@ function cardJS() {
     }
 
 
-
     isDragging = false
     startPosition = { x: 0, y: 0 }
     scrollLeft = 0
@@ -118,7 +112,7 @@ function cardJS() {
       this.classList.remove('dragover')
     }
 
-    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
+    this.closest('.column').querySelector('.tasksNumber').innerHTML = `(${this.closest('.column').querySelectorAll('.card').length})`
 
     isDragging = false
     startPosition = { x: 0, y: 0 }
@@ -146,7 +140,7 @@ function cardJS() {
     newColumn.style.height = `${findColumnWithLargestHeight().scrollHeight - 34}px`
 
 
-    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
+    this.closest('.column').querySelector('.tasksNumber').innerHTML = `(${this.closest('.column').querySelectorAll('.card').length})`
     saveDOM()
   }
 
@@ -156,13 +150,13 @@ function cardJS() {
 
     droppedColumn = this.closest('.column')
 
-    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
+    this.closest('.column').querySelector('.tasksNumber').innerHTML = `(${this.closest('.column').querySelectorAll('.card').length})`
     isDragging = false
     startPosition = { x: 0, y: 0 }
     scrollLeft = 0
     scrollTop = 0
-    stopMouseScrolling(playGround)
     dragging = true
+
 
     return false
   }
@@ -174,7 +168,6 @@ function cardJS() {
     startPosition = { x: 0, y: 0 }
     scrollLeft = 0
     scrollTop = 0
-    stopMouseScrolling(playGround)
     return false
   }
 
@@ -183,12 +176,12 @@ function cardJS() {
     startPosition = { x: 0, y: 0 }
     scrollLeft = 0
     // let scrollTop = 0;
-    stopMouseScrolling(playGround)
     return false
   }
 
   function dragDropColumn(e) {
     e.preventDefault()
+
     return false
   }
 
@@ -203,7 +196,7 @@ function cardJS() {
       this.appendChild(dragSrcEl)
       dragSrcEl.classList.add('dragover')
     }
-
+    stopMouseScrolling(playGround)
     return false
   }
 
@@ -212,7 +205,6 @@ function cardJS() {
     el.addEventListener('dragstart', dragStart, false)
     el.addEventListener('dragover', dragOver, false)
     el.addEventListener('dragleave', dragLeave, false)
-    el.addEventListener('dragenter', dragEnter, false)
     el.addEventListener('drop', dragDrop, false)
     el.addEventListener('dragend', dragEnd, false)
     el.addEventListener('mousedown', mouseDown, false)
