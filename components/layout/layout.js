@@ -886,7 +886,7 @@ function generateColumn(column) {
 
 function generateKanbanBoardName(board) {
   return `
-    <li>
+    <li board-id="${board.id}" board-name="${board.name}">
       <button 
         data-board-id="${board.id}"
         class="btn board__link w-full flex items-center gap-4 text-[#828fa3] rounded-r-full text-left font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[15px] focus:outline-none hover:bg-btn-hover-color hover:text-primary-color md:mr-6 p-[10px] md:py-4 px-6"
@@ -1003,6 +1003,13 @@ function generateColumnDataFromDOM() {
     })
 
   return columns
+}
+
+function generateBoardDaraFromDOM(){
+  const boards = []
+
+  const boardElements = document.querySelectorAll("#boardList li")
+
 }
 
 function replaceColumnsInSelectedBoardByIdInPlace(
