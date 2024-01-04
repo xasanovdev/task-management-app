@@ -393,13 +393,29 @@ function renderBoard(boardId) {
   if (!isBoardRendered) {
     // Assuming playGround is a valid reference
     playGround.innerHTML = generateKanbanBoard(board)
+
     playGround.appendChild(createNewColumnElement())
 
     // Update the selected board in boardData
     boardData.selectedBoard = board.id
     boardData.selectedColumn = board.columns[0]
     // Highlight the active link in the board list
+
+    const newColumnButtons = document.querySelectorAll('.new-column')
+
+    if (newColumnButtons.length > 0) {
+      newColumnButtons.forEach((newColumnButton) => {
+        newColumnButton.addEventListener('click', (e) => {
+          e.preventDefault()
+          openModal('edit-board-modal')
+        })
+      })
+    } else {
+      console.error('No elements found with class ".new-column"')
+    }
+
     const boardLinks = document.querySelectorAll('.board__link')
+
     boardLinks.forEach((link) => {
       link.classList.remove('active')
       if (link.getAttribute('data-board-id') === board.id) {
@@ -564,7 +580,6 @@ function saveChanges(task) {
   closeModal('edit-task-modal')
 }
 
-
 function generateTaskModal(task, dropdownElement, statusValues) {
   // Extract task details
   const taskName = task.title
@@ -690,7 +705,6 @@ function updateTaskStatus(task, newStatus) {
   // Log the current state of the boardData for debugging
 
   // Render the updated board
-  renderBoard(boardData.selectedBoard)
 }
 
 function toggleSubtaskCompleted(subtaskId) {
@@ -850,7 +864,7 @@ function generateSubtaskItem(subtask) {
 function generateColumn(column) {
   const tasksHtml = column.tasks.map((task) => generateTaskCard(task)).join('')
   return `
-    <div class="column relative h-full text-color flex flex-col items-start w-280 gap-5 overflow-visible">
+    <div class="column w-[280px] relative h-full text-color flex flex-col items-start gap-5">
       <h3 class="column__header text-[#828fa3] flex items-center gap-3">
         <span class="w-4 h-4 bg-[${generateRandomColor()}] rounded-full"></span>
         <span class="tracking-widest text-sm font-bold column-name">${
@@ -918,10 +932,10 @@ function createNewColumnElement() {
   // Set class attribute
   divElement.setAttribute(
     'class',
-    'toggle-modal-button w-280 h-fit mt-10 flex rounded-md bg-gradient-primary cursor-pointer items-center content-center overflow-visible mb-48 bg-gradient-to-br from-[#995eb40a] to-[#723b8883]',
+    'toggle-modal-button w-280 new-column h-fit mt-10 flex rounded-md bg-gradient-primary cursor-pointer items-center content-center overflow-visible mb-48 bg-gradient-to-br from-[#995eb40a] to-[#723b8883]',
   )
 
-  // Set id attribute
+  // Set id attributeadd
   divElement.setAttribute('id', 'newColumn')
 
   // Set modal-id attribute
@@ -946,15 +960,6 @@ function createNewColumnElement() {
   // Return the generated element
   return divElement
 }
-
-const newColumnButtons = document.querySelectorAll('.new-column')
-
-newColumnButtons.forEach((newColumnButton) => {
-  newColumnButton.addEventListener('click', (e) => {
-    e.preventDefault()
-    openModal('edit-board-modal', boardData.selectedBoard)
-  })
-})
 
 function generateColumnDataFromDOM() {
   const columns = []
