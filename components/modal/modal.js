@@ -313,6 +313,8 @@ function fillEditBoardModal() {
 function openModal(modalId) {
   console.log(modalId)
   modal = document.getElementById(modalId)
+  sidebar.classList.remove('active')
+  document.querySelector('.sidebarOpenerIcon').classList.remove('rotated')
   console.log(modal)
   // Check if modalInputs and errorMessage are already collected
   if (modalInputs || errorMessage) {
