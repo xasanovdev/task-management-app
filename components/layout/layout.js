@@ -871,7 +871,7 @@ function generateColumn(column) {
   return `
     <div class="column w-[280px] relative h-full text-color flex flex-col items-start gap-5">
       <h3 class="column__header text-[#828fa3] flex items-center gap-3">
-        <span class="w-4 h-4 bg-[${generateRandomColor()}] rounded-full"></span>
+        <span class="w-4 h-4 bg-[#e3e3e3] rounded-full"></span>
         <span class="tracking-widest text-sm font-bold column-name">${
           column.name
         } (${column.tasks.length})</span>
