@@ -911,7 +911,7 @@ function generateKanbanBoard(board) {
   }
 
   playGround.setAttribute('board-id', `${board.id}`)
-  return board.columns.map((column) => generateColumn(column))
+  return board.columns.map((column) => generateColumn(column)).join('')
 }
 
 boardList.addEventListener('click', (event) => {

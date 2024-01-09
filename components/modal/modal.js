@@ -468,7 +468,10 @@ const deleteBoardButton = document.querySelector('.delete-button')
 
 deleteBoardButton.addEventListener('click', (e) => {
   e.preventDefault()
+  const nextBoard= boardData.boards.findIndex(board => board.id === boardData.selectedBoard);
+  console.log(nextBoard)
   deleteBoard(boardData.selectedBoard)
+  boardData.selectedBoard =
   closeModal('delete-board-modal')
 })
 
@@ -486,7 +489,8 @@ function deleteBoard(boardId) {
   }
 
   // Update your UI or trigger any necessary updates
-  renderBoard(boardData.selectedBoard) // Call renderBoard after deleting a board
+  console.log(indexToDelete)
+  renderBoard(boardData.boards[indexToDelete+2]) // Call renderBoard after deleting a board
 }
 
 // Example usage when deleting a board (replace 'boardIdToDelete' with the actual ID):
