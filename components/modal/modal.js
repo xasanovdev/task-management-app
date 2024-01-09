@@ -19,8 +19,6 @@ let selectedStatus = null
 let modal = null
 
 
-
-
 function generateRandomColor() {
   const letters = '0123456789ABCDEF'
   let color = '#'
@@ -30,7 +28,6 @@ function generateRandomColor() {
 
   return color
 }
-
 
 
 // Function to find the column containing a task
@@ -279,7 +276,7 @@ function editBoard(selectedBoardId, newBoardName, newColumnNames) {
         // Your logic to handle deleted columns
         boardData.boards[boardIndex].columns = boardData.boards[
           boardIndex
-        ].columns.filter((column) => column !== deletedColumn)
+          ].columns.filter((column) => column !== deletedColumn)
 
         console.log('Deleted Column:', deletedColumn)
 
@@ -443,7 +440,7 @@ function addNewBoard(boardName, boardColumns) {
     columns: boardColumns.map((columnName) => ({
       name: columnName,
       tasks: [],
-      statusColor: generateRandomColor()
+      statusColor: generateRandomColor(),
     })),
   }
 
@@ -455,6 +452,7 @@ function addNewBoard(boardName, boardColumns) {
   closeModal('add-new-board')
   renderBoard(boardData.selectedBoard) // Call renderBoard after adding a new board
 }
+
 const cancelButton = document.querySelector('.cancel')
 
 cancelButton.addEventListener('click', (e) => {
@@ -483,7 +481,7 @@ function deleteBoard(boardId) {
     // You might also want to handle other related data structures or UI updates here
   }
 
-  renderBoard(boardData.boards[indexToDelete+2]) // Call renderBoard after deleting a board
+  renderBoard(boardData.boards[indexToDelete].id) // Call renderBoard after deleting a board
   // Update your UI or trigger any necessary updates
 }
 
@@ -577,7 +575,7 @@ const closeModal = (modalId) => {
     })
 
     // Add a click event listener to close the dropdown-menu when clicking outside
-    document.addEventListener('click', function (event) {
+    document.addEventListener('click', function(event) {
       if (
         !selectBtn.contains(event.target) &&
         !optionMenu.contains(event.target)
@@ -586,7 +584,8 @@ const closeModal = (modalId) => {
       }
     })
   }
-cardJS()
+
+  cardJS()
   modal = null
 }
 
@@ -721,8 +720,8 @@ function addNewTask(taskName, taskDescription, taskSubtasks, status) {
     })),
   }
 
-document.querySelector(`#${status}`).innerHTML += generateTaskCard(newTask)
-saveDOM()
+  document.querySelector(`#${status}`).innerHTML += generateTaskCard(newTask)
+  saveDOM()
 
   // const board = boardData.boards.find(
   //   (board) => board.id === boardData.selectedBoard,
