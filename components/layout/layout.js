@@ -340,7 +340,7 @@ let Data = {
       ],
     },
   ],
-  selectedBoard: 0,
+  selectedBoard: "1",
   selectedColumn: 0,
   selectedTask: 0,
 }
@@ -925,7 +925,7 @@ boardList.addEventListener('click', (event) => {
 boardList.innerHTML = generateKanbanBoardNames(boardData)
 
 if (boardData && boardData.boards.length > 0) {
-  const initialBoardId = boardData.boards[0].id
+  const initialBoardId = boardData.selectedBoard
   renderBoard(initialBoardId)
 }
 
@@ -1005,12 +1005,6 @@ function generateColumnDataFromDOM() {
   return columns
 }
 
-function generateBoardDataFromDOM() {
-  const boards = []
-
-  const boardElements = document.querySelectorAll('#boardList li')
-
-}
 
 function replaceColumnsInSelectedBoardByIdInPlace(
   boardData,
@@ -1028,7 +1022,6 @@ function replaceColumnsInSelectedBoardByIdInPlace(
 }
 
 // LOCAL STORAGE
-
 
 
 function setData(data) {
@@ -1072,5 +1065,6 @@ function saveDOM() {
 
 
 window.addEventListener('beforeunload', function(event) {
+  boardData.selectedBoard = playGround.getAttribute('board-id')
   saveDOM()
 })
