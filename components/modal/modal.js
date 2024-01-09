@@ -283,7 +283,6 @@ function editBoard(selectedBoardId, newBoardName, newColumnNames) {
           boardIndex
         ].columns.filter((column) => column !== deletedColumn)
 
-        console.log('Deleted Column:', deletedColumn)
 
         renderBoard(boardData.selectedBoard)
 
@@ -469,7 +468,6 @@ const deleteBoardButton = document.querySelector('.delete-button')
 deleteBoardButton.addEventListener('click', (e) => {
   e.preventDefault()
   const nextBoard= boardData.boards.findIndex(board => board.id === boardData.selectedBoard);
-  console.log(nextBoard)
   deleteBoard(boardData.selectedBoard)
   boardData.selectedBoard =
   closeModal('delete-board-modal')
@@ -489,7 +487,6 @@ function deleteBoard(boardId) {
   }
 
   // Update your UI or trigger any necessary updates
-  console.log(indexToDelete)
   renderBoard(boardData.boards[indexToDelete+2]) // Call renderBoard after deleting a board
 }
 

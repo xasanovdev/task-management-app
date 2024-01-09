@@ -12,7 +12,6 @@ function setupDropdown(optionMenu, task) {
       const selectedOption = option.querySelector('.option-text').innerText
       sBtnText.innerText = selectedOption
       optionMenu.classList.remove('active')
-      console.log(selectedOption);
       // Update task status and move to the corresponding column
       updateTaskStatus(task, selectedOption)
 

@@ -703,7 +703,6 @@ function updateTaskStatus(task, newStatus) {
   }
 
   // Log the current state of the boardData for debugging
-  console.log('Updated boardData:', boardData)
 
   saveDOM()
   // Render the updated board
@@ -864,7 +863,6 @@ function generateSubtaskItem(subtask) {
 }
 
 function generateColumn(column) {
-  console.log(column)
   const tasksHtml = column.tasks.map((task) => generateTaskCard(task)).join('')
 
   return `
@@ -981,7 +979,6 @@ function generateColumnDataFromDOM() {
         tasks: [],
         statusColor: columnElement.querySelector(".status-color").style.backgroundColor
       }
-      console.log(columnElement)
 
       // Iterate through each task in the column
       columnElement
