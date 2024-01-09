@@ -1,4 +1,4 @@
-const Data = {
+let boardData = {
   boards: [
     {
       id: '1',
@@ -6,6 +6,8 @@ const Data = {
       columns: [
         {
           name: 'Todo',
+          statusColor: '#452423',
+          status: 'Todo',
           tasks: [
             {
               id: '13ba62ad-8896-4951-b233-ab7439c0896c',
@@ -39,6 +41,8 @@ const Data = {
         },
         {
           name: 'Doing',
+          statusColor: '#998122',
+          status: 'Doing',
           tasks: [
             {
               id: '69eb5ce8-4720-441e-b7b4-0c1d8a59143d',
@@ -109,7 +113,7 @@ const Data = {
               title:
                 'Research pricing points of various competitors and trial different business models',
               description:
-                "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
+                'We know what we\'re planning to build for version one. Now we need to finalise the first pricing model we\'ll use. Keep iterating the subtasks until we have a coherent proposition.',
               status: 'Doing',
               subtasks: [
                 {
@@ -131,6 +135,8 @@ const Data = {
         },
         {
           name: 'Done',
+          statusColor: '#660421',
+          status: 'Done',
           tasks: [
             {
               id: 'c1af8e06-e7e8-49c7-9851-f7ea1fdb73b9',
@@ -162,7 +168,7 @@ const Data = {
               id: 'd408b2f5-1238-4ebf-a159-4ef1d2dafa3b',
               title: 'Review results of usability tests and iterate',
               description:
-                "Keep iterating through the subtasks until we're clear on the core concepts for the app.",
+                'Keep iterating through the subtasks until we\'re clear on the core concepts for the app.',
               status: 'Done',
               subtasks: [
                 {
@@ -241,6 +247,7 @@ const Data = {
       columns: [
         {
           name: 'Todo',
+          statusColor: '#444752',
           tasks: [
             {
               id: '2dbea4db-61c2-44bd-930c-d00e9f43e3fe',
@@ -281,8 +288,9 @@ const Data = {
             },
           ],
         },
-        { name: 'Doing', tasks: [] },
-        { name: 'Done', tasks: [] },
+        { name: 'Doing', tasks: [], statusColor: '#238798' },
+
+        { name: 'Done', tasks: [], statusColor: '#987311' },
       ],
     },
     {
@@ -291,6 +299,7 @@ const Data = {
       columns: [
         {
           name: 'Now',
+          statusColor: '#546878',
           tasks: [
             {
               id: 'ac713791-b937-440a-8caf-0b178fc45720',
@@ -312,7 +321,7 @@ const Data = {
               id: '260d9248-4f73-459f-93e4-10e975fc9929',
               title: 'Review early feedback and plan next steps for roadmap',
               description:
-                "Beyond the initial launch, we're keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.",
+                'Beyond the initial launch, we\'re keeping the initial roadmap completely empty. This meeting will help us plan out our next steps based on actual customer feedback.',
               status: '',
               subtasks: [
                 { title: 'Interview 10 customers', isCompleted: false },
@@ -328,8 +337,6 @@ const Data = {
             },
           ],
         },
-        { name: 'Next', tasks: [] },
-        { name: 'Later', tasks: [] },
       ],
     },
   ],
@@ -337,8 +344,6 @@ const Data = {
   selectedColumn: 0,
   selectedTask: 0,
 }
-
-setData(Data)
 
 const currentBoard = document.querySelector('.currentBoard')
 
@@ -348,7 +353,6 @@ function getBoardName(boardId) {
   currentBoard.textContent = selectedBoard?.name
 }
 
-const boardData = fetchData()
 
 const playGround = document.querySelector('#playGround')
 
@@ -442,14 +446,6 @@ function generateStatusToDropdown(status) {
   </li>
   `
 }
-function generateRandomColor() {
-  const letters = '0123456789ABCDEF'
-  let color = '#'
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)]
-  }
-  return color
-}
 
 function generateTaskCard(task) {
   return `
@@ -457,15 +453,15 @@ function generateTaskCard(task) {
       id="${task.id}"
       modal-id="${task.id}"
       status="${task.status}"
-      class="card select-none toggle-modal-button bg-content-color w-280 h-fit py-6 px-4 rounded-lg font-bold shadow-sh-color shadow-sm hover:cursor-pointer hover:text-primary-color subpixel-antialiased"
+      class="${task.status} card select-none toggle-modal-button bg-content-color w-280 h-fit py-6 px-4 rounded-lg font-bold shadow-sh-color shadow-sm hover:cursor-pointer hover:text-primary-color subpixel-antialiased"
       onclick="openTaskModal('${task.id}')"
     >
     <span class="hidden task-description">${task.description}</span>
     <span class="hidden subtasks-json">${JSON.stringify(task.subtasks)}</span>
       <p class="card__title text-color capitalize">${task.title}</p>
       <p class="card__status text-slate-500">${
-        task.subtasks.filter((subtask) => !subtask.isCompleted).length
-      } of ${task.subtasks.length} substasks</p>
+    task.subtasks.filter((subtask) => !subtask.isCompleted).length
+  } of ${task.subtasks.length} substasks</p>
     </div>
   `
 }
@@ -631,11 +627,11 @@ function generateTaskModal(task, dropdownElement, statusValues) {
   <div class="h-full">
     <div class="flex items-center gap-4 justify-between mb-6">
       <button class="edit-task rounded-full w-full text-center py-4 font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 outline-none text-primary-color dark:bg-white bg-[#635fc71a] hover:bg-[#635FC740]" onclick="editTask('${
-        task.id
-      }')">Edit Task</button>
+    task.id
+  }')">Edit Task</button>
       <button class="delete-task font-bold text-white bg-danger-color hover:opacity-80 duration-100 rounded-full w-full p-4" onclick="deleteTask('${
-        task.id
-      }')">Delete Task</button>
+    task.id
+  }')">Delete Task</button>
     </div>
 
     <div>
@@ -652,8 +648,8 @@ function generateTaskModal(task, dropdownElement, statusValues) {
         <div class="dropdown-menu relative w-full">
           <div class="dropdown-btn status min-w-full w-full justify-between flex items-center px-4 py-2 rounded border focus:outline-none active:border-[#635FC7] group">
             <span class="dBtn-text m-0 text-gray-color cursor-pointer transition duration-400 ease-in-out text-[13px] leading-6">${
-              task.status
-            }</span>
+    task.status
+  }</span>
             <span class="dropdown-sign">
               <svg xmlns="http://www.w3.org/2000/svg" width="11" height="8" viewBox="0 0 11 8" fill="none">
                 <path d="M0.79834 1.54858L5.49682 6.24707L10.1953 1.54858" stroke="#635FC7" stroke-width="2"/>
@@ -707,7 +703,6 @@ function updateTaskStatus(task, newStatus) {
   }
 
   // Log the current state of the boardData for debugging
-  console.log('Updated boardData:', boardData)
 
   // Render the updated board
 }
@@ -759,8 +754,9 @@ function toggleSubtaskCompleted(subtaskId) {
   // Update the UI to reflect the new state
   updateSubtaskUI(subtask)
 
+
   // Render the board to reflect the changes
-  renderBoard(boardData.selectedBoard)
+  renderBoard(fetchData().selectedBoard)
 }
 
 // Function to find the task containing a subtask
@@ -806,7 +802,6 @@ function updateSubtaskUI(subtask) {
   if (checkbox) {
     checkbox.checked = subtask.isCompleted
   }
-
   // You can add additional UI updates here as needed
 }
 
@@ -849,8 +844,8 @@ function generateSubtaskItem(subtask) {
   // Generate HTML for each subtask
   return `
     <div class="chechbox-content flex items-center text-color p-3 gap-4 cursor-pointer relative hover:bg-[635fc740] hover:transition duration-200 active:ease-in" onclick="toggleSubtaskCompleted('${
-      subtask.id
-    }')">
+    subtask.id
+  }')">
       <i class="icon-tick checkbox-icon absolute top-4 text-white left-4 scale-1 duration-150"></i>
       <input
         type="checkbox"
@@ -868,13 +863,16 @@ function generateSubtaskItem(subtask) {
 
 function generateColumn(column) {
   const tasksHtml = column.tasks.map((task) => generateTaskCard(task)).join('')
+
   return `
-    <div class="column w-[280px] relative h-full text-color flex flex-col items-start gap-5">
+    <div id="${column.name}" class="column relative h-full text-color flex flex-col items-start w-280 gap-5 overflow-visible">
       <h3 class="column__header text-[#828fa3] flex items-center gap-3">
-        <span class="w-4 h-4 bg-[#e3e3e3] rounded-full"></span>
+        <span style="background-color: ${column.statusColor}; border-radius: 50%" class="w-4 h-4 rounded-ful status-color"></span>
         <span class="tracking-widest text-sm font-bold column-name">${
-          column.name
-        } (${column.tasks.length})</span>
+    column.name
+  } 
+        </span>
+        <span class="tasksNumber text-sm font-bold">(${column.tasks.length})</span>
       </h3>
         ${tasksHtml}
     </div>
@@ -883,7 +881,7 @@ function generateColumn(column) {
 
 function generateKanbanBoardName(board) {
   return `
-    <li>
+    <li board-id="${board.id}" board-name="${board.name}">
       <button 
         data-board-id="${board.id}"
         class="btn board__link w-full flex items-center gap-4 text-[#828fa3] rounded-r-full text-left font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[15px] focus:outline-none hover:bg-btn-hover-color hover:text-primary-color md:mr-6 p-[10px] md:py-4 px-6"
@@ -905,6 +903,7 @@ function generateKanbanBoardNames(boardData) {
 function generateKanbanBoard(board) {
   if (!board || !board.columns) {
     console.error('Invalid board data:', board)
+
     return '' // Return an empty string or handle the error appropriately
   }
 
@@ -975,9 +974,11 @@ function generateColumnDataFromDOM() {
     .querySelectorAll('.column')
     .forEach((columnElement, columnIndex) => {
       const column = {
-        name: columnElement.querySelector('.column-name').textContent,
+        name: columnElement.getAttribute('id'),
         tasks: [],
+        statusColor: columnElement.querySelector('.status-color').style.backgroundColor,
       }
+      console.log(column)
 
       // Iterate through each task in the column
       columnElement
@@ -987,7 +988,7 @@ function generateColumnDataFromDOM() {
             id: taskElement.getAttribute('id'),
             title: taskElement.querySelector('.card__title').textContent,
             description:
-              taskElement.querySelector('.task-description').textContent,
+            taskElement.querySelector('.task-description').textContent,
             status: taskElement.getAttribute('status'), // Use the column name as the initial task status
             subtasks: JSON.parse(
               taskElement.querySelector('.subtasks-json').textContent,
@@ -1000,6 +1001,13 @@ function generateColumnDataFromDOM() {
     })
 
   return columns
+}
+
+function generateBoardDataFromDOM() {
+  const boards = []
+
+  const boardElements = document.querySelectorAll('#boardList li')
+
 }
 
 function replaceColumnsInSelectedBoardByIdInPlace(
@@ -1019,23 +1027,30 @@ function replaceColumnsInSelectedBoardByIdInPlace(
 
 // LOCAL STORAGE
 
-function fetchData() {
+function setData(data) {
   try {
-    const jsonData = localStorage.getItem('kanban')
-    return jsonData ? JSON.parse(jsonData) : null
+    const serializedData = JSON.stringify(data)
+    boardData = data
+    localStorage.setItem('kanban', serializedData)
   } catch (error) {
-    console.error('Error fetching data from localStorage:', error)
-    return null
+    console.error('Error saving data to local storage:', error)
   }
 }
 
-function setData(data) {
+// Function to fetch data from local storage
+function fetchData() {
   try {
-    const jsonData = JSON.stringify(data)
-    localStorage.setItem('kanban', jsonData)
-    console.log('Data successfully set in localStorage.')
+    const serializedData = localStorage.getItem('kanban')
+    if (serializedData === null) {
+      return null
+    }
+    boardData = JSON.parse(serializedData)
+    return JSON.parse(serializedData)
   } catch (error) {
-    console.error('Error setting data in localStorage:', error)
+    console.error('Error fetching data from local storage:', error)
+
+    boardData = JSON.parse(serializedData)
+    return null
   }
 }
 
@@ -1047,6 +1062,10 @@ function saveDOM() {
     boardData,
     currentBoard,
     generateColumnDataFromDOM(),
+    setData(boardData),
   )
-  setData(boardData)
 }
+
+window.addEventListener('beforeunload', function(event) {
+  saveDOM()
+})

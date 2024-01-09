@@ -467,8 +467,8 @@ function deleteBoard(boardId) {
     // You might also want to handle other related data structures or UI updates here
   }
 
+  renderBoard(boardData.boards[indexToDelete+2]) // Call renderBoard after deleting a board
   // Update your UI or trigger any necessary updates
-  renderBoard(boardData.selectedBoard) // Call renderBoard after deleting a board
 }
 
 // Example usage when deleting a board (replace 'boardIdToDelete' with the actual ID):
@@ -703,15 +703,19 @@ function addNewTask(taskName, taskDescription, taskSubtasks, status) {
       isCompleted: false,
     })),
   }
-  const board = boardData.boards.find(
-    (board) => board.id === boardData.selectedBoard,
-  )
 
-  board.columns.forEach((column) => {
-    if (column.name === status) {
-      column.tasks.push(newTask)
-    }
-  })
+document.querySelector(`#${status}`).innerHTML += generateTaskCard(newTask)
+saveDOM()
 
-  renderBoard(boardData.selectedBoard)
+  // const board = boardData.boards.find(
+  //   (board) => board.id === boardData.selectedBoard,
+  // )
+  //
+  // board.columns.forEach((column) => {
+  //   if (column.name === status) {
+  //     column.tasks.push(newTask)
+  //   }
+  // })
+  //
+  // renderBoard(boardData.selectedBoard)
 }
