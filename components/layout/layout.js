@@ -340,7 +340,7 @@ let Data = {
       ],
     },
   ],
-  selectedBoard: "1",
+  selectedBoard: '1',
   selectedColumn: 0,
   selectedTask: 0,
 }
@@ -505,36 +505,40 @@ function openTaskModal(taskId) {
 
 function deleteTask(taskId) {
   // Find the board and column that contain the task
-  for (const board of boardData.boards) {
-    for (const column of board.columns) {
-      const taskIndex = column.tasks.findIndex((task) => task.id === taskId)
-      if (taskIndex !== -1) {
-        // Remove the task from the column
-        column.tasks.splice(taskIndex, 1)
+  // for (const board of boardData.boards) {
+  //   for (const column of board.columns) {
+  //     const taskIndex = column.tasks.findIndex((task) => task.id === taskId)
+  //     if (taskIndex !== -1) {
+  //       // Remove the task from the column
+  //       column.tasks.splice(taskIndex, 1)
+  //
+  //       // If the column becomes empty, remove the column
+  //       if (column.tasks.length === 0) {
+  //         const columnIndex = board.columns.indexOf(column)
+  //         board.columns.splice(columnIndex, 1)
+  //       }
+  //
+  //       // If the board becomes empty, remove the board
+  //       if (board.columns.length === 0) {
+  //         const boardIndex = boardData.boards.indexOf(board)
+  //         boardData.boards.splice(boardIndex, 1)
+  //       }
+  //       closeModal('open-task-modal')
+  //
+  //       // Assuming you have a function to update the UI after deletion
+  //       renderBoard(renderBoard.selectedBoard)
+  //
+  //       // Exit the function once the task is deleted
+  //       return
+  //     }
+  //   }
+  // }
 
-        // If the column becomes empty, remove the column
-        if (column.tasks.length === 0) {
-          const columnIndex = board.columns.indexOf(column)
-          board.columns.splice(columnIndex, 1)
-        }
+  document.getElementById(taskId).remove()
 
-        // If the board becomes empty, remove the board
-        if (board.columns.length === 0) {
-          const boardIndex = boardData.boards.indexOf(board)
-          boardData.boards.splice(boardIndex, 1)
-        }
-        closeModal('open-task-modal')
-
-        // Assuming you have a function to update the UI after deletion
-        renderBoard(renderBoard.selectedBoard)
-
-        // Exit the function once the task is deleted
-        return
-      }
-    }
-  }
-
+  closeModal('open-task-modal')
   // Log a message if the task is not found (for debugging purposes)
+  saveDOM()
   console.warn(`Task with ID ${taskId} not found.`)
 }
 
