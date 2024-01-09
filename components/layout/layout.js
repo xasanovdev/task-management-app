@@ -1,4 +1,4 @@
-const Data = {
+let Data = {
   boards: [
     {
       id: '1',
@@ -6,6 +6,7 @@ const Data = {
       columns: [
         {
           name: 'Todo',
+          statusColor: '#452423',
           tasks: [
             {
               id: '13ba62ad-8896-4951-b233-ab7439c0896c',
@@ -39,6 +40,7 @@ const Data = {
         },
         {
           name: 'Doing',
+          statusColor: '#998122',
           tasks: [
             {
               id: '69eb5ce8-4720-441e-b7b4-0c1d8a59143d',
@@ -131,6 +133,7 @@ const Data = {
         },
         {
           name: 'Done',
+          statusColor: '#660421',
           tasks: [
             {
               id: 'c1af8e06-e7e8-49c7-9851-f7ea1fdb73b9',
@@ -241,6 +244,7 @@ const Data = {
       columns: [
         {
           name: 'Todo',
+          statusColor: '#444752',
           tasks: [
             {
               id: '2dbea4db-61c2-44bd-930c-d00e9f43e3fe',
@@ -281,8 +285,9 @@ const Data = {
             },
           ],
         },
-        { name: 'Doing', tasks: [] },
-        { name: 'Done', tasks: [] },
+        { name: 'Doing', tasks: [], statusColor: '#238798'},
+
+        { name: 'Done', tasks: [], statusColor: '#987311' },
       ],
     },
     {
@@ -291,6 +296,7 @@ const Data = {
       columns: [
         {
           name: 'Now',
+          statusColor: '#546878',
           tasks: [
             {
               id: 'ac713791-b937-440a-8caf-0b178fc45720',
@@ -328,8 +334,6 @@ const Data = {
             },
           ],
         },
-        { name: 'Next', tasks: [] },
-        { name: 'Later', tasks: [] },
       ],
     },
   ],
@@ -441,14 +445,6 @@ function generateStatusToDropdown(status) {
     </span>
   </li>
   `
-}
-function generateRandomColor() {
-  const letters = '0123456789ABCDEF'
-  let color = '#'
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)]
-  }
-  return color
 }
 
 function generateTaskCard(task) {
@@ -868,11 +864,13 @@ function generateSubtaskItem(subtask) {
 }
 
 function generateColumn(column) {
+  console.log(column)
   const tasksHtml = column.tasks.map((task) => generateTaskCard(task)).join('')
+
   return `
     <div class="column relative h-full text-color flex flex-col items-start w-280 gap-5 overflow-visible">
       <h3 class="column__header text-[#828fa3] flex items-center gap-3">
-        <span class="w-4 h-4 bg-[${generateRandomColor()}] rounded-full"></span>
+        <span style="background-color: ${column.statusColor}; border-radius: 50%" class="w-4 h-4 rounded-ful status-color"></span>
         <span class="tracking-widest text-sm font-bold column-name">${
     column.name
   } 
@@ -908,11 +906,12 @@ function generateKanbanBoardNames(boardData) {
 function generateKanbanBoard(board) {
   if (!board || !board.columns) {
     console.error('Invalid board data:', board)
+
     return '' // Return an empty string or handle the error appropriately
   }
 
   playGround.setAttribute('board-id', `${board.id}`)
-  return board.columns.map((column) => generateColumn(column)).join('')
+  return board.columns.map((column) => generateColumn(column))
 }
 
 boardList.addEventListener('click', (event) => {
@@ -980,7 +979,9 @@ function generateColumnDataFromDOM() {
       const column = {
         name: columnElement.querySelector('.column-name').textContent,
         tasks: [],
+        statusColor: columnElement.querySelector(".status-color").style.backgroundColor
       }
+      console.log(columnElement)
 
       // Iterate through each task in the column
       columnElement
@@ -1033,6 +1034,7 @@ function setData(data) {
   try {
     const serializedData = JSON.stringify(data)
     localStorage.setItem('kanban', serializedData)
+    Data = data
   } catch (error) {
     console.error('Error saving data to local storage:', error)
   }
@@ -1045,10 +1047,12 @@ function fetchData() {
     if (serializedData === null) {
       return null
     }
+    Data = JSON.parse(serializedData)
 
     return JSON.parse(serializedData)
   } catch (error) {
     console.error('Error fetching data from local storage:', error)
+
     return null
   }
 }

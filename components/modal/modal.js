@@ -18,6 +18,19 @@ let errorMessage = null
 let selectedStatus = null
 let modal = null
 
+
+
+function generateRandomColor() {
+  const letters = '0123456789ABCDEF'
+  let color = '#'
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)]
+  }
+
+  return color
+}
+
+
 // Function to find the column containing a task
 function findColumnContainingTask(task) {
   for (const board of boardData.boards) {
@@ -27,7 +40,8 @@ function findColumnContainingTask(task) {
       }
     }
   }
-  return null
+  
+return null
 }
 
 // Function to find the board containing a task
@@ -39,7 +53,8 @@ function findBoardContainingTask(task) {
       }
     }
   }
-  return null
+  
+return null
 }
 
 addNewColumnButton.addEventListener('click', (e) => {
@@ -73,6 +88,7 @@ function deleteInput(button) {
 
 function deleteInput(inputElement) {
   const inputWrapper = inputElement.parentElement
+
   // Check if inputWrapper has children before accessing them
   if (inputWrapper.children.length > 1) {
     inputElement.remove()
@@ -214,6 +230,7 @@ editBoardButton.addEventListener('click', (e) => {
     modalInputs = errorMessage = null
 
     renderBoard(boardData.selectedBoard)
+
     // Close the modal
     closeModal('edit-board-modal')
   }
@@ -253,7 +270,7 @@ function editBoard(selectedBoardId, newBoardName, newColumnNames) {
       index < newColumnNames.length;
       index++
     ) {
-      const newColumn = { name: newColumnNames[index], tasks: [] }
+      const newColumn = { name: newColumnNames[index], tasks: [], statusColor: generateRandomColor() }
       boardData.boards[boardIndex].columns.push(newColumn)
     }
 
@@ -269,6 +286,7 @@ function editBoard(selectedBoardId, newBoardName, newColumnNames) {
         console.log('Deleted Column:', deletedColumn)
 
         renderBoard(boardData.selectedBoard)
+
         // Here you might want to delete tasks associated with the deleted column, etc.
       })
     }
@@ -314,6 +332,7 @@ function openModal(modalId) {
   console.log(modalId)
   modal = document.getElementById(modalId)
   console.log(modal)
+
   // Check if modalInputs and errorMessage are already collected
   if (modalInputs || errorMessage) {
     modalInputs = Array.from(modal.querySelectorAll('.modal-input'))
@@ -462,6 +481,7 @@ function deleteBoard(boardId) {
   )
   if (indexToDelete !== -1) {
     boardData.boards.splice(indexToDelete, 1)
+
     // You might also want to handle other related data structures or UI updates here
   }
 
@@ -519,6 +539,7 @@ createNewBoard.addEventListener('click', (e) => {
     modalInputs = errorMessage = null
 
     renderBoard(boardData.selectedBoard)
+
     // Close the modal
     closeModal('add-board-modal')
   }

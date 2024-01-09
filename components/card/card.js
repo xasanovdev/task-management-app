@@ -33,7 +33,6 @@ function cardJS() {
     return false
   }
 
-  makeMouseScrollable(document.querySelector('#playGround'))
   while (dragging) {
     isDragging = false
     startPosition = { x: 0, y: 0 }
@@ -145,7 +144,6 @@ function cardJS() {
 
     this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
 
-    makeMouseScrollable(playGround)
 
     const newColumn = document.querySelector('#newColumn')
     newColumn.style.height = `${findColumnWithLargestHeight().scrollHeight - 34}px`
@@ -228,7 +226,6 @@ function cardJS() {
     col.addEventListener('dragover', dragOverColumn, false)
     col.addEventListener('drop', dragDropColumn, false)
   })
-// make images Draggable <END>
 
   const cards = document.querySelectorAll('.card')
   cards.forEach((card) => {
