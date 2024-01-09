@@ -384,6 +384,8 @@ function renderBoard(boardId) {
   // Check if the board is found
   if (!board) {
     console.error(`Board with id ${boardId} not found.`)
+    playGround.innerHTML = ``
+    boardList.innerHTML = ``
     return
   }
 
@@ -432,7 +434,9 @@ function renderBoard(boardId) {
       }
     })
   }
-  cardJS()
+  window.addEventListener('DOMContentLoaded', () => {
+    cardJS()
+  })
 }
 
 function generateUniqueId() {
@@ -536,7 +540,7 @@ function deleteTask(taskId) {
 
   const task = document.getElementById(taskId)
   const column = task.closest('.column')
-  column.querySelector('.tasksNumber').innerHTML = `(${column.querySelectorAll('.card').length-1})`
+  column.querySelector('.tasksNumber').innerHTML = `(${column.querySelectorAll('.card').length - 1})`
   task.remove()
 
   closeModal('open-task-modal')

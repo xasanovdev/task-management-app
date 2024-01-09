@@ -443,6 +443,7 @@ function addNewBoard(boardName, boardColumns) {
     columns: boardColumns.map((columnName) => ({
       name: columnName,
       tasks: [],
+      statusColor: generateRandomColor()
     })),
   }
 
@@ -543,6 +544,7 @@ createNewBoard.addEventListener('click', (e) => {
 
 // closeModal function to close modals
 const closeModal = (modalId) => {
+// if ()
   modal = document.getElementById(modalId)
   if (modal) {
     modal.classList.add('hidden')
@@ -584,7 +586,7 @@ const closeModal = (modalId) => {
       }
     })
   }
-
+cardJS()
   modal = null
 }
 
