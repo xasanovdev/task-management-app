@@ -1046,7 +1046,7 @@ function fetchData() {
   try {
     const serializedData = localStorage.getItem('kanban')
     if (serializedData === null) {
-      return null
+      return Data
     }
     Data = JSON.parse(serializedData)
 
