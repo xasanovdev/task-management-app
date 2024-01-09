@@ -534,7 +534,10 @@ function deleteTask(taskId) {
   //   }
   // }
 
-  document.getElementById(taskId).remove()
+  const task = document.getElementById(taskId)
+  const column = task.closest('.column')
+  column.querySelector('.tasksNumber').innerHTML = `(${column.querySelectorAll('.card').length-1})`
+  task.remove()
 
   closeModal('open-task-modal')
   // Log a message if the task is not found (for debugging purposes)

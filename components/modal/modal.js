@@ -18,6 +18,21 @@ let errorMessage = null
 let selectedStatus = null
 let modal = null
 
+
+
+
+function generateRandomColor() {
+  const letters = '0123456789ABCDEF'
+  let color = '#'
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)]
+  }
+
+  return color
+}
+
+
+
 // Function to find the column containing a task
 function findColumnContainingTask(task) {
   for (const board of boardData.boards) {
@@ -253,7 +268,7 @@ function editBoard(selectedBoardId, newBoardName, newColumnNames) {
       index < newColumnNames.length;
       index++
     ) {
-      const newColumn = { name: newColumnNames[index], tasks: [] }
+      const newColumn = { name: newColumnNames[index], tasks: [], statusColor: generateRandomColor() }
       boardData.boards[boardIndex].columns.push(newColumn)
     }
 
