@@ -1,4 +1,4 @@
-let boardData = {
+let Data = {
   boards: [
     {
       id: '1',
@@ -353,6 +353,8 @@ function getBoardName(boardId) {
   currentBoard.textContent = selectedBoard?.name
 }
 
+
+const boardData = fetchData() || Data
 
 const playGround = document.querySelector('#playGround')
 
@@ -1027,11 +1029,13 @@ function replaceColumnsInSelectedBoardByIdInPlace(
 
 // LOCAL STORAGE
 
+
+
 function setData(data) {
   try {
     const serializedData = JSON.stringify(data)
-    boardData = data
     localStorage.setItem('kanban', serializedData)
+    Data = data
   } catch (error) {
     console.error('Error saving data to local storage:', error)
   }
@@ -1044,12 +1048,12 @@ function fetchData() {
     if (serializedData === null) {
       return null
     }
-    boardData = JSON.parse(serializedData)
+    Data = JSON.parse(serializedData)
+
     return JSON.parse(serializedData)
   } catch (error) {
     console.error('Error fetching data from local storage:', error)
 
-    boardData = JSON.parse(serializedData)
     return null
   }
 }
@@ -1062,9 +1066,10 @@ function saveDOM() {
     boardData,
     currentBoard,
     generateColumnDataFromDOM(),
-    setData(boardData),
   )
+  setData(boardData)
 }
+
 
 window.addEventListener('beforeunload', function(event) {
   saveDOM()
