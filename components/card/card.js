@@ -30,7 +30,6 @@ function cardJS() {
     return false
   }
 
-  makeMouseScrollable(document.querySelector('#playGround'))
   while (dragging) {
     isDragging = false
     startPosition = { x: 0, y: 0 }
@@ -139,7 +138,6 @@ function cardJS() {
     scrollLeft = 0
     scrollTop = 0
 
-    makeMouseScrollable(playGround)
 
 
     this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
