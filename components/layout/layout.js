@@ -1,4 +1,4 @@
-const Data = {
+let Data = {
   boards: [
     {
       id: '1',
@@ -6,6 +6,8 @@ const Data = {
       columns: [
         {
           name: 'Todo',
+          statusColor: '#452423',
+          status: 'Todo',
           tasks: [
             {
               id: '13ba62ad-8896-4951-b233-ab7439c0896c',
@@ -39,6 +41,8 @@ const Data = {
         },
         {
           name: 'Doing',
+          statusColor: '#998122',
+          status: 'Doing',
           tasks: [
             {
               id: '69eb5ce8-4720-441e-b7b4-0c1d8a59143d',
@@ -131,6 +135,8 @@ const Data = {
         },
         {
           name: 'Done',
+          statusColor: '#660421',
+          status: 'Done',
           tasks: [
             {
               id: 'c1af8e06-e7e8-49c7-9851-f7ea1fdb73b9',
@@ -241,6 +247,7 @@ const Data = {
       columns: [
         {
           name: 'Todo',
+          statusColor: '#444752',
           tasks: [
             {
               id: '2dbea4db-61c2-44bd-930c-d00e9f43e3fe',
@@ -281,8 +288,9 @@ const Data = {
             },
           ],
         },
-        { name: 'Doing', tasks: [] },
-        { name: 'Done', tasks: [] },
+        { name: 'Doing', tasks: [], statusColor: '#238798' },
+
+        { name: 'Done', tasks: [], statusColor: '#987311' },
       ],
     },
     {
@@ -291,6 +299,7 @@ const Data = {
       columns: [
         {
           name: 'Now',
+          statusColor: '#546878',
           tasks: [
             {
               id: 'ac713791-b937-440a-8caf-0b178fc45720',
@@ -328,17 +337,13 @@ const Data = {
             },
           ],
         },
-        { name: 'Next', tasks: [] },
-        { name: 'Later', tasks: [] },
       ],
     },
   ],
-  selectedBoard: 0,
+  selectedBoard: '1',
   selectedColumn: 0,
   selectedTask: 0,
 }
-
-setData(Data)
 
 const currentBoard = document.querySelector('.currentBoard')
 
@@ -347,8 +352,7 @@ function getBoardName(boardId) {
 
   currentBoard.textContent = selectedBoard?.name
 }
-
-const boardData = fetchData()
+const boardData = fetchData() || Data
 
 const playGround = document.querySelector('#playGround')
 
@@ -378,6 +382,8 @@ function renderBoard(boardId) {
   // Check if the board is found
   if (!board) {
     console.error(`Board with id ${boardId} not found.`)
+    playGround.innerHTML = ``
+    boardList.innerHTML = ``
     return
   }
 
@@ -426,7 +432,9 @@ function renderBoard(boardId) {
       }
     })
   }
-  cardJS()
+  window.addEventListener('DOMContentLoaded', () => {
+    cardJS()
+  })
 }
 
 function generateUniqueId() {
@@ -442,14 +450,6 @@ function generateStatusToDropdown(status) {
   </li>
   `
 }
-function generateRandomColor() {
-  const letters = '0123456789ABCDEF'
-  let color = '#'
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)]
-  }
-  return color
-}
 
 function generateTaskCard(task) {
   return `
@@ -457,7 +457,9 @@ function generateTaskCard(task) {
       id="${task.id}"
       modal-id="${task.id}"
       status="${task.status}"
-      class="card select-none toggle-modal-button bg-content-color w-280 h-fit py-6 px-4 rounded-lg font-bold shadow-sh-color shadow-sm hover:cursor-pointer hover:text-primary-color subpixel-antialiased"
+      class="${
+        task.status
+      } card select-none toggle-modal-button bg-content-color w-280 h-fit py-6 px-4 rounded-lg font-bold shadow-sh-color shadow-sm hover:cursor-pointer hover:text-primary-color subpixel-antialiased"
       onclick="openTaskModal('${task.id}')"
     >
     <span class="hidden task-description">${task.description}</span>
@@ -506,37 +508,16 @@ function openTaskModal(taskId) {
 }
 
 function deleteTask(taskId) {
-  // Find the board and column that contain the task
-  for (const board of boardData.boards) {
-    for (const column of board.columns) {
-      const taskIndex = column.tasks.findIndex((task) => task.id === taskId)
-      if (taskIndex !== -1) {
-        // Remove the task from the column
-        column.tasks.splice(taskIndex, 1)
+  const task = document.getElementById(taskId)
+  const column = task.closest('.column')
+  column.querySelector('.tasksNumber').innerHTML = `(${
+    column.querySelectorAll('.card').length - 1
+  })`
+  task.remove()
 
-        // If the column becomes empty, remove the column
-        if (column.tasks.length === 0) {
-          const columnIndex = board.columns.indexOf(column)
-          board.columns.splice(columnIndex, 1)
-        }
-
-        // If the board becomes empty, remove the board
-        if (board.columns.length === 0) {
-          const boardIndex = boardData.boards.indexOf(board)
-          boardData.boards.splice(boardIndex, 1)
-        }
-        closeModal('open-task-modal')
-
-        // Assuming you have a function to update the UI after deletion
-        renderBoard(renderBoard.selectedBoard)
-
-        // Exit the function once the task is deleted
-        return
-      }
-    }
-  }
-
+  closeModal('open-task-modal')
   // Log a message if the task is not found (for debugging purposes)
+  saveDOM()
   console.warn(`Task with ID ${taskId} not found.`)
 }
 
@@ -692,10 +673,50 @@ function updateTaskStatus(task, newStatus) {
       column.tasks.some((t) => t.subtasks[0].id === task.subtasks[0].id),
     )
 
+    console.log(column, 'column')
+
     if (column) {
       const taskToUpdate = column.tasks.find(
         (t) => t.subtasks[0].id === task.subtasks[0].id,
       )
+      console.log(taskToUpdate, 'taskToUpdate')
+
+      const boardToChange = boardData.boards.map((boards) => {
+        if (boards.id === board.id) {
+          const findIndexOfBoard = boardData.boards.findIndex(
+            (brd) => brd.id === board.id,
+          )
+
+          const findIndexOfColumn = boardData.boards[
+            findIndexOfBoard
+          ].columns.findIndex((clmn) => clmn.name === column.name)
+
+          const removeTaskFromColumn = boardData.boards[
+            findIndexOfBoard
+          ].columns[findIndexOfColumn].tasks.findIndex(
+            (tsk) => tsk.id === taskToUpdate.id,
+          )
+
+          const addTaskToColumn = boardData.boards[
+            findIndexOfBoard
+          ].columns.findIndex((column) => column.name === newStatus)
+          console.log(addTaskToColumn)
+          if (removeTaskFromColumn !== -1) {
+            boardData.boards[findIndexOfBoard].columns[
+              findIndexOfColumn
+            ].tasks.splice(removeTaskFromColumn, 1)
+            console.log(`Task removed successfully.`, boardData)
+          } else {
+            console.log(`Task is not found.`)
+          }
+
+          boardData.boards[findIndexOfBoard].columns[
+            addTaskToColumn
+          ].tasks.unshift(taskToUpdate)
+         
+          renderBoard(boardData.selectedBoard)
+        }
+      })
 
       if (taskToUpdate) {
         console.log(
@@ -707,9 +728,17 @@ function updateTaskStatus(task, newStatus) {
   }
 
   // Log the current state of the boardData for debugging
-  console.log('Updated boardData:', boardData)
 
   // Render the updated board
+}
+
+function removeTaskFromColumn(indexOfTask) {
+  if (indexOfTask !== -1) {
+    complexJsonObject.projects.splice(indexOfTask, 1)
+    console.log(`Project with title '${title}' removed successfully.`)
+  } else {
+    console.log(`Project with title '${title}' not found.`)
+  }
 }
 
 function toggleSubtaskCompleted(subtaskId) {
@@ -760,7 +789,7 @@ function toggleSubtaskCompleted(subtaskId) {
   updateSubtaskUI(subtask)
 
   // Render the board to reflect the changes
-  renderBoard(boardData.selectedBoard)
+  renderBoard(fetchData().selectedBoard)
 }
 
 // Function to find the task containing a subtask
@@ -806,7 +835,6 @@ function updateSubtaskUI(subtask) {
   if (checkbox) {
     checkbox.checked = subtask.isCompleted
   }
-
   // You can add additional UI updates here as needed
 }
 
@@ -868,13 +896,14 @@ function generateSubtaskItem(subtask) {
 
 function generateColumn(column) {
   const tasksHtml = column.tasks.map((task) => generateTaskCard(task)).join('')
+
   return `
-    <div class="column w-[280px] relative h-full text-color flex flex-col items-start gap-5">
+    <div id="${column.name}" class="column relative h-full text-color flex flex-col items-start w-280 gap-5 overflow-visible">
       <h3 class="column__header text-[#828fa3] flex items-center gap-3">
-        <span class="w-4 h-4 bg-[#e3e3e3] rounded-full"></span>
-        <span class="tracking-widest text-sm font-bold column-name">${
-          column.name
-        } (${column.tasks.length})</span>
+        <span style="background-color: ${column.statusColor}; border-radius: 50%" class="w-4 h-4 rounded-ful status-color"></span>
+        <span class="tracking-widest text-sm font-bold column-name">${column.name} 
+        </span>
+        <span class="tasksNumber text-sm font-bold">(${column.tasks.length})</span>
       </h3>
         ${tasksHtml}
     </div>
@@ -883,7 +912,7 @@ function generateColumn(column) {
 
 function generateKanbanBoardName(board) {
   return `
-    <li>
+    <li board-id="${board.id}" board-name="${board.name}">
       <button 
         data-board-id="${board.id}"
         class="btn board__link w-full flex items-center gap-4 text-[#828fa3] rounded-r-full text-left font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[15px] focus:outline-none hover:bg-btn-hover-color hover:text-primary-color md:mr-6 p-[10px] md:py-4 px-6"
@@ -905,6 +934,7 @@ function generateKanbanBoardNames(boardData) {
 function generateKanbanBoard(board) {
   if (!board || !board.columns) {
     console.error('Invalid board data:', board)
+
     return '' // Return an empty string or handle the error appropriately
   }
 
@@ -924,7 +954,7 @@ boardList.addEventListener('click', (event) => {
 boardList.innerHTML = generateKanbanBoardNames(boardData)
 
 if (boardData && boardData.boards.length > 0) {
-  const initialBoardId = boardData.boards[0].id
+  const initialBoardId = boardData.selectedBoard
   renderBoard(initialBoardId)
 }
 
@@ -975,9 +1005,12 @@ function generateColumnDataFromDOM() {
     .querySelectorAll('.column')
     .forEach((columnElement, columnIndex) => {
       const column = {
-        name: columnElement.querySelector('.column-name').textContent,
+        name: columnElement.getAttribute('id'),
         tasks: [],
+        statusColor:
+          columnElement.querySelector('.status-color').style.backgroundColor,
       }
+      console.log(column)
 
       // Iterate through each task in the column
       columnElement
@@ -1019,23 +1052,30 @@ function replaceColumnsInSelectedBoardByIdInPlace(
 
 // LOCAL STORAGE
 
-function fetchData() {
+function setData(data) {
   try {
-    const jsonData = localStorage.getItem('kanban')
-    return jsonData ? JSON.parse(jsonData) : null
+    const serializedData = JSON.stringify(data)
+    localStorage.setItem('kanban', serializedData)
+    Data = data
   } catch (error) {
-    console.error('Error fetching data from localStorage:', error)
-    return null
+    console.error('Error saving data to local storage:', error)
   }
 }
 
-function setData(data) {
+// Function to fetch data from local storage
+function fetchData() {
   try {
-    const jsonData = JSON.stringify(data)
-    localStorage.setItem('kanban', jsonData)
-    console.log('Data successfully set in localStorage.')
+    const serializedData = localStorage.getItem('kanban')
+    if (serializedData === null) {
+      return Data
+    }
+    Data = JSON.parse(serializedData)
+
+    return JSON.parse(serializedData)
   } catch (error) {
-    console.error('Error setting data in localStorage:', error)
+    console.error('Error fetching data from local storage:', error)
+
+    return null
   }
 }
 
@@ -1050,3 +1090,8 @@ function saveDOM() {
   )
   setData(boardData)
 }
+
+window.addEventListener('beforeunload', function (event) {
+  boardData.selectedBoard = playGround.getAttribute('board-id')
+  saveDOM()
+})

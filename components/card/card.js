@@ -12,12 +12,12 @@ function cardJS() {
   let dragSrcEl
 
 
-  const newColumn = document.querySelector('#newColumn')
-  const columns = document.querySelectorAll('.column')
+  const newColumn = document?.querySelector('#newColumn')
+  const columns = document?.querySelectorAll('.column')
   const theColumn = getColumnWithMostChildNodes(columns)
-  newColumn.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn.querySelectorAll('.card').length * 5}px`
+  newColumn.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn?.querySelectorAll('.card').length * 5}px`
   columns.forEach(col => {
-    col.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn.querySelectorAll('.card').length * 5}px`
+    col.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn?.querySelectorAll('.card').length * 5}px`
   })
 
   function isBefore(el1, el2) {
@@ -30,7 +30,6 @@ function cardJS() {
     return false
   }
 
-  makeMouseScrollable(document.querySelector('#playGround'))
   while (dragging) {
     isDragging = false
     startPosition = { x: 0, y: 0 }
@@ -61,6 +60,8 @@ function cardJS() {
 
     startedColumn = this.closest('.column')
 
+
+    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
     // e.dataTransfer.setData('taskId', this.id)
     // e.dataTransfer.setData('completed', this.getAttribute('data-completed'))
 
@@ -114,6 +115,9 @@ function cardJS() {
       this.classList.remove('dragover')
     }
 
+
+    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
+
     isDragging = false
     startPosition = { x: 0, y: 0 }
     scrollLeft = 0
@@ -134,7 +138,9 @@ function cardJS() {
     scrollLeft = 0
     scrollTop = 0
 
-    makeMouseScrollable(playGround)
+
+
+    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
 
     const newColumn = document.querySelector('#newColumn')
     newColumn.style.height = `${findColumnWithLargestHeight().scrollHeight - 34}px`
@@ -147,6 +153,9 @@ function cardJS() {
     header.scrollIntoView({ behavior: 'smooth', block: 'end' })
 
     droppedColumn = this.closest('.column')
+
+
+    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
 
     isDragging = false
     startPosition = { x: 0, y: 0 }
@@ -323,13 +332,13 @@ function cardJS() {
 
   function calculateSumOfCardHeights(column) {
     // Get all elements with the class "card"
-    const cards = column.querySelectorAll('.card')
+    const cards = column?.querySelectorAll('.card')
 
     // Initialize variable to store the sum of heights
     let sumOfHeights = 0
 
     // Iterate through each card
-    cards.forEach((card) => {
+    cards?.forEach((card) => {
       // Add the height of the current card to the sum
       sumOfHeights += card.clientHeight
     })

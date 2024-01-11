@@ -18,6 +18,16 @@ let errorMessage = null
 let selectedStatus = null
 let modal = null
 
+function generateRandomColor() {
+  const letters = '0123456789ABCDEF'
+  let color = '#'
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)]
+  }
+
+  return color
+}
+
 // Function to find the column containing a task
 function findColumnContainingTask(task) {
   for (const board of boardData.boards) {
@@ -253,7 +263,11 @@ function editBoard(selectedBoardId, newBoardName, newColumnNames) {
       index < newColumnNames.length;
       index++
     ) {
-      const newColumn = { name: newColumnNames[index], tasks: [] }
+      const newColumn = {
+        name: newColumnNames[index],
+        tasks: [],
+        statusColor: generateRandomColor(),
+      }
       boardData.boards[boardIndex].columns.push(newColumn)
     }
 
@@ -428,6 +442,7 @@ function addNewBoard(boardName, boardColumns) {
     columns: boardColumns.map((columnName) => ({
       name: columnName,
       tasks: [],
+      statusColor: generateRandomColor(),
     })),
   }
 
@@ -439,6 +454,7 @@ function addNewBoard(boardName, boardColumns) {
   closeModal('add-new-board')
   renderBoard(boardData.selectedBoard) // Call renderBoard after adding a new board
 }
+
 const cancelButton = document.querySelector('.cancel')
 
 cancelButton.addEventListener('click', (e) => {
@@ -464,15 +480,9 @@ function deleteBoard(boardId) {
   )
   if (indexToDelete !== -1) {
     boardData.boards.splice(indexToDelete, 1)
-    // You might also want to handle other related data structures or UI updates here
   }
-
-  // Update your UI or trigger any necessary updates
-  renderBoard(boardData.selectedBoard) // Call renderBoard after deleting a board
+  renderBoard(boardData.boards[indexToDelete]?.id) // Call renderBoard after deleting a board
 }
-
-// Example usage when deleting a board (replace 'boardIdToDelete' with the actual ID):
-// deleteBoard('boardIdToDelete');
 
 createNewBoard.addEventListener('click', (e) => {
   e.preventDefault()
@@ -516,6 +526,9 @@ createNewBoard.addEventListener('click', (e) => {
       boardNameInput.value,
       modalInputs.slice(1).map((input) => input.value),
     )
+    if (addNewBoard) {
+      boardNameInput.value = ''
+    }
 
     // Reset modalInputs and errorMessage
     modalInputs = errorMessage = null
@@ -528,6 +541,7 @@ createNewBoard.addEventListener('click', (e) => {
 
 // closeModal function to close modals
 const closeModal = (modalId) => {
+  // if ()
   modal = document.getElementById(modalId)
   if (modal) {
     modal.classList.add('hidden')
@@ -570,6 +584,7 @@ const closeModal = (modalId) => {
     })
   }
 
+  cardJS()
   modal = null
 }
 
@@ -703,15 +718,19 @@ function addNewTask(taskName, taskDescription, taskSubtasks, status) {
       isCompleted: false,
     })),
   }
-  const board = boardData.boards.find(
-    (board) => board.id === boardData.selectedBoard,
-  )
 
-  board.columns.forEach((column) => {
-    if (column.name === status) {
-      column.tasks.push(newTask)
-    }
-  })
+  document.querySelector(`#${status}`).innerHTML += generateTaskCard(newTask)
+  saveDOM()
 
-  renderBoard(boardData.selectedBoard)
+  // const board = boardData.boards.find(
+  //   (board) => board.id === boardData.selectedBoard,
+  // )
+  //
+  // board.columns.forEach((column) => {
+  //   if (column.name === status) {
+  //     column.tasks.push(newTask)
+  //   }
+  // })
+  //
+  // renderBoard(boardData.selectedBoard)
 }
