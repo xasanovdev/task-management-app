@@ -18,7 +18,6 @@ let errorMessage = null
 let selectedStatus = null
 let modal = null
 
-
 function generateRandomColor() {
   const letters = '0123456789ABCDEF'
   let color = '#'
@@ -28,7 +27,6 @@ function generateRandomColor() {
 
   return color
 }
-
 
 // Function to find the column containing a task
 function findColumnContainingTask(task) {
@@ -265,7 +263,11 @@ function editBoard(selectedBoardId, newBoardName, newColumnNames) {
       index < newColumnNames.length;
       index++
     ) {
-      const newColumn = { name: newColumnNames[index], tasks: [], statusColor: generateRandomColor() }
+      const newColumn = {
+        name: newColumnNames[index],
+        tasks: [],
+        statusColor: generateRandomColor(),
+      }
       boardData.boards[boardIndex].columns.push(newColumn)
     }
 
@@ -276,7 +278,7 @@ function editBoard(selectedBoardId, newBoardName, newColumnNames) {
         // Your logic to handle deleted columns
         boardData.boards[boardIndex].columns = boardData.boards[
           boardIndex
-          ].columns.filter((column) => column !== deletedColumn)
+        ].columns.filter((column) => column !== deletedColumn)
 
         console.log('Deleted Column:', deletedColumn)
 
@@ -478,15 +480,9 @@ function deleteBoard(boardId) {
   )
   if (indexToDelete !== -1) {
     boardData.boards.splice(indexToDelete, 1)
-    // You might also want to handle other related data structures or UI updates here
   }
-
-  renderBoard(boardData.boards[indexToDelete].id) // Call renderBoard after deleting a board
-  // Update your UI or trigger any necessary updates
+  renderBoard(boardData.boards[indexToDelete]?.id) // Call renderBoard after deleting a board
 }
-
-// Example usage when deleting a board (replace 'boardIdToDelete' with the actual ID):
-// deleteBoard('boardIdToDelete');
 
 createNewBoard.addEventListener('click', (e) => {
   e.preventDefault()
@@ -530,6 +526,9 @@ createNewBoard.addEventListener('click', (e) => {
       boardNameInput.value,
       modalInputs.slice(1).map((input) => input.value),
     )
+    if (addNewBoard) {
+      boardNameInput.value = ''
+    }
 
     // Reset modalInputs and errorMessage
     modalInputs = errorMessage = null
@@ -542,7 +541,7 @@ createNewBoard.addEventListener('click', (e) => {
 
 // closeModal function to close modals
 const closeModal = (modalId) => {
-// if ()
+  // if ()
   modal = document.getElementById(modalId)
   if (modal) {
     modal.classList.add('hidden')
@@ -575,7 +574,7 @@ const closeModal = (modalId) => {
     })
 
     // Add a click event listener to close the dropdown-menu when clicking outside
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
       if (
         !selectBtn.contains(event.target) &&
         !optionMenu.contains(event.target)

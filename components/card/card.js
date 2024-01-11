@@ -12,12 +12,12 @@ function cardJS() {
   let dragSrcEl
 
 
-  const newColumn = document.querySelector('#newColumn')
-  const columns = document.querySelectorAll('.column')
+  const newColumn = document?.querySelector('#newColumn')
+  const columns = document?.querySelectorAll('.column')
   const theColumn = getColumnWithMostChildNodes(columns)
-  newColumn.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn.querySelectorAll('.card').length * 5}px`
+  newColumn.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn?.querySelectorAll('.card').length * 5}px`
   columns.forEach(col => {
-    col.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn.querySelectorAll('.card').length * 5}px`
+    col.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn?.querySelectorAll('.card').length * 5}px`
   })
 
   function isBefore(el1, el2) {
@@ -332,13 +332,13 @@ function cardJS() {
 
   function calculateSumOfCardHeights(column) {
     // Get all elements with the class "card"
-    const cards = column.querySelectorAll('.card')
+    const cards = column?.querySelectorAll('.card')
 
     // Initialize variable to store the sum of heights
     let sumOfHeights = 0
 
     // Iterate through each card
-    cards.forEach((card) => {
+    cards?.forEach((card) => {
       // Add the height of the current card to the sum
       sumOfHeights += card.clientHeight
     })
