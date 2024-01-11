@@ -466,7 +466,7 @@ function generateTaskCard(task) {
     <span class="hidden subtasks-json">${JSON.stringify(task.subtasks)}</span>
       <p class="card__title text-color capitalize">${task.title}</p>
       <p class="card__status text-slate-500">${
-    task.subtasks.filter((subtask) => !subtask.isCompleted).length
+    task.subtasks.filter((subtask) => subtask.isCompleted).length
   } of ${task.subtasks.length} substasks</p>
     </div>
   `
@@ -592,6 +592,8 @@ function saveChanges(task) {
 }
 
 function generateTaskModal(task, dropdownElement, statusValues) {
+  
+  console.log(dropdownElement, 'dropdown')
   // Extract task details
   const taskName = task.title
   const taskDescription = task.description || 'No description available'
@@ -689,6 +691,7 @@ function generateTaskModal(task, dropdownElement, statusValues) {
 }
 
 function updateTaskStatus(task, newStatus) {
+  console.log(task , newStatus , '=========================>>>>>>>>>>>>>>' )
   // Update the task status in boardData
   const board = boardData.boards.find((board) =>
     board.columns
