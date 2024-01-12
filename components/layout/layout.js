@@ -493,6 +493,7 @@ function openTaskModal(taskId) {
   // Open the modal with the task data
   if (task) {
     // Generate the modal HTML
+    console.log(task);
     const modalHtml = generateTaskModal(task, dropdownElement, statusValues)
 
     // Open the modal with the generated HTML
@@ -713,7 +714,7 @@ function updateTaskStatus(task, newStatus) {
           boardData.boards[findIndexOfBoard].columns[
             addTaskToColumn
           ].tasks.unshift(taskToUpdate)
-         
+
           renderBoard(boardData.selectedBoard)
         }
       })
@@ -926,9 +927,11 @@ function generateKanbanBoardName(board) {
 }
 
 function generateKanbanBoardNames(boardData) {
-  return boardData.boards
-    .map((board) => generateKanbanBoardName(board))
-    .join('')
+  return boardData.boards.length > 0
+    ? boardData.boards.map((board) => generateKanbanBoardName(board)).join('')
+    : `<div class="flex w-full h-full justify-center items-center">
+        <p class="text-color text-2xl font-mono">Create new board</p>
+      </div>`
 }
 
 function generateKanbanBoard(board) {

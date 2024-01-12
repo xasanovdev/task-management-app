@@ -1,6 +1,9 @@
 .dropdown-menu.active .dropdown-options {
   display: block;
 }
+.dropdown-options {
+  display: block;
+}
 
 .dropdown-btn .dropdown-sign svg {
   transition: all 0.3s ease-in;

@@ -1,18 +1,22 @@
 function setupDropdown(optionMenu, task) {
   const selectBtn = optionMenu.querySelector('.dropdown-btn')
-  const options = optionMenu.querySelectorAll('.dropdown-option')
+  const options = Array.from(optionMenu.querySelectorAll('.dropdown-option'))
+  const dropdownOptions = optionMenu.querySelector('.dropdown-options')
   const sBtnText = optionMenu.querySelector('.dBtn-text')
-
+  console.log('optionMenu', optionMenu);
+  
   selectBtn.addEventListener('click', () => {
+    dropdownOptions.classList.toggle('hidden')
     optionMenu.classList.toggle('active')
   })
 
   options.forEach((option) => {
     option.addEventListener('click', () => {
+      console.log(option);
       const selectedOption = option.querySelector('.option-text').innerText
       sBtnText.innerText = selectedOption
       optionMenu.classList.remove('active')
-      console.log(selectedOption);
+      console.log(selectedOption)
       // Update task status and move to the corresponding column
       updateTaskStatus(task, selectedOption)
 
