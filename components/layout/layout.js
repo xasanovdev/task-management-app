@@ -988,7 +988,7 @@ function createNewColumnElement() {
   // Set class attribute
   divElement.setAttribute(
     'class',
-    'toggle-modal-button w-280 new-column h-fit mt-10 flex rounded-md bg-gradient-primary cursor-pointer items-center content-center overflow-visible mb-48 bg-gradient-to-br from-[#995eb40a] to-[#723b8883]',
+    'toggle-modal-button w-280 new-column flex rounded-md bg-gradient-primary cursor-pointer items-center overflow-visible bg-gradient-to-br from-[#995eb40a] to-[#723b8883]',
   )
 
   // Set id attributeadd

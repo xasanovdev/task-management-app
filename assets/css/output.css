@@ -1392,7 +1392,7 @@ body.active {
 
 #newColumn {
   justify-content: center;
-  min-height: 200px;
+  height: 100%;
 }
 
 .column{
