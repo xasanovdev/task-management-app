@@ -358,7 +358,27 @@ const playGround = document.querySelector('#playGround')
 
 const boardList = document.querySelector('.board-list')
 
+const deleteBoardOpen = document.querySelector('.delete-board')
+const deleteBoardButton = document.querySelector('.delete-button')
+
+deleteBoardButton.addEventListener('click', (e) => {
+  e.preventDefault()
+  deleteBoard(boardData.selectedBoard)
+  closeModal('delete-board-modal')
+})
+if (boardData.boards.length === 0) {
+  deleteBoardOpen.classList.add('hidden')
+} else {
+  deleteBoardOpen.classList.remove('hidden')
+}
+
 function renderBoard(boardId) {
+  if (boardData.boards.length === 0) {
+    deleteBoardOpen.classList.add('hidden')
+  } else {
+    deleteBoardOpen.classList.remove('hidden')
+  }
+
   const numberOfCreatedBoards = document.querySelector('.numberOfCreatedBoards')
   numberOfCreatedBoards.textContent = `All boards (${boardData.boards.length})`
 
@@ -493,7 +513,7 @@ function openTaskModal(taskId) {
   // Open the modal with the task data
   if (task) {
     // Generate the modal HTML
-    console.log(task);
+    console.log(task)
     const modalHtml = generateTaskModal(task, dropdownElement, statusValues)
 
     // Open the modal with the generated HTML

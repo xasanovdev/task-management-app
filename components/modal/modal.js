@@ -325,6 +325,13 @@ function fillEditBoardModal() {
 }
 
 function openModal(modalId) {
+  if (modalId === 'add-task-modal') {
+    if (boardData.boards.length === 0) {
+      alert('Please create a board first.')
+      return
+    }
+  }
+
   console.log(modalId)
   modal = document.getElementById(modalId)
   sidebar.classList.remove('active')
@@ -462,14 +469,7 @@ cancelButton.addEventListener('click', (e) => {
   closeModal('delete-board-modal')
 })
 
-const deleteBoardOpen = document.querySelector('.delete-board')
-const deleteBoardButton = document.querySelector('.delete-button')
 
-deleteBoardButton.addEventListener('click', (e) => {
-  e.preventDefault()
-  deleteBoard(boardData.selectedBoard)
-  closeModal('delete-board-modal')
-})
 
 // Assume you have a function to delete a board by ID
 function deleteBoard(boardId) {

@@ -3,8 +3,8 @@ function setupDropdown(optionMenu, task) {
   const options = Array.from(optionMenu.querySelectorAll('.dropdown-option'))
   const dropdownOptions = optionMenu.querySelector('.dropdown-options')
   const sBtnText = optionMenu.querySelector('.dBtn-text')
-  console.log('optionMenu', optionMenu);
-  
+  console.log('optionMenu', optionMenu)
+
   selectBtn.addEventListener('click', () => {
     dropdownOptions.classList.toggle('hidden')
     optionMenu.classList.toggle('active')
@@ -12,7 +12,7 @@ function setupDropdown(optionMenu, task) {
 
   options.forEach((option) => {
     option.addEventListener('click', () => {
-      console.log(option);
+      console.log(option)
       const selectedOption = option.querySelector('.option-text').innerText
       sBtnText.innerText = selectedOption
       optionMenu.classList.remove('active')
