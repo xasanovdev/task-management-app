@@ -356,11 +356,13 @@ function openModal(modalId) {
     dropdownElement.innerHTML = dropdownOptions.join('')
   }
   if (modalId === 'add-task-modal') {
+    console.log(dropdownElement);
     const optionMenu = document.querySelector('.dropdown-menu')
     const selectBtn = optionMenu.querySelector('.dropdown-btn')
     const options = optionMenu.querySelectorAll('.dropdown-option')
     const sBtnText = optionMenu.querySelector('.dBtn-text')
     selectBtn.addEventListener('click', () => {
+      dropdownElement.classList.toggle('hidden')
       optionMenu.classList.toggle('active')
     })
 
@@ -371,6 +373,7 @@ function openModal(modalId) {
         statusColumn = selectedOption
         selectedStatus = selectedOption
         optionMenu.classList.remove('active')
+        dropdownElement.classList.add('hidden')
       })
     })
     document.querySelectorAll('.dropdown-option').forEach((el) => {
@@ -468,8 +471,6 @@ cancelButton.addEventListener('click', (e) => {
   e.preventDefault()
   closeModal('delete-board-modal')
 })
-
-
 
 // Assume you have a function to delete a board by ID
 function deleteBoard(boardId) {
