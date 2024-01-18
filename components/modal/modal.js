@@ -325,7 +325,7 @@ function fillEditBoardModal() {
 }
 
 function openModal(modalId) {
-  if (modalId === 'add-task-modal') {
+  if (modalId === 'add-task-modal' || modalId === 'delete-board-modal') {
     if (boardData.boards.length === 0) {
       alert('Please create a board first.')
       return
@@ -347,6 +347,7 @@ function openModal(modalId) {
           .querySelector('.board__link.active')
           .getAttribute('data-board-id'),
       )
+      closeModal('delete-board-modal')
     })
   })
   console.log(modalId)
@@ -596,7 +597,7 @@ const closeModal = (modalId) => {
     })
 
     // Add a click event listener to close the dropdown-menu when clicking outside
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
       if (
         !selectBtn.contains(event.target) &&
         !optionMenu.contains(event.target)
