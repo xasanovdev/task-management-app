@@ -332,6 +332,13 @@ function openModal(modalId) {
     }
   }
 
+  const addNewTaskColumnName = document.querySelector(
+    '.add-new-task-columnName',
+  )
+
+  addNewTaskColumnName.innerHTML =
+    document.querySelector('.column-name').textContent
+
   console.log(modalId)
   modal = document.getElementById(modalId)
   sidebar.classList.remove('active')
@@ -356,7 +363,7 @@ function openModal(modalId) {
     dropdownElement.innerHTML = dropdownOptions.join('')
   }
   if (modalId === 'add-task-modal') {
-    console.log(dropdownElement);
+    console.log(dropdownElement)
     const optionMenu = document.querySelector('.dropdown-menu')
     const selectBtn = optionMenu.querySelector('.dropdown-btn')
     const options = optionMenu.querySelectorAll('.dropdown-option')
@@ -575,7 +582,7 @@ const closeModal = (modalId) => {
     })
 
     // Add a click event listener to close the dropdown-menu when clicking outside
-    document.addEventListener('click', function (event) {
+    document.addEventListener('click', function(event) {
       if (
         !selectBtn.contains(event.target) &&
         !optionMenu.contains(event.target)
