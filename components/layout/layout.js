@@ -351,6 +351,7 @@ function getBoardName(boardId) {
   const selectedBoard = boardData.boards.find((board) => board.id === boardId)
 
   currentBoard.textContent = selectedBoard?.name
+  console.log('current boarddd: ', currentBoard)
 }
 const boardData = fetchData() || Data
 
@@ -376,10 +377,11 @@ function renderBoard(boardId) {
   }
   // Find the board by ID
   const board = boardData.boards.find((board) => board.id === boardId)
+  console.log('boardID: ', boardId)
 
   boardData.selectedBoard = boardId
 
-  // Check if the board is found
+  // Check if the board is NOT found
   if (!board) {
     console.error(`Board with id ${boardId} not found.`)
     playGround.innerHTML = ``
@@ -407,6 +409,7 @@ function renderBoard(boardId) {
 
     // Update the selected board in boardData
     boardData.selectedBoard = board.id
+    console.log('update selected board to: ', board)
     boardData.selectedColumn = board.columns[0]
     // Highlight the active link in the board list
 
@@ -713,7 +716,7 @@ function updateTaskStatus(task, newStatus) {
           boardData.boards[findIndexOfBoard].columns[
             addTaskToColumn
           ].tasks.unshift(taskToUpdate)
-         
+
           renderBoard(boardData.selectedBoard)
         }
       })
@@ -948,6 +951,7 @@ boardList.addEventListener('click', (event) => {
   if (targetLink) {
     const boardId = targetLink.getAttribute('data-board-id')
     renderBoard(boardId)
+    boardId = boardData.selectedBoard
   }
 })
 
