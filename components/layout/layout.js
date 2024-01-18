@@ -448,9 +448,7 @@ function renderBoard(boardId) {
       }
     })
   }
-  window.addEventListener('DOMContentLoaded', () => {
-    cardJS()
-  })
+  cardJS()
 }
 
 function generateUniqueId() {
