@@ -330,9 +330,7 @@ function openModal(modalId) {
       alert('Please create a board first.')
       return
     }
-  }
 
-  if (modalId === 'add-task-modal') {
     const addNewTaskColumnName = document.querySelector(
       '.add-new-task-columnName',
     )
@@ -341,6 +339,16 @@ function openModal(modalId) {
     addNewTaskColumnName.innerHTML =
       document.querySelector('.column-name').textContent
   }
+
+  document.querySelectorAll('.delete-button').forEach((el) => {
+    el.addEventListener('click', () => {
+      deleteBoard(
+        document
+          .querySelector('.board__link.active')
+          .getAttribute('data-board-id'),
+      )
+    })
+  })
   console.log(modalId)
   modal = document.getElementById(modalId)
   sidebar.classList.remove('active')
@@ -468,6 +476,7 @@ function addNewBoard(boardName, boardColumns) {
   // Add the new board to your application or perform any necessary actions
   // For example, you might have an array of boards:
   boardData.boards.push(newBoard)
+  boardData.selectedBoard = newBoard.id
 
   // Update your UI or trigger any necessary updates
   closeModal('add-new-board')
@@ -485,12 +494,15 @@ cancelButton.addEventListener('click', (e) => {
 function deleteBoard(boardId) {
   // Implement your logic to delete the board by ID
   // For example:
+  console.log('boardID to delete: ', boardId)
   const indexToDelete = boardData.boards.findIndex(
     (board) => board.id === boardId,
   )
   if (indexToDelete !== -1) {
     boardData.boards.splice(indexToDelete, 1)
   }
+  boardData.selectedBoard = indexToDelete.id
+  console.log(indexToDelete.id)
   renderBoard(boardData.boards[indexToDelete]?.id) // Call renderBoard after deleting a board
 }
 
@@ -584,7 +596,7 @@ const closeModal = (modalId) => {
     })
 
     // Add a click event listener to close the dropdown-menu when clicking outside
-    document.addEventListener('click', function (event) {
+    document.addEventListener('click', function(event) {
       if (
         !selectBtn.contains(event.target) &&
         !optionMenu.contains(event.target)
