@@ -10,9 +10,10 @@ function setupDropdown(optionMenu, task) {
   options.forEach((option) => {
     option.addEventListener('click', () => {
       const selectedOption = option.querySelector('.option-text').innerText
+      console.log('selectedOption: ', selectedOption)
       sBtnText.innerText = selectedOption
       optionMenu.classList.remove('active')
-      console.log(selectedOption);
+      console.log(selectedOption)
       // Update task status and move to the corresponding column
       updateTaskStatus(task, selectedOption)
 
