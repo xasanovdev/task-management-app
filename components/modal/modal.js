@@ -325,6 +325,13 @@ function fillEditBoardModal() {
 }
 
 function openModal(modalId) {
+  if (modalId === 'add-task-modal') {
+    if (boardData.boards.length === 0) {
+      alert('Please create a board first.')
+      return
+    }
+  }
+
   console.log(modalId)
   modal = document.getElementById(modalId)
   sidebar.classList.remove('active')
@@ -349,11 +356,13 @@ function openModal(modalId) {
     dropdownElement.innerHTML = dropdownOptions.join('')
   }
   if (modalId === 'add-task-modal') {
+    console.log(dropdownElement);
     const optionMenu = document.querySelector('.dropdown-menu')
     const selectBtn = optionMenu.querySelector('.dropdown-btn')
     const options = optionMenu.querySelectorAll('.dropdown-option')
     const sBtnText = optionMenu.querySelector('.dBtn-text')
     selectBtn.addEventListener('click', () => {
+      dropdownElement.classList.toggle('hidden')
       optionMenu.classList.toggle('active')
     })
 
@@ -364,6 +373,7 @@ function openModal(modalId) {
         statusColumn = selectedOption
         selectedStatus = selectedOption
         optionMenu.classList.remove('active')
+        dropdownElement.classList.add('hidden')
       })
     })
     document.querySelectorAll('.dropdown-option').forEach((el) => {
@@ -459,15 +469,6 @@ const cancelButton = document.querySelector('.cancel')
 
 cancelButton.addEventListener('click', (e) => {
   e.preventDefault()
-  closeModal('delete-board-modal')
-})
-
-const deleteBoardOpen = document.querySelector('.delete-board')
-const deleteBoardButton = document.querySelector('.delete-button')
-
-deleteBoardButton.addEventListener('click', (e) => {
-  e.preventDefault()
-  deleteBoard(boardData.selectedBoard)
   closeModal('delete-board-modal')
 })
 
