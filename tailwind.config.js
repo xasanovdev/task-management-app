@@ -22,7 +22,8 @@ module.exports = {
         280: '280px',
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(180deg, var(--gradient-f) 0%, var(--gradient-t) 100%)',
+        'gradient-primary':
+          'linear-gradient(180deg, var(--gradient-f) 0%, var(--gradient-t) 100%)',
       },
     },
   },
