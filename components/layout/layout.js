@@ -359,6 +359,8 @@ const playGround = document.querySelector('#playGround')
 
 const boardList = document.querySelector('.board-list')
 
+const board_Links = document.querySelectorAll('.board__link')
+
 function renderBoard(boardId) {
   const numberOfCreatedBoards = document.querySelector('.numberOfCreatedBoards')
   numberOfCreatedBoards.textContent = `All boards (${boardData.boards.length})`
@@ -430,8 +432,19 @@ function renderBoard(boardId) {
 
     boardLinks.forEach((link) => {
       link.classList.remove('active')
+      link.addEventListener('click', (event) => {
+        event.preventDefault()
+        const boardId = link.getAttribute('data-board-id')
+        console.log(boardId)
+        renderBoard(boardId)
+        boardData.selectedBoard = boardId
+        console.log(boardData.selectedBoard)
+        saveDOM()
+      })
+
       if (link.getAttribute('data-board-id') === board.id) {
         link.classList.add('active')
+        boardId = board.id
       }
     })
   }
@@ -460,17 +473,15 @@ function generateTaskCard(task) {
       id="${task.id}"
       modal-id="${task.id}"
       status="${task.status}"
-      class="${
-        task.status
-      } card select-none toggle-modal-button bg-content-color w-280 h-fit py-6 px-4 rounded-lg font-bold shadow-sh-color shadow-sm hover:cursor-pointer hover:text-primary-color subpixel-antialiased"
+      class="${task.status
+    } card select-none toggle-modal-button bg-content-color w-280 h-fit py-6 px-4 rounded-lg font-bold shadow-sh-color shadow-sm hover:cursor-pointer hover:text-primary-color subpixel-antialiased"
       onclick="openTaskModal('${task.id}')"
     >
     <span class="hidden task-description">${task.description}</span>
     <span class="hidden subtasks-json">${JSON.stringify(task.subtasks)}</span>
       <p class="card__title text-color capitalize">${task.title}</p>
-      <p class="card__status text-slate-500">${
-        task.subtasks.filter((subtask) => !subtask.isCompleted).length
-      } of ${task.subtasks.length} substasks</p>
+      <p class="card__status text-slate-500">${task.subtasks.filter((subtask) => !subtask.isCompleted).length
+    } of ${task.subtasks.length} substasks</p>
     </div>
   `
 }
@@ -513,9 +524,8 @@ function openTaskModal(taskId) {
 function deleteTask(taskId) {
   const task = document.getElementById(taskId)
   const column = task.closest('.column')
-  column.querySelector('.tasksNumber').innerHTML = `(${
-    column.querySelectorAll('.card').length - 1
-  })`
+  column.querySelector('.tasksNumber').innerHTML = `(${column.querySelectorAll('.card').length - 1
+    })`
   task.remove()
 
   closeModal('open-task-modal')
@@ -614,12 +624,10 @@ function generateTaskModal(task, dropdownElement, statusValues) {
   const modalHtml = `
   <div class="h-full">
     <div class="flex items-center gap-4 justify-between mb-6">
-      <button class="edit-task rounded-full w-full text-center py-4 font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 outline-none text-primary-color dark:bg-white bg-[#635fc71a] hover:bg-[#635FC740]" onclick="editTask('${
-        task.id
-      }')">Edit Task</button>
-      <button class="delete-task font-bold text-white bg-danger-color hover:opacity-80 duration-100 rounded-full w-full p-4" onclick="deleteTask('${
-        task.id
-      }')">Delete Task</button>
+      <button class="edit-task rounded-full w-full text-center py-4 font-bold cursor-pointer transition duration-200 ease-in-out text-[13px] leading-6 outline-none text-primary-color dark:bg-white bg-[#635fc71a] hover:bg-[#635FC740]" onclick="editTask('${task.id
+    }')">Edit Task</button>
+      <button class="delete-task font-bold text-white bg-danger-color hover:opacity-80 duration-100 rounded-full w-full p-4" onclick="deleteTask('${task.id
+    }')">Delete Task</button>
     </div>
 
     <div>
@@ -635,9 +643,8 @@ function generateTaskModal(task, dropdownElement, statusValues) {
       <div class="dropdown">
         <div class="dropdown-menu relative w-full">
           <div class="dropdown-btn status min-w-full w-full justify-between flex items-center px-4 py-2 rounded border focus:outline-none active:border-[#635FC7] group">
-            <span class="dBtn-text m-0 text-gray-color cursor-pointer transition duration-400 ease-in-out text-[13px] leading-6">${
-              task.status
-            }</span>
+            <span class="dBtn-text m-0 text-gray-color cursor-pointer transition duration-400 ease-in-out text-[13px] leading-6">${task.status
+    }</span>
             <span class="dropdown-sign">
               <svg xmlns="http://www.w3.org/2000/svg" width="11" height="8" viewBox="0 0 11 8" fill="none">
                 <path d="M0.79834 1.54858L5.49682 6.24707L10.1953 1.54858" stroke="#635FC7" stroke-width="2"/>
@@ -879,8 +886,7 @@ function generateUniqueIdFromTitle(title) {
 function generateSubtaskItem(subtask) {
   // Generate HTML for each subtask
   return `
-    <div class="chechbox-content flex items-center text-color p-3 gap-4 cursor-pointer relative hover:bg-[635fc740] hover:transition duration-200 active:ease-in" onclick="toggleSubtaskCompleted('${
-      subtask.id
+    <div class="chechbox-content flex items-center text-color p-3 gap-4 cursor-pointer relative hover:bg-[635fc740] hover:transition duration-200 active:ease-in" onclick="toggleSubtaskCompleted('${subtask.id
     }')">
       <i class="icon-tick checkbox-icon absolute top-4 text-white left-4 scale-1 duration-150"></i>
       <input
@@ -945,15 +951,7 @@ function generateKanbanBoard(board) {
   return board.columns.map((column) => generateColumn(column)).join('')
 }
 
-boardList.addEventListener('click', (event) => {
-  event.preventDefault()
-  const targetLink = event.target.closest('.board__link')
-  if (targetLink) {
-    const boardId = targetLink.getAttribute('data-board-id')
-    renderBoard(boardId)
-    boardId = boardData.selectedBoard
-  }
-})
+// boardList.addEventListener('click', (event) => {})
 
 boardList.innerHTML = generateKanbanBoardNames(boardData)
 
@@ -1095,7 +1093,7 @@ function saveDOM() {
   setData(boardData)
 }
 
-window.addEventListener('beforeunload', function (event) {
+window.addEventListener('beforeunload', function(event) {
   boardData.selectedBoard = playGround.getAttribute('board-id')
   saveDOM()
 })
