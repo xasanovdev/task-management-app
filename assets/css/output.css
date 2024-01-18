@@ -1392,11 +1392,13 @@ body.active {
 
 #newColumn {
   justify-content: center;
-  height: 100%;
+  min-height: 200px;
+  min-width: 280px;
 }
 
-.column{
+.column {
   min-height: 200px;
+  min-width: 280px;
 }
 
 .card {
@@ -1411,7 +1413,7 @@ body.active {
 .dragover {
   border: 2px solid #635fc7;
   opacity: 50%;
-  animation: zoomInZoomOut .4s;
+  animation: zoomInZoomOut 0.4s;
 }
 
 @keyframes zoomInZoomOut {

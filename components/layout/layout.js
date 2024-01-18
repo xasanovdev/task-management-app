@@ -351,6 +351,7 @@ function getBoardName(boardId) {
   const selectedBoard = boardData.boards.find((board) => board.id === boardId)
 
   currentBoard.textContent = selectedBoard?.name
+  console.log('current boarddd: ', currentBoard)
 }
 const boardData = fetchData() || Data
 
@@ -358,27 +359,9 @@ const playGround = document.querySelector('#playGround')
 
 const boardList = document.querySelector('.board-list')
 
-const deleteBoardOpen = document.querySelector('.delete-board')
-const deleteBoardButton = document.querySelector('.delete-button')
-
-deleteBoardButton.addEventListener('click', (e) => {
-  e.preventDefault()
-  deleteBoard(boardData.selectedBoard)
-  closeModal('delete-board-modal')
-})
-if (boardData.boards.length === 0) {
-  deleteBoardOpen.classList.add('hidden')
-} else {
-  deleteBoardOpen.classList.remove('hidden')
-}
+const board_Links = document.querySelectorAll('.board__link')
 
 function renderBoard(boardId) {
-  if (boardData.boards.length === 0) {
-    deleteBoardOpen.classList.add('hidden')
-  } else {
-    deleteBoardOpen.classList.remove('hidden')
-  }
-
   const numberOfCreatedBoards = document.querySelector('.numberOfCreatedBoards')
   numberOfCreatedBoards.textContent = `All boards (${boardData.boards.length})`
 
@@ -396,10 +379,11 @@ function renderBoard(boardId) {
   }
   // Find the board by ID
   const board = boardData.boards.find((board) => board.id === boardId)
+  console.log('boardID: ', boardId)
 
   boardData.selectedBoard = boardId
 
-  // Check if the board is found
+  // Check if the board is NOT found
   if (!board) {
     console.error(`Board with id ${boardId} not found.`)
     playGround.innerHTML = ``
@@ -427,6 +411,7 @@ function renderBoard(boardId) {
 
     // Update the selected board in boardData
     boardData.selectedBoard = board.id
+    console.log('update selected board to: ', board)
     boardData.selectedColumn = board.columns[0]
     // Highlight the active link in the board list
 
@@ -447,14 +432,23 @@ function renderBoard(boardId) {
 
     boardLinks.forEach((link) => {
       link.classList.remove('active')
+      link.addEventListener('click', (event) => {
+        event.preventDefault()
+        const boardId = link.getAttribute('data-board-id')
+        console.log(boardId)
+        renderBoard(boardId)
+        boardData.selectedBoard = boardId
+        console.log(boardData.selectedBoard)
+        saveDOM()
+      })
+
       if (link.getAttribute('data-board-id') === board.id) {
         link.classList.add('active')
+        boardId = board.id
       }
     })
   }
-  window.addEventListener('DOMContentLoaded', () => {
-    cardJS()
-  })
+  cardJS()
 }
 
 function generateUniqueId() {
@@ -486,7 +480,7 @@ function generateTaskCard(task) {
     <span class="hidden subtasks-json">${JSON.stringify(task.subtasks)}</span>
       <p class="card__title text-color capitalize">${task.title}</p>
       <p class="card__status text-slate-500">${
-        task.subtasks.filter((subtask) => !subtask.isCompleted).length
+        task.subtasks.filter((subtask) => subtask.isCompleted).length
       } of ${task.subtasks.length} substasks</p>
     </div>
   `
@@ -513,7 +507,6 @@ function openTaskModal(taskId) {
   // Open the modal with the task data
   if (task) {
     // Generate the modal HTML
-    console.log(task)
     const modalHtml = generateTaskModal(task, dropdownElement, statusValues)
 
     // Open the modal with the generated HTML
@@ -625,7 +618,7 @@ function generateTaskModal(task, dropdownElement, statusValues) {
 
   // Generate subtasks HTML
   const subtasksHtml = subtasksWithIds
-    .map((subtask) => generateSubtaskItem(subtask))
+    .map((subtask) => generateSubtaskItem(subtask, task))
     .join('')
 
   // Modal HTML
@@ -645,7 +638,7 @@ function generateTaskModal(task, dropdownElement, statusValues) {
     </div>
     <div class="mt-6 text-[#828FA3] font-bold tracking-wide text-[13px]">${taskDescription}</div>
     <div class="relative form-label flex flex-col gap-2 text-gray-color font-plus-jakarta-sans font-bold text-[12px] leading-5">
-      <h3>Subtasks (${completedSubtasksCount} of ${subtasksCount})</h3>
+      <h3 class="subtasksCompletedStatus">Subtasks (${completedSubtasksCount} of ${subtasksCount})</h3>
       <div class="subtasks mt-6 flex flex-col bg-page-color">
         ${subtasksHtml}
       </div>
@@ -668,6 +661,7 @@ function generateTaskModal(task, dropdownElement, statusValues) {
     </div>
   </div>
 `
+  console.log('taskStatus: ', task.status)
   // Get the dropdown options
   const dropdownOptions = statusValues.map(generateStatusToDropdown).join('')
 
@@ -801,6 +795,18 @@ function toggleSubtaskCompleted(subtaskId) {
 
           // Update the UI
           updateSubtaskUI(subtask)
+
+          const subtasksCompletedStatus = document.querySelector(
+            '.subtasksCompletedStatus',
+          )
+
+          subtasksCompletedStatus.innerHTML = `${
+            taskContainingSubtask.subtasks.filter(
+              (subtask) => subtask.isCompleted,
+            ).length
+          } of ${taskContainingSubtask.subtasks.length} substasks`
+
+          console.log(subtasksCompletedStatus)
         }
       }
     }
@@ -856,6 +862,7 @@ function updateSubtaskUI(subtask) {
   if (checkbox) {
     checkbox.checked = subtask.isCompleted
   }
+
   // You can add additional UI updates here as needed
 }
 
@@ -894,7 +901,7 @@ function generateUniqueIdFromTitle(title) {
   return `subtask-${hash}`
 }
 
-function generateSubtaskItem(subtask) {
+function generateSubtaskItem(subtask, task) {
   // Generate HTML for each subtask
   return `
     <div class="chechbox-content flex items-center text-color p-3 gap-4 cursor-pointer relative hover:bg-[635fc740] hover:transition duration-200 active:ease-in" onclick="toggleSubtaskCompleted('${
@@ -947,11 +954,9 @@ function generateKanbanBoardName(board) {
 }
 
 function generateKanbanBoardNames(boardData) {
-  return boardData.boards.length > 0
-    ? boardData.boards.map((board) => generateKanbanBoardName(board)).join('')
-    : `<div class="flex w-full h-full justify-center items-center">
-        <p class="text-color text-2xl font-mono">Create new board</p>
-      </div>`
+  return boardData.boards
+    .map((board) => generateKanbanBoardName(board))
+    .join('')
 }
 
 function generateKanbanBoard(board) {
@@ -965,14 +970,7 @@ function generateKanbanBoard(board) {
   return board.columns.map((column) => generateColumn(column)).join('')
 }
 
-boardList.addEventListener('click', (event) => {
-  event.preventDefault()
-  const targetLink = event.target.closest('.board__link')
-  if (targetLink) {
-    const boardId = targetLink.getAttribute('data-board-id')
-    renderBoard(boardId)
-  }
-})
+// boardList.addEventListener('click', (event) => {})
 
 boardList.innerHTML = generateKanbanBoardNames(boardData)
 
@@ -988,7 +986,7 @@ function createNewColumnElement() {
   // Set class attribute
   divElement.setAttribute(
     'class',
-    'toggle-modal-button w-280 new-column flex rounded-md bg-gradient-primary cursor-pointer items-center overflow-visible bg-gradient-to-br from-[#995eb40a] to-[#723b8883]',
+    'toggle-modal-button w-280 new-column h-fit mt-10 flex rounded-md bg-gradient-primary cursor-pointer items-center content-center overflow-visible mb-48 bg-gradient-to-br from-[#995eb40a] to-[#723b8883]',
   )
 
   // Set id attributeadd
@@ -1044,7 +1042,8 @@ function generateColumnDataFromDOM() {
             title: taskElement.querySelector('.card__title').textContent,
             description:
               taskElement.querySelector('.task-description').textContent,
-            status: taskElement.getAttribute('status'), // Use the column name as the initial task status
+            status: taskElement.closest('.column').querySelector('.column-name')
+              .textContent, // Use the column name as the initial task status
             subtasks: JSON.parse(
               taskElement.querySelector('.subtasks-json').textContent,
             ),

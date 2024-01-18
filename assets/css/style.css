@@ -35,16 +35,19 @@ body.active {
 
 #newColumn {
   justify-content: center;
-  height: 100%;
+  min-height: 200px;
+  min-width: 280px;
 }
 
-.column{
+.column {
   min-height: 200px;
+  min-width: 280px;
 }
 
 .card {
   border: 2px solid transparent;
 }
+
 .card:hover .card__title {
   color: #635fc7;
   transition: 0.2s ease-in-out;
@@ -53,13 +56,14 @@ body.active {
 .dragover {
   border: 2px solid #635fc7;
   opacity: 50%;
-  animation: zoomInZoomOut .4s;
+  animation: zoomInZoomOut 0.4s;
 }
 
 @keyframes zoomInZoomOut {
   0% {
     transform: scale(0.9, 0.9);
   }
+
   100% {
     transform: scale(1, 1);
   }

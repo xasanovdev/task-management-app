@@ -14,6 +14,7 @@ function setupDropdown(optionMenu, task) {
     option.addEventListener('click', () => {
       console.log(option)
       const selectedOption = option.querySelector('.option-text').innerText
+      console.log('selectedOption: ', selectedOption)
       sBtnText.innerText = selectedOption
       optionMenu.classList.remove('active')
       console.log(selectedOption)

@@ -11,12 +11,11 @@ function cardJS() {
   let startedColumn
   let dragSrcEl
 
-
   const newColumn = document?.querySelector('#newColumn')
   const columns = document?.querySelectorAll('.column')
   const theColumn = getColumnWithMostChildNodes(columns)
   newColumn.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn?.querySelectorAll('.card').length * 5}px`
-  columns.forEach(col => {
+  columns.forEach((col) => {
     col.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn?.querySelectorAll('.card').length * 5}px`
   })
 
@@ -39,7 +38,6 @@ function cardJS() {
   }
   document.querySelector('#playGround').effectAllowed = 'move'
 
-
   function drag() {
     dragging = true
     isDragging = false
@@ -60,8 +58,6 @@ function cardJS() {
 
     startedColumn = this.closest('.column')
 
-
-    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
     // e.dataTransfer.setData('taskId', this.id)
     // e.dataTransfer.setData('completed', this.getAttribute('data-completed'))
 
@@ -74,6 +70,10 @@ function cardJS() {
   }
 
   function dragEnter(e) {
+    document.querySelectorAll('.column').forEach((column) => {
+      column.querySelector('.tasksNumber').innerHTML =
+        `(${column.querySelectorAll('.card').length})`
+    })
   }
 
   function dragOver(e) {
@@ -99,7 +99,6 @@ function cardJS() {
       }
     }
 
-
     isDragging = false
     startPosition = { x: 0, y: 0 }
     scrollLeft = 0
@@ -115,9 +114,6 @@ function cardJS() {
       this.classList.remove('dragover')
     }
 
-
-    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
-
     isDragging = false
     startPosition = { x: 0, y: 0 }
     scrollLeft = 0
@@ -127,7 +123,7 @@ function cardJS() {
   }
 
   function dragDrop() {
-    document.querySelectorAll('.dragover').forEach(el => {
+    document.querySelectorAll('.dragover').forEach((el) => {
       el.classList.remove('dragover')
     })
     dragging = false
@@ -138,9 +134,10 @@ function cardJS() {
     scrollLeft = 0
     scrollTop = 0
 
-
-
-    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
+    document.querySelectorAll('.column').forEach((column) => {
+      column.querySelector('.tasksNumber').innerHTML =
+        `(${column.querySelectorAll('.card').length})`
+    })
 
     const newColumn = document.querySelector('#newColumn')
     newColumn.style.height = `${findColumnWithLargestHeight().scrollHeight - 34}px`
@@ -154,9 +151,6 @@ function cardJS() {
 
     droppedColumn = this.closest('.column')
 
-
-    this.closest(".column").querySelector(".tasksNumber").innerHTML = `(${this.closest(".column").querySelectorAll(".card").length})`
-
     isDragging = false
     startPosition = { x: 0, y: 0 }
     scrollLeft = 0
@@ -166,7 +160,6 @@ function cardJS() {
 
     return false
   }
-
 
   function mouseDown() {
     dragging = true
@@ -195,7 +188,7 @@ function cardJS() {
   function dragOverColumn() {
     const theColumn = getColumnWithMostChildNodes(columns)
     newColumn.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn.querySelectorAll('.card').length * 5}px`
-    columns.forEach(col => {
+    columns.forEach((col) => {
       col.style.height = `${newColumn.style.height + 600}px`
     })
 
@@ -219,18 +212,17 @@ function cardJS() {
     el.addEventListener('mouseup', mouseUp, false)
   }
 
-  columns.forEach(col => {
+  columns.forEach((col) => {
     col.addEventListener('dragover', dragOverColumn, false)
     col.addEventListener('drop', dragDropColumn, false)
   })
-// make images Draggable <END>
+  // make images Draggable <END>
 
   const cards = document.querySelectorAll('.card')
   cards.forEach((card) => {
     card.draggable = true
     addEventsDragAndDrop(card)
   })
-
 
   function makeMouseScrollable(el) {
     el.addEventListener('mousedown', (e) => {
@@ -241,7 +233,6 @@ function cardJS() {
       }
       scrollLeft = document.querySelector('#playGround').scrollLeft
       scrollTop = document.querySelector('#playGround').scrollTop
-
     })
     el.addEventListener('mouseup', () => {
       if (isDragging) {
@@ -269,7 +260,6 @@ function cardJS() {
       }
       scrollLeft = document.querySelector('#playGround').scrollLeft
       scrollTop = document.querySelector('#playGround').scrollTop
-
     })
     el.removeEventListener('mouseup', () => {
       if (isDragging) {
@@ -287,7 +277,6 @@ function cardJS() {
       }
     })
   }
-
 
   function findColumnWithLargestHeight() {
     // Get all elements with the class "column"
@@ -314,12 +303,11 @@ function cardJS() {
     return tallestColumn
   }
 
-
   function getColumnWithMostChildNodes(columns) {
     let maxColumn
     let maxChildNodes = 0
 
-    columns.forEach(column => {
+    columns.forEach((column) => {
       const numberOfChildNodes = column.querySelectorAll('.card').length
       if (numberOfChildNodes > maxChildNodes) {
         maxChildNodes = numberOfChildNodes
@@ -328,7 +316,6 @@ function cardJS() {
     })
     return maxColumn
   }
-
 
   function calculateSumOfCardHeights(column) {
     // Get all elements with the class "card"
@@ -347,4 +334,3 @@ function cardJS() {
     return sumOfHeights
   }
 }
-
