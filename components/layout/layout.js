@@ -661,6 +661,7 @@ function generateTaskModal(task, dropdownElement, statusValues) {
     </div>
   </div>
 `
+  console.log('taskStatus: ', task.status)
   // Get the dropdown options
   const dropdownOptions = statusValues.map(generateStatusToDropdown).join('')
 
@@ -1041,7 +1042,8 @@ function generateColumnDataFromDOM() {
             title: taskElement.querySelector('.card__title').textContent,
             description:
               taskElement.querySelector('.task-description').textContent,
-            status: taskElement.getAttribute('status'), // Use the column name as the initial task status
+            status: taskElement.closest('.column').querySelector('.column-name')
+              .textContent, // Use the column name as the initial task status
             subtasks: JSON.parse(
               taskElement.querySelector('.subtasks-json').textContent,
             ),
