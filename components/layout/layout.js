@@ -387,7 +387,7 @@ function renderBoard(boardId) {
           <p class="text-gray-color text-center">This board List is empty. Create a new column to get started.</p>
           <button onclick="openModal('add-board-modal')" class="toggle-modal-button whitespace-nowrap btn rounded-full text-center font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[15px] focus:outline-none hover:bg-primary-light-color bg-primary-color text-white p-4" role="button">
             <span>+</span>
-            <span class="hidden md:inline-block">Create New Board</span>
+            <span>Create New Board</span>
           </button>
         </div>
     `
