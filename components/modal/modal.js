@@ -57,11 +57,6 @@ addNewColumnButton.addEventListener('click', (e) => {
   addNewToInputs(columnInputsWrapper) // Add an initial empty column input
 })
 
-addNewTaskButton.addEventListener('click', (e) => {
-  e.preventDefault()
-  addNewToInputs(taskInputsWrapper) // Add an initial empty task input
-})
-
 function deleteInput(button) {
   const inputWrapper = button.closest('.relative')
   const inputType = inputWrapper.classList.contains('column-input')
@@ -324,23 +319,28 @@ function fillEditBoardModal() {
   }
 }
 
+document.querySelectorAll('.delete-button').forEach((el) => {
+  el.addEventListener('click', () => {
+    console.log('delete button clicked',boardData);
+    deleteBoard(
+      document
+        .querySelector('.board__link.active')
+        .getAttribute('data-board-id'),
+    )
+    closeModal('delete-board-modal')
+  })
+})
+
 function openModal(modalId) {
-  if (modalId === 'add-task-modal') {
+  console.log(modalId);
+  if (modalId === 'add-task-modal' || modalId === 'delete-board-modal') {
     if (boardData.boards.length === 0) {
       alert('Please create a board first.')
       return
     }
   }
+  openInnerModal(modalId)
 
-  if (modalId === 'add-task-modal') {
-    const addNewTaskColumnName = document.querySelector(
-      '.add-new-task-columnName',
-    )
-    console.log('addddddddd: ', addNewTaskColumnName)
-
-    addNewTaskColumnName.innerHTML =
-      document.querySelector('.column-name').textContent
-  }
   console.log(modalId)
   modal = document.getElementById(modalId)
   sidebar.classList.remove('active')
@@ -469,6 +469,9 @@ function addNewBoard(boardName, boardColumns) {
   // For example, you might have an array of boards:
   boardData.boards.push(newBoard)
 
+  console.log(boardData);
+  boardData.selectedBoard = newBoard.id
+
   // Update your UI or trigger any necessary updates
   closeModal('add-new-board')
   renderBoard(boardData.selectedBoard) // Call renderBoard after adding a new board
@@ -481,17 +484,42 @@ cancelButton.addEventListener('click', (e) => {
   closeModal('delete-board-modal')
 })
 
-// Assume you have a function to delete a board by ID
 function deleteBoard(boardId) {
-  // Implement your logic to delete the board by ID
-  // For example:
-  const indexToDelete = boardData.boards.findIndex(
-    (board) => board.id === boardId,
-  )
+  console.log("Before deletion:", boardData);
+
+  const indexToDelete = boardData.boards.findIndex(board => board.id === boardId);
+
   if (indexToDelete !== -1) {
-    boardData.boards.splice(indexToDelete, 1)
+    console.log("Deleting board at index:", indexToDelete);
+
+    boardData.boards.splice(indexToDelete, 1);
+
+    if (boardData.boards.length > 0) {
+      if (indexToDelete >= boardData.boards.length) {
+        boardData.selectedBoard = null;
+      } else {
+        boardData.selectedBoard = indexToDelete;
+      }
+    } else {
+      boardData.selectedBoard = null;
+    }
+
+    console.log("After deletion:", boardData);
+
+    // Render the updated boards
+    renderBoard(boardData.boards[boardData.selectedBoard]?.id);
+
+    // Toggle visibility and disable/enable buttons based on the number of boards
+    if (boardData.boards.length > 0) {
+      deleteBoardButton.classList.remove('hidden');
+      addTaskButton.classList.remove('disabled');
+    } else {
+      deleteBoardButton.classList.add('hidden');
+      addTaskButton.classList.add('disabled');
+    }
+  } else {
+    console.log("Board with ID:", boardId, "not found in the array.");
   }
-  renderBoard(boardData.boards[indexToDelete]?.id) // Call renderBoard after deleting a board
 }
 
 createNewBoard.addEventListener('click', (e) => {
@@ -600,6 +628,7 @@ const closeModal = (modalId) => {
 
 toggleModalButtons.forEach((button) => {
   button.addEventListener('click', (e) => {
+    console.log(e);
     const modalId = button.getAttribute('modal-id')
     openModal(modalId)
   })

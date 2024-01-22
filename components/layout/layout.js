@@ -368,11 +368,6 @@ function renderBoard(boardId) {
   // Check if boardData.boards is an array
   getBoardName(boardId)
 
-  if (!Array.isArray(boardData.boards)) {
-    console.error('Invalid boardData.boards:', boardData.boards)
-    return
-  }
-
   // If no boardId is provided, default to the first board in the array
   if (!boardId && boardData.boards.length > 0) {
     boardId = boardData.boards[0].id
@@ -386,8 +381,18 @@ function renderBoard(boardId) {
   // Check if the board is NOT found
   if (!board) {
     console.error(`Board with id ${boardId} not found.`)
-    playGround.innerHTML = ``
-    boardList.innerHTML = ``
+    playGround.innerHTML = `
+        <div class="w-full h-full flex items-center flex-col gap-8 justify-center">
+            <!-- ADD NEW TASK BUTTON -->
+          <p class="text-gray-color text-center">This board List is empty. Create a new column to get started.</p>
+          <button onclick="openModal('add-board-modal')" class="toggle-modal-button whitespace-nowrap btn rounded-full text-center font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[15px] focus:outline-none hover:bg-primary-light-color bg-primary-color text-white p-4" role="button">
+            <span>+</span>
+            <span>Create New Board</span>
+          </button>
+        </div>
+    `
+    boardList.innerHTML = `
+        <p class="text-gray-color pl-8">Not created any board yet.</p>`
     return
   }
 
@@ -447,6 +452,14 @@ function renderBoard(boardId) {
         boardId = board.id
       }
     })
+  }
+
+  if (boardData.boards.length > 0) {
+    deleteBoardButton.classList.remove('hidden')
+    addTaskButton.classList.remove('disabled')
+  }else {
+    deleteBoardButton.classList.add('hidden')
+    addTaskButton.classList.add('disabled')
   }
   cardJS()
 }
@@ -963,21 +976,15 @@ function generateKanbanBoard(board) {
   if (!board || !board.columns) {
     console.error('Invalid board data:', board)
 
-    return '' // Return an empty string or handle the error appropriately
+    return 'salom' // Return an empty string or handle the error appropriately
   }
 
   playGround.setAttribute('board-id', `${board.id}`)
   return board.columns.map((column) => generateColumn(column)).join('')
 }
 
-// boardList.addEventListener('click', (event) => {})
-
 boardList.innerHTML = generateKanbanBoardNames(boardData)
 
-if (boardData && boardData.boards.length > 0) {
-  const initialBoardId = boardData.selectedBoard
-  renderBoard(initialBoardId)
-}
 
 function createNewColumnElement() {
   // Create div element
@@ -1117,3 +1124,33 @@ window.addEventListener('beforeunload', function (event) {
   boardData.selectedBoard = playGround.getAttribute('board-id')
   saveDOM()
 })
+
+const deleteBoardButton = document.querySelector('.delete-board')
+const addTaskButton = document.querySelector('[modal-id="add-task-modal"]')
+
+if (boardData.boards.length > 0) {
+  const initialBoardId = boardData.selectedBoard
+  console.log(initialBoardId,boardData);
+  deleteBoardButton.classList.remove('hidden')
+  addTaskButton.classList.remove('disabled')
+  renderBoard(initialBoardId)
+}else {
+  deleteBoardButton.classList.add('hidden')
+  addTaskButton.classList.add('disabled')
+  renderBoard()
+}
+
+function openInnerModal(modalId) {
+  console.log('asfsa');
+  if (modalId === '') {
+    const innerModal = document.querySelector('.inner-modal')
+
+    innerModal.classList.toggle('hidden')
+    innerModal.classList.toggle('flex')
+  } else {
+    const innerModal = document.querySelector('.inner-modal')
+
+    innerModal.classList.add('hidden')
+    innerModal.classList.remove('flex')
+  }
+}

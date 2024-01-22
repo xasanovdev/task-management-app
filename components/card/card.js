@@ -14,11 +14,12 @@ function cardJS() {
   const newColumn = document?.querySelector('#newColumn')
   const columns = document?.querySelectorAll('.column')
   const theColumn = getColumnWithMostChildNodes(columns)
-  newColumn.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn?.querySelectorAll('.card').length * 5}px`
-  columns.forEach((col) => {
-    col.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn?.querySelectorAll('.card').length * 5}px`
-  })
-
+  if (newColumn) {
+    newColumn.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn?.querySelectorAll('.card').length * 5}px`
+    columns.forEach((col) => {
+      col.style.height = `${calculateSumOfCardHeights(theColumn) + theColumn?.querySelectorAll('.card').length * 5}px`
+    })
+  }
   function isBefore(el1, el2) {
     let cur
     if (el2.parentNode === el1.parentNode) {

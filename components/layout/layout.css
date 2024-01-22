@@ -12,25 +12,32 @@
 }
 /* SIDEBAR */
 .sidebar {
+  position: relative;
   transition: all 0.3s ease;
   overflow: hidden;
   transform: translate(0);
-  width: max-content;
-  max-height: 90vh;
   z-index: 0;
 }
 .sidebar.active {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   position: absolute;
   z-index: 1000;
-  top: 20px;
-  left: 20px;
+  max-width: 350px;
+  max-height: 85vh;
+  width: 100%;
   border-radius: 10px;
 }
 .sidebar.disAppearNow {
   display: none;
 }
-
+.toggle-modal-button.disabled {
+  opacity: 50%;
+  pointer-events: none;
+  cursor: not-allowed;
+}
 /*  */
 .sidebar-revealer {
   transform: translate(-100%);
@@ -79,3 +86,19 @@
 /* .sidebar-toggler{
 
 } */
+
+.currentBoard {
+  /* write about animation it should be infinitive left to right */
+  animation: slideTitles 5s ease-in-out infinite;
+  animation-timing-function: ease-in-out;
+}
+
+    @keyframes slideTitles {
+      0% {
+        transform: translateX(0%);
+      }
+      30% {
+        transform: translateX(-100%);
+      }
+    }
+asfgasfsafsfasfasfasfasfasfasfs
