@@ -370,10 +370,15 @@ function openModal(modalId) {
   }
   if (modalId === 'add-task-modal') {
     console.log(dropdownElement)
-    const optionMenu = document.querySelector('.dropdown-menu')
-    const selectBtn = optionMenu.querySelector('.dropdown-btn')
-    const options = optionMenu.querySelectorAll('.dropdown-option')
-    const sBtnText = optionMenu.querySelector('.dBtn-text')
+    let optionMenu = document.querySelector('.dropdown-menu')
+    let selectBtn = optionMenu.querySelector('.dropdown-btn')
+    let options = optionMenu.querySelectorAll('.dropdown-option')
+    let sBtnText = optionMenu.querySelector('.dBtn-text')
+
+    sBtnText.textContent = options[0].textContent
+
+    console.log(sBtnText);
+    console.log(options[0].textContent);
     selectBtn.addEventListener('click', () => {
       dropdownElement.classList.toggle('hidden')
       optionMenu.classList.toggle('active')
