@@ -56,6 +56,10 @@ addNewColumnButton.addEventListener('click', (e) => {
   e.preventDefault()
   addNewToInputs(columnInputsWrapper) // Add an initial empty column input
 })
+addNewTaskButton.addEventListener('click', (e) => {
+  e.preventDefault()
+  addNewToInputs(taskInputsWrapper) // Add an initial empty column input
+})
 
 function deleteInput(button) {
   const inputWrapper = button.closest('.relative')
