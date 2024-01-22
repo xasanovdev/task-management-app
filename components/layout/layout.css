@@ -33,7 +33,11 @@
 .sidebar.disAppearNow {
   display: none;
 }
-
+.toggle-modal-button.disabled {
+  opacity: 50%;
+  pointer-events: none;
+  cursor: not-allowed;
+}
 /*  */
 .sidebar-revealer {
   transform: translate(-100%);

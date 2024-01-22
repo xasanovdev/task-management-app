@@ -57,11 +57,6 @@ addNewColumnButton.addEventListener('click', (e) => {
   addNewToInputs(columnInputsWrapper) // Add an initial empty column input
 })
 
-addNewTaskButton.addEventListener('click', (e) => {
-  e.preventDefault()
-  addNewToInputs(taskInputsWrapper) // Add an initial empty task input
-})
-
 function deleteInput(button) {
   const inputWrapper = button.closest('.relative')
   const inputType = inputWrapper.classList.contains('column-input')
@@ -325,6 +320,7 @@ function fillEditBoardModal() {
 }
 
 function openModal(modalId) {
+  console.log(modalId);
   if (modalId === 'add-task-modal' || modalId === 'delete-board-modal') {
     if (boardData.boards.length === 0) {
       alert('Please create a board first.')
@@ -505,6 +501,13 @@ function deleteBoard(boardId) {
   boardData.selectedBoard = indexToDelete.id
   console.log(indexToDelete.id)
   renderBoard(boardData.boards[indexToDelete]?.id) // Call renderBoard after deleting a board
+  if (boardData.boards.length > 0) {
+    deleteBoardButton.classList.remove('hidden')
+    addTaskButton.classList.remove('disabled')
+  }else {
+    deleteBoardButton.classList.add('hidden')
+    addTaskButton.classList.add('disabled')
+  }
 }
 
 createNewBoard.addEventListener('click', (e) => {
@@ -613,6 +616,7 @@ const closeModal = (modalId) => {
 
 toggleModalButtons.forEach((button) => {
   button.addEventListener('click', (e) => {
+    console.log(e);
     const modalId = button.getAttribute('modal-id')
     openModal(modalId)
   })
