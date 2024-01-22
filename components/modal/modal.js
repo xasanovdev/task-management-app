@@ -319,6 +319,18 @@ function fillEditBoardModal() {
   }
 }
 
+document.querySelectorAll('.delete-button').forEach((el) => {
+  el.addEventListener('click', () => {
+    console.log('delete button clicked',boardData);
+    deleteBoard(
+      document
+        .querySelector('.board__link.active')
+        .getAttribute('data-board-id'),
+    )
+    closeModal('delete-board-modal')
+  })
+})
+
 function openModal(modalId) {
   console.log(modalId);
   if (modalId === 'add-task-modal' || modalId === 'delete-board-modal') {
@@ -336,17 +348,6 @@ function openModal(modalId) {
       document.querySelector('.column-name').textContent
   }
 
-  document.querySelectorAll('.delete-button').forEach((el) => {
-    el.addEventListener('click', () => {
-      console.log('delete button clicked',boardData);
-      deleteBoard(
-        document
-          .querySelector('.board__link.active')
-          .getAttribute('data-board-id'),
-      )
-      closeModal('delete-board-modal')
-    })
-  })
   console.log(modalId)
   modal = document.getElementById(modalId)
   sidebar.classList.remove('active')
