@@ -338,6 +338,7 @@ function openModal(modalId) {
 
   document.querySelectorAll('.delete-button').forEach((el) => {
     el.addEventListener('click', () => {
+      console.log('delete button clicked',boardData);
       deleteBoard(
         document
           .querySelector('.board__link.active')
@@ -473,6 +474,8 @@ function addNewBoard(boardName, boardColumns) {
   // Add the new board to your application or perform any necessary actions
   // For example, you might have an array of boards:
   boardData.boards.push(newBoard)
+
+  console.log(boardData);
   boardData.selectedBoard = newBoard.id
 
   // Update your UI or trigger any necessary updates
@@ -487,26 +490,41 @@ cancelButton.addEventListener('click', (e) => {
   closeModal('delete-board-modal')
 })
 
-// Assume you have a function to delete a board by ID
 function deleteBoard(boardId) {
-  // Implement your logic to delete the board by ID
-  // For example:
-  console.log('boardID to delete: ', boardId)
-  const indexToDelete = boardData.boards.findIndex(
-    (board) => board.id === boardId,
-  )
+  console.log("Before deletion:", boardData);
+
+  const indexToDelete = boardData.boards.findIndex(board => board.id === boardId);
+
   if (indexToDelete !== -1) {
-    boardData.boards.splice(indexToDelete, 1)
-  }
-  boardData.selectedBoard = indexToDelete.id
-  console.log(indexToDelete.id)
-  renderBoard(boardData.boards[indexToDelete]?.id) // Call renderBoard after deleting a board
-  if (boardData.boards.length > 0) {
-    deleteBoardButton.classList.remove('hidden')
-    addTaskButton.classList.remove('disabled')
-  }else {
-    deleteBoardButton.classList.add('hidden')
-    addTaskButton.classList.add('disabled')
+    console.log("Deleting board at index:", indexToDelete);
+
+    boardData.boards.splice(indexToDelete, 1);
+
+    if (boardData.boards.length > 0) {
+      if (indexToDelete >= boardData.boards.length) {
+        boardData.selectedBoard = null;
+      } else {
+        boardData.selectedBoard = indexToDelete;
+      }
+    } else {
+      boardData.selectedBoard = null;
+    }
+
+    console.log("After deletion:", boardData);
+
+    // Render the updated boards
+    renderBoard(boardData.boards[boardData.selectedBoard]?.id);
+
+    // Toggle visibility and disable/enable buttons based on the number of boards
+    if (boardData.boards.length > 0) {
+      deleteBoardButton.classList.remove('hidden');
+      addTaskButton.classList.remove('disabled');
+    } else {
+      deleteBoardButton.classList.add('hidden');
+      addTaskButton.classList.add('disabled');
+    }
+  } else {
+    console.log("Board with ID:", boardId, "not found in the array.");
   }
 }
 
