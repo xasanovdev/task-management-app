@@ -1140,9 +1140,17 @@ if (boardData.boards.length > 0) {
   renderBoard()
 }
 
-function openInnerModal() {
-  const innerModal = document.querySelector('.inner-modal')
+function openInnerModal(modalId) {
+  console.log('asfsa');
+  if (modalId === '') {
+    const innerModal = document.querySelector('.inner-modal')
 
-  innerModal.classList.toggle('hidden')
-  innerModal.classList.toggle('flex')
+    innerModal.classList.toggle('hidden')
+    innerModal.classList.toggle('flex')
+  } else {
+    const innerModal = document.querySelector('.inner-modal')
+
+    innerModal.classList.add('hidden')
+    innerModal.classList.remove('flex')
+  }
 }

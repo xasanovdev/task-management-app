@@ -339,7 +339,7 @@ function openModal(modalId) {
       return
     }
   }
-  openInnerModal()
+  openInnerModal(modalId)
 
   console.log(modalId)
   modal = document.getElementById(modalId)
