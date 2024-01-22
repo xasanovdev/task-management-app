@@ -338,15 +338,8 @@ function openModal(modalId) {
       alert('Please create a board first.')
       return
     }
-
-    const addNewTaskColumnName = document.querySelector(
-      '.add-new-task-columnName',
-    )
-    console.log('addddddddd: ', addNewTaskColumnName)
-
-    addNewTaskColumnName.innerHTML =
-      document.querySelector('.column-name').textContent
   }
+  openInnerModal()
 
   console.log(modalId)
   modal = document.getElementById(modalId)

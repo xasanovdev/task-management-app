@@ -385,7 +385,7 @@ function renderBoard(boardId) {
         <div class="w-full h-full flex items-center flex-col gap-8 justify-center">
             <!-- ADD NEW TASK BUTTON -->
           <p class="text-gray-color text-center">This board List is empty. Create a new column to get started.</p>
-          <button modal-id="add-board-modal" class="toggle-modal-button whitespace-nowrap btn rounded-full text-center font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[15px] focus:outline-none hover:bg-primary-light-color bg-primary-color text-white p-4" role="button">
+          <button onclick="openModal('add-board-modal')" class="toggle-modal-button whitespace-nowrap btn rounded-full text-center font-plus-jakarta-sans font-bold cursor-pointer transition duration-200 ease-in-out text-[15px] focus:outline-none hover:bg-primary-light-color bg-primary-color text-white p-4" role="button">
             <span>+</span>
             <span class="hidden md:inline-block">Create New Board</span>
           </button>
@@ -1138,4 +1138,11 @@ if (boardData.boards.length > 0) {
   deleteBoardButton.classList.add('hidden')
   addTaskButton.classList.add('disabled')
   renderBoard()
+}
+
+function openInnerModal() {
+  const innerModal = document.querySelector('.inner-modal')
+
+  innerModal.classList.toggle('hidden')
+  innerModal.classList.toggle('flex')
 }
